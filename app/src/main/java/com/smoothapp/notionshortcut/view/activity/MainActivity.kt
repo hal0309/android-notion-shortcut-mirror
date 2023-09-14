@@ -1,4 +1,4 @@
-package com.smoothapp.notionshortcut
+package com.smoothapp.notionshortcut.view.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
