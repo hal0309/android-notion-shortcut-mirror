@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/blockContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:minHeight="300dp"
+            android:orientation="vertical">
+
+
+            <EditText
+                android:id="@+id/editTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:ems="10"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:inputType="text"
+                android:hint="Title" />
+
+            <EditText
+                android:id="@+id/editBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/transparent"
+                android:ems="10"
+                android:textSize="24sp"
+                android:inputType="text"
+                android:hint="本文" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</merge>
