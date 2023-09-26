@@ -11,39 +11,38 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
-
         <LinearLayout
-            android:id="@+id/blockContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:minHeight="300dp"
             android:orientation="vertical">
-
-
-            <EditText
-                android:id="@+id/editTitle"
+            <LinearLayout
+                android:id="@+id/blockContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:ems="10"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:inputType="text"
-                android:hint="Title" />
+                android:padding="15dp"
+                android:minHeight="300dp"
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/editBody"
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/transparent"
-                android:ems="10"
-                android:textSize="24sp"
-                android:inputType="text"
-                android:hint="本文" />
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/sendBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="send"/>
+            </LinearLayout>
+
 
         </LinearLayout>
+
+
+
 
     </com.google.android.material.card.MaterialCardView>
 </merge>
