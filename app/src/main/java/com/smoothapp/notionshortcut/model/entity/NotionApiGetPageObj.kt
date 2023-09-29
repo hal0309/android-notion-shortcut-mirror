@@ -3,7 +3,7 @@ package com.smoothapp.notionshortcut.model.entity
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-object NotionObject {
+object NotionApiGetPageObj {
 
     @Serializable
     data class Root(

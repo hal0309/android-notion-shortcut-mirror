@@ -1,14 +1,10 @@
 package com.smoothapp.notionshortcut.view.activity
 
-import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.core.content.pm.ShortcutInfoCompat
-import androidx.core.content.pm.ShortcutManagerCompat
 import com.smoothapp.notionshortcut.R
-import com.smoothapp.notionshortcut.controller.util.NotionApiUtil
+import com.smoothapp.notionshortcut.controller.util.NotionApiGetPageUtil
 import com.smoothapp.notionshortcut.databinding.ActivityMainBinding
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -38,9 +34,10 @@ class MainActivity : AppCompatActivity() {
 //                ShortcutManagerCompat.pushDynamicShortcut(this@MainActivity, shortcut)
 
                 MainScope().launch {
-                    val list = NotionApiUtil.getAllNotionPageAndDatabase()
+                    val list = NotionApiGetPageUtil.getAllNotionPageAndDatabase()
                     Log.d("response", list.toString())
-                    Log.d("response", NotionApiUtil.createPageOrDatabaseTree(list.results).toString())
+                    Log.d("response", NotionApiGetPageUtil.createPageOrDatabaseTree(list.results).toString())
+                    Log.d("response", NotionApiGetPageUtil.createPageOrDatabaseTree(list.results).toString())
 
                 }
             }

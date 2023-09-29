@@ -1,24 +1,24 @@
 package com.smoothapp.notionshortcut.controller.util
 
 import com.smoothapp.notionshortcut.controller.provider.NotionApiProvider
-import com.smoothapp.notionshortcut.model.entity.NotionObject
+import com.smoothapp.notionshortcut.model.entity.NotionApiGetPageObj
 import kotlinx.serialization.json.Json
-object NotionApiUtil {
-    suspend fun getAllNotionPageAndDatabase(): NotionObject.Root{
+object NotionApiGetPageUtil {
+    suspend fun getAllNotionPageAndDatabase(): NotionApiGetPageObj.Root{
         val provider = NotionApiProvider()
         val json = Json{ignoreUnknownKeys = true}
         return json.decodeFromString(provider.getAllObjects())
     }
 
-    class PageOrDatabaseTree(val me: NotionObject.PageOrDatabase){
+    class PageOrDatabaseTree(val me: NotionApiGetPageObj.PageOrDatabase){
         val children: MutableList<PageOrDatabaseTree> = mutableListOf()
     }
 
-    fun createPageOrDatabaseTree(list: List<NotionObject.PageOrDatabase>, parent: NotionObject.PageOrDatabase? = null): List<PageOrDatabaseTree>{
+    fun createPageOrDatabaseTree(list: List<NotionApiGetPageObj.PageOrDatabase>, parent: NotionApiGetPageObj.PageOrDatabase? = null): List<PageOrDatabaseTree>{
 
         return when(parent){
             null -> {
-                val root = NotionObject.PageOrDatabase("workspace", "", NotionObject.Parent(""))
+                val root = NotionApiGetPageObj.PageOrDatabase("workspace", "", NotionApiGetPageObj.Parent(""))
 
                 listOf(PageOrDatabaseTree(root).apply {
                     children.addAll(createPageOrDatabaseTree(list, root))

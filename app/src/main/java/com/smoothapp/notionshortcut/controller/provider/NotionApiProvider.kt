@@ -1,5 +1,7 @@
 package com.smoothapp.notionshortcut.controller.provider
 
+import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
+import com.smoothapp.notionshortcut.model.entity.NotionApiPostPageObj
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
@@ -11,6 +13,20 @@ class NotionApiProvider {
 
     fun getApiKey(): String{
         return "secret_0DKk5uviATUaMmhPuJoHhQ0Lis6OisvsmdXJ7uQ9rz"
+    }
+
+    suspend fun postPage(requestBodyString: String): String {
+        val requestBody = requestBodyString.toRequestBody("application/json".toMediaType())
+        val request = Request.Builder()
+            .url("https://api.notion.com/v1/pages")
+            .addHeader("Notion-Version", "2022-06-28")
+            .addHeader("accept", "application/json")
+            .addHeader("Authorization", "Bearer ${getApiKey()}")
+            .addHeader("Content-Type", "application/json")
+            .post(requestBody)
+            .build()
+
+        return getResponseBody(request)
     }
 
     suspend fun getAllObjects(): String {
