@@ -22,7 +22,7 @@ object NotionApiPostPageUtil {
     data class NotionProperty(
         val type: NotionApiPropertyEnum,
         val name: String,
-        val content: String
+        val contents: List<String>
     )
 
     fun createPostPageProperties(propertyList: List<NotionProperty>): String{
@@ -31,8 +31,15 @@ object NotionApiPostPageUtil {
         for(prop in propertyList){
             prop.apply {
                 propertyString += when(type){
-                    NotionApiPropertyEnum.TITLE -> NotionApiPostPageObj.propertyTitle(name, content)
-                    NotionApiPropertyEnum.SELECT -> NotionApiPostPageObj.propertySelect(name, content)
+                    NotionApiPropertyEnum.TITLE -> NotionApiPostPageObj.propertyTitle(name, contents[0])
+                    NotionApiPropertyEnum.RICH_TEXT -> NotionApiPostPageObj.propertyRichText(name, contents[0])
+                    NotionApiPropertyEnum.NUMBER -> NotionApiPostPageObj.propertyNumber(name, contents[0])
+                    NotionApiPropertyEnum.CHECKBOX -> NotionApiPostPageObj.propertyCheckbox(name, contents[0])
+                    NotionApiPropertyEnum.SELECT -> NotionApiPostPageObj.propertySelect(name, contents[0])
+                    NotionApiPropertyEnum.MULTI_SELECT -> NotionApiPostPageObj.propertyMultiSelect(name, contents)
+                    NotionApiPropertyEnum.STATUS -> NotionApiPostPageObj.propertyStatus(name, contents[0])
+                    NotionApiPropertyEnum.RELATION -> NotionApiPostPageObj.propertyRelation(name, contents)
+                    NotionApiPropertyEnum.DATE -> NotionApiPostPageObj.propertyDate(name, contents)
                 }
             }
             propertyString += ","
