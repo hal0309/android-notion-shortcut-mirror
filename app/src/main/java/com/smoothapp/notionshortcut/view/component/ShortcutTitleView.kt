@@ -6,9 +6,11 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.databinding.ViewShortcutTitleBinding
+import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
+import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
 
 class ShortcutTitleView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = ""
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
     private lateinit var binding: ViewShortcutTitleBinding
@@ -21,8 +23,12 @@ class ShortcutTitleView @JvmOverloads constructor(
         binding = ViewShortcutTitleBinding.bind(this)
     }
 
-    override fun getContents(): String{
-        return binding.editTitle.text.toString()
+    override fun getContents(): NotionDatabaseProperty{
+        return NotionDatabaseProperty(
+            NotionApiPropertyEnum.TITLE,
+            name,
+            listOf( binding.editTitle.text.toString())
+        )
     }
 
 }

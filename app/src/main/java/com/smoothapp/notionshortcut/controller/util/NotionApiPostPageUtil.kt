@@ -4,9 +4,10 @@ import android.util.Log
 import com.smoothapp.notionshortcut.controller.provider.NotionApiProvider
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.NotionApiPostPageObj
+import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
 
 object NotionApiPostPageUtil {
-    suspend fun postPageToDatabase(dbId: String, propertyList: List<NotionProperty>): String{
+    suspend fun postPageToDatabase(dbId: String, propertyList: List<NotionDatabaseProperty>): String{
         val provider = NotionApiProvider()
 
         val requestBodyString = """
@@ -19,13 +20,7 @@ object NotionApiPostPageUtil {
         return provider.postPage(requestBodyString).toString()
     }
 
-    data class NotionProperty(
-        val type: NotionApiPropertyEnum,
-        val name: String,
-        val contents: List<String>
-    )
-
-    fun createPostPageProperties(propertyList: List<NotionProperty>): String{
+    fun createPostPageProperties(propertyList: List<NotionDatabaseProperty>): String{
         var propertyString = """"properties": {"""
 
         for(prop in propertyList){
