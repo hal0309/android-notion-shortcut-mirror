@@ -96,8 +96,8 @@ class ShortcutRootView @JvmOverloads constructor(
         }
     }
 
-    fun addSelectBlock(name: String) {
-        ShortcutSelectView(context, name = name).apply {
+    fun addSelectBlock(name: String, listener: ShortcutSelectView.Listener? = null) {
+        ShortcutSelectView(context, name = name, listener = listener).apply {
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)

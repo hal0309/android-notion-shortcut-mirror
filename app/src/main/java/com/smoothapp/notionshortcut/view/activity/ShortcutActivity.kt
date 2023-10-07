@@ -7,6 +7,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.WindowManager
 import android.widget.PopupWindow
+import androidx.fragment.app.FragmentManager
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.controller.provider.NotionApiProvider
 import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
@@ -16,6 +17,8 @@ import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.ShortcutRootView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutSelectView
+import com.smoothapp.notionshortcut.view.fragment.NotionSelectFragment
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -25,6 +28,7 @@ import java.util.Locale
 class ShortcutActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityShortcutBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityShortcutBinding.inflate(layoutInflater)
@@ -32,7 +36,7 @@ class ShortcutActivity : AppCompatActivity() {
         window.statusBarColor = this.getColor(R.color.transparent)
 
         binding.apply {
-            root.setOnClickListener{
+            root.setOnClickListener {
                 val d = Date()
                 val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
                 val formatD = sf.format(d)
@@ -52,50 +56,55 @@ class ShortcutActivity : AppCompatActivity() {
 //                            )
 //                    ))
 //                }
-                PopupWindow(this@ShortcutActivity).apply {
-                    val width = TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP,
-                        300f,
-                        resources.displayMetrics
-                    )
-                    setWindowLayoutMode(
-                        width.toInt(),
-                        WindowManager.LayoutParams.WRAP_CONTENT
-                    )
-                    setBackgroundDrawable(resources.getDrawable(R.drawable.ic_launcher_background, null));
-                    setWidth(width.toInt())
-                    height = WindowManager.LayoutParams.WRAP_CONTENT
-                    showAtLocation(binding.root, Gravity.CENTER, 0, 0)
-                }
-                Log.d("", "sub clicked")
             }
 
             shortcutRoot.setTemplate(
                 NotionPostTemplate(
                     NotionPostTemplate.TemplateType.DATABASE,
                     listOf(
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.TITLE,"名前"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.RICH_TEXT,"テキスト 1"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.NUMBER,"数値bar"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.CHECKBOX,"チェックボックス"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.SELECT,"セレクト", listOf(
-                            NotionPostTemplate.Select("hoge", NotionColorEnum.BLUE),
-                            NotionPostTemplate.Select("nice", NotionColorEnum.RED)
-                        ))
+                        NotionPostTemplate.Property(NotionApiPropertyEnum.TITLE, "名前"),
+                        NotionPostTemplate.Property(NotionApiPropertyEnum.RICH_TEXT, "テキスト 1"),
+                        NotionPostTemplate.Property(NotionApiPropertyEnum.NUMBER, "数値bar"),
+                        NotionPostTemplate.Property(NotionApiPropertyEnum.CHECKBOX, "チェックボックス"),
+                        NotionPostTemplate.Property(
+                            NotionApiPropertyEnum.SELECT, "セレクト", listOf(
+                                NotionPostTemplate.Select("hoge", NotionColorEnum.BLUE),
+                                NotionPostTemplate.Select("nice", NotionColorEnum.RED)
+                            )
+                        )
                     )
                 )
             )
         }
     }
 
-    private fun ShortcutRootView.setTemplate(template: NotionPostTemplate){
-        for(property in template.propertyList){
-            when(property.type){
+    private fun ShortcutRootView.setTemplate(template: NotionPostTemplate) {
+        for (property in template.propertyList) {
+            when (property.type) {
                 NotionApiPropertyEnum.TITLE -> addTitleBlock(property.name)
                 NotionApiPropertyEnum.RICH_TEXT -> addRichTextBlock(property.name)
                 NotionApiPropertyEnum.NUMBER -> addNumberBlock(property.name)
                 NotionApiPropertyEnum.CHECKBOX -> addCheckboxBlock(property.name)
-                NotionApiPropertyEnum.SELECT -> addSelectBlock(property.name)
+                NotionApiPropertyEnum.SELECT -> {
+                    addSelectBlock(property.name, listener = object : ShortcutSelectView.Listener {
+                        override fun onClick(shortcutSelectView: ShortcutSelectView) {
+                            val fragment = NotionSelectFragment.newInstance("", "").apply {
+                                setListener(
+                                    object : NotionSelectFragment.Listener {
+                                        override fun onSelect(selected: NotionPostTemplate.Select) {
+                                            shortcutSelectView.setSelected(selected)
+                                        }
+
+                                    }
+                                )
+                            }
+                            supportFragmentManager.beginTransaction()
+                                .add(binding.overlayContainer.id, fragment)
+                                .commit()
+                        }
+                    })
+                }
+
                 NotionApiPropertyEnum.MULTI_SELECT -> addMultiSelectBlock(property.name)
                 NotionApiPropertyEnum.STATUS -> addStatusBlock(property.name)
                 NotionApiPropertyEnum.RELATION -> addRelationBlock(property.name)
