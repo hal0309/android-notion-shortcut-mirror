@@ -83,6 +83,7 @@ object NotionApiPostPageObj {
         return result
     }
 
+    //todo: 要素追加時の引数(color)
     fun propertyStatus(name: String, statusName: String) = """
         "$name": {
             "status": {

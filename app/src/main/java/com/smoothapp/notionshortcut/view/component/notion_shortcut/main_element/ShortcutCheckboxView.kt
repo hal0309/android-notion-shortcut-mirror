@@ -1,12 +1,10 @@
-package com.smoothapp.notionshortcut.view.component
+package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.EditText
 import android.widget.LinearLayout
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.databinding.ViewShortcutCheckboxBinding
-import com.smoothapp.notionshortcut.databinding.ViewShortcutTitleBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
 

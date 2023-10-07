@@ -1,20 +1,21 @@
-package com.smoothapp.notionshortcut.view.component
+package com.smoothapp.notionshortcut.view.component.notion_shortcut
 
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
-import android.view.View
-import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
 import com.smoothapp.notionshortcut.databinding.ViewShortcutRootBinding
-import com.smoothapp.notionshortcut.databinding.ViewShortcutTitleBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
-import com.smoothapp.notionshortcut.model.entity.NotionApiPostPageObj
 import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutBlockInterface
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutCheckboxView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutNumberView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutRichTextView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutSelectView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutTitleView
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 

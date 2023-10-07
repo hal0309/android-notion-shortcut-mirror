@@ -1,17 +1,14 @@
-package com.smoothapp.notionshortcut.view.component
+package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.LinearLayout
 import com.smoothapp.notionshortcut.R
-import com.smoothapp.notionshortcut.databinding.ViewShortcutCheckboxBinding
 import com.smoothapp.notionshortcut.databinding.ViewShortcutSelectBinding
-import com.smoothapp.notionshortcut.databinding.ViewShortcutTitleBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import com.smoothapp.notionshortcut.view.adapter.NotionSelectAdapter
 
 class ShortcutSelectView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = "", val selectList: List<NotionPostTemplate.Select> = listOf()
@@ -33,18 +30,22 @@ class ShortcutSelectView @JvmOverloads constructor(
                 items.add(select.name)
             }
 
-            val adapter: ArrayAdapter<String> = ArrayAdapter(
-                context, android.R.layout.simple_spinner_item, items
+//            val adapter: ArrayAdapter<String> = ArrayAdapter(
+//                context, android.R.layout.simple_spinner_item, items
+//            )
+            val adapter = NotionSelectAdapter(
+                context, selectList
             )
             content.adapter = adapter
         }
     }
 
     override fun getContents(): NotionDatabaseProperty{
+        val selected = binding.content.selectedItem as NotionPostTemplate.Select
         return NotionDatabaseProperty(
-            NotionApiPropertyEnum.CHECKBOX,
+            NotionApiPropertyEnum.SELECT,
             name,
-            listOf( binding.content.selectedItem.toString())
+            listOf(selected.name)
         )
     }
 
