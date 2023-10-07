@@ -11,7 +11,7 @@ import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 
 class ShortcutSelectView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = "",
-    val selected: NotionPostTemplate.Select? = null
+    private var selected: NotionPostTemplate.Select? = null
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
     private lateinit var binding: ViewShortcutSelectBinding
@@ -23,17 +23,14 @@ class ShortcutSelectView @JvmOverloads constructor(
         binding = ViewShortcutSelectBinding.bind(this)
         binding.apply {
             this.name.text = this@ShortcutSelectView.name
-
-
         }
     }
 
     override fun getContents(): NotionDatabaseProperty{
-//        val selected = binding.content.selectedItem as NotionPostTemplate.Select
         return NotionDatabaseProperty(
             NotionApiPropertyEnum.SELECT,
             name,
-            listOf("selected.name")
+            listOf(selected?.name ?: "")
         )
     }
 

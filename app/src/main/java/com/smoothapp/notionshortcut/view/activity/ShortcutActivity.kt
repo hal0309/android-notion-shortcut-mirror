@@ -15,6 +15,7 @@ import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.ShortcutRootView
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -86,4 +87,22 @@ class ShortcutActivity : AppCompatActivity() {
             )
         }
     }
+
+    private fun ShortcutRootView.setTemplate(template: NotionPostTemplate){
+        for(property in template.propertyList){
+            when(property.type){
+                NotionApiPropertyEnum.TITLE -> addTitleBlock(property.name)
+                NotionApiPropertyEnum.RICH_TEXT -> addRichTextBlock(property.name)
+                NotionApiPropertyEnum.NUMBER -> addNumberBlock(property.name)
+                NotionApiPropertyEnum.CHECKBOX -> addCheckboxBlock(property.name)
+                NotionApiPropertyEnum.SELECT -> addSelectBlock(property.name)
+                NotionApiPropertyEnum.MULTI_SELECT -> addMultiSelectBlock(property.name)
+                NotionApiPropertyEnum.STATUS -> addStatusBlock(property.name)
+                NotionApiPropertyEnum.RELATION -> addRelationBlock(property.name)
+                NotionApiPropertyEnum.DATE -> addDateBlock(property.name)
+            }
+        }
+    }
+
+
 }

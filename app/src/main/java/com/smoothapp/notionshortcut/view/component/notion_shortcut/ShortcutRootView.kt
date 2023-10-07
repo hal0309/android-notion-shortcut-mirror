@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 class ShortcutRootView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr){
+) : LinearLayout(context, attrs, defStyleAttr) {
 
     private lateinit var binding: ViewShortcutRootBinding
 
@@ -42,116 +42,97 @@ class ShortcutRootView @JvmOverloads constructor(
             sendBtn.setOnClickListener {
                 Log.d("", blockList.toString())
                 val sendList = mutableListOf<NotionDatabaseProperty>()
-                for(b in blockList){
-                    Log.d("","${b.getContents().type} ${b.getContents().name} ${b.getContents().contents} ${b.getContents().contents[0].isNotEmpty()}")
-                    if(b.getContents().contents[0].isNotEmpty()){
+                for (b in blockList) {
+                    Log.d(
+                        "",
+                        "${b.getContents().type} ${b.getContents().name} ${b.getContents().contents} ${b.getContents().contents[0].isNotEmpty()}"
+                    )
+                    if (b.getContents().contents[0].isNotEmpty()) {
                         sendList.add(b.getContents())
                     }
                 }
                 MainScope().launch {
-                    Log.d("",NotionApiPostPageUtil.postPageToDatabase(
-                        "94f6ca48-d506-439f-9d2e-0fa7a2bcd5d4",
-                        sendList
-                    ))
+                    Log.d(
+                        "", NotionApiPostPageUtil.postPageToDatabase(
+                            "94f6ca48-d506-439f-9d2e-0fa7a2bcd5d4",
+                            sendList
+                        )
+                    )
                 }
             }
         }
     }
 
-    fun setTemplate(template: NotionPostTemplate){
-        for(property in template.propertyList){
-            when(property.type){
-                NotionApiPropertyEnum.TITLE -> addTitleBlock(property.name)
-                NotionApiPropertyEnum.RICH_TEXT -> addRichTextBlock(property.name)
-                NotionApiPropertyEnum.NUMBER -> addNumberBlock(property.name)
-                NotionApiPropertyEnum.CHECKBOX -> addCheckboxBlock(property.name)
-                NotionApiPropertyEnum.SELECT -> addSelectBlock(property.name)
-                NotionApiPropertyEnum.MULTI_SELECT -> addMultiSelectBlock(property.name)
-                NotionApiPropertyEnum.STATUS -> addStatusBlock(property.name)
-                NotionApiPropertyEnum.RELATION -> addRelationBlock(property.name)
-                NotionApiPropertyEnum.DATE -> addDateBlock(property.name)
-            }
+
+    fun addTitleBlock(name: String) {
+        ShortcutTitleView(context, name = name).apply {
+            Log.e("", getContents().toString())
+            blockList.add(this)
+            binding.blockContainer.addView(this)
         }
     }
 
-    private fun addTitleBlock(name: String) {
-        binding.blockContainer.addView(
-            ShortcutTitleView(context, name = name).apply {
-                Log.e("", getContents().toString())
-                blockList.add(this)
-            }
-        )
+    fun addRichTextBlock(name: String) {
+        ShortcutRichTextView(context, name = name).apply {
+            Log.e("", getContents().toString())
+            blockList.add(this)
+            binding.blockContainer.addView(this)
+        }
     }
 
-    private fun addRichTextBlock(name: String) {
-        binding.blockContainer.addView(
-            ShortcutRichTextView(context, name = name).apply {
-                Log.e("", getContents().toString())
-                blockList.add(this)
-            }
-        )
+    fun addNumberBlock(name: String) {
+        ShortcutNumberView(context, name = name).apply {
+            Log.e("", getContents().toString())
+            blockList.add(this)
+            binding.blockContainer.addView(this)
+        }
     }
 
-    private fun addNumberBlock(name: String) {
-        binding.blockContainer.addView(
-            ShortcutNumberView(context, name = name).apply {
-                Log.e("", getContents().toString())
-                blockList.add(this)
-            }
-        )
+    fun addCheckboxBlock(name: String) {
+        ShortcutCheckboxView(context, name = name).apply {
+            Log.e("", getContents().toString())
+            blockList.add(this)
+            binding.blockContainer.addView(this)
+        }
     }
 
-    private fun addCheckboxBlock(name: String) {
-        binding.blockContainer.addView(
-            ShortcutCheckboxView(context, name = name).apply {
-                Log.e("", getContents().toString())
-                blockList.add(this)
-            }
-        )
+    fun addSelectBlock(name: String) {
+        ShortcutSelectView(context, name = name).apply {
+            Log.e("", getContents().toString())
+            blockList.add(this)
+            binding.blockContainer.addView(this)
+        }
     }
 
-    private fun addSelectBlock(name: String) {
-        binding.blockContainer.addView(
-            ShortcutSelectView(context, name = name).apply {
-                Log.e("", getContents().toString())
-                blockList.add(this)
-            }
-        )
+    fun addMultiSelectBlock(name: String) {
+        ShortcutRichTextView(context, name = name).apply {
+            Log.e("", getContents().toString())
+            blockList.add(this)
+            binding.blockContainer.addView(this)
+        }
     }
 
-    private fun addMultiSelectBlock(name: String) {
-        binding.blockContainer.addView(
-            ShortcutRichTextView(context, name = name).apply {
-                Log.e("", getContents().toString())
-                blockList.add(this)
-            }
-        )
+    fun addStatusBlock(name: String) {
+        ShortcutRichTextView(context, name = name).apply {
+            Log.e("", getContents().toString())
+            blockList.add(this)
+            binding.blockContainer.addView(this)
+        }
     }
 
-    private fun addStatusBlock(name: String) {
-        binding.blockContainer.addView(
-            ShortcutRichTextView(context, name = name).apply {
-                Log.e("", getContents().toString())
-                blockList.add(this)
-            }
-        )
+    fun addRelationBlock(name: String) {
+        ShortcutRichTextView(context, name = name).apply {
+            Log.e("", getContents().toString())
+            blockList.add(this)
+            binding.blockContainer.addView(this)
+        }
     }
 
-    private fun addRelationBlock(name: String) {
-        binding.blockContainer.addView(
-            ShortcutRichTextView(context, name = name).apply {
-                Log.e("", getContents().toString())
-                blockList.add(this)
-            }
-        )
-    }
-
-    private fun addDateBlock(name: String) {
-        binding.blockContainer.addView(
-            ShortcutRichTextView(context, name = name).apply {
-                Log.e("", getContents().toString())
-                blockList.add(this)
-            }
-        )
+    fun addDateBlock(name: String) {
+        ShortcutRichTextView(context, name = name).apply {
+            Log.e("", getContents().toString())
+            blockList.add(this)
+            binding.blockContainer.addView(this)
+        }
     }
 }
