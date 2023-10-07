@@ -8,11 +8,15 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.smoothapp.notionshortcut.R
+import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
 import com.smoothapp.notionshortcut.databinding.ViewShortcutRootBinding
 import com.smoothapp.notionshortcut.databinding.ViewShortcutTitleBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.NotionApiPostPageObj
+import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 class ShortcutRootView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -31,13 +35,23 @@ class ShortcutRootView @JvmOverloads constructor(
     private fun init() {
         inflate(context, R.layout.view_shortcut_root, this)
         binding = ViewShortcutRootBinding.bind(this)
-        addTitleBlock("hoge")
-        addRichTextBlock("boke")
+//        addTitleBlock("hoge")
+//        addRichTextBlock("boke")
         binding.apply {
             sendBtn.setOnClickListener {
                 Log.d("", blockList.toString())
+                val sendList = mutableListOf<NotionDatabaseProperty>()
                 for(b in blockList){
-                    Log.d("","${b.getContents().type} ${b.getContents().name} ${b.getContents().contents}")
+                    Log.d("","${b.getContents().type} ${b.getContents().name} ${b.getContents().contents} ${b.getContents().contents[0].isNotEmpty()}")
+                    if(b.getContents().contents[0].isNotEmpty()){
+                        sendList.add(b.getContents())
+                    }
+                }
+                MainScope().launch {
+                    Log.d("",NotionApiPostPageUtil.postPageToDatabase(
+                        "94f6ca48-d506-439f-9d2e-0fa7a2bcd5d4",
+                        sendList
+                    ))
                 }
             }
         }
@@ -50,7 +64,7 @@ class ShortcutRootView @JvmOverloads constructor(
                 NotionApiPropertyEnum.RICH_TEXT -> addRichTextBlock(property.name)
                 NotionApiPropertyEnum.NUMBER -> addNumberBlock(property.name)
                 NotionApiPropertyEnum.CHECKBOX -> addCheckboxBlock(property.name)
-                NotionApiPropertyEnum.SELECT -> addSelectBlock(property.name)
+                NotionApiPropertyEnum.SELECT -> addSelectBlock(property.name, property.selectList!!)
                 NotionApiPropertyEnum.MULTI_SELECT -> addMultiSelectBlock(property.name)
                 NotionApiPropertyEnum.STATUS -> addStatusBlock(property.name)
                 NotionApiPropertyEnum.RELATION -> addRelationBlock(property.name)
@@ -79,7 +93,7 @@ class ShortcutRootView @JvmOverloads constructor(
 
     private fun addNumberBlock(name: String) {
         binding.blockContainer.addView(
-            ShortcutRichTextView(context, name = name).apply {
+            ShortcutNumberView(context, name = name).apply {
                 Log.e("", getContents().toString())
                 blockList.add(this)
             }
@@ -88,16 +102,16 @@ class ShortcutRootView @JvmOverloads constructor(
 
     private fun addCheckboxBlock(name: String) {
         binding.blockContainer.addView(
-            ShortcutRichTextView(context, name = name).apply {
+            ShortcutCheckboxView(context, name = name).apply {
                 Log.e("", getContents().toString())
                 blockList.add(this)
             }
         )
     }
 
-    private fun addSelectBlock(name: String) {
+    private fun addSelectBlock(name: String, selectList: List<NotionPostTemplate.Select>) {
         binding.blockContainer.addView(
-            ShortcutRichTextView(context, name = name).apply {
+            ShortcutSelectView(context, name = name, selectList = selectList).apply {
                 Log.e("", getContents().toString())
                 blockList.add(this)
             }

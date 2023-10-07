@@ -2,15 +2,23 @@
 
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/editTitle"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:ems="10"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:inputType="text"
-        android:hint="rich_text" />
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:gravity="center"
+            android:text="select"/>
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </merge>
 

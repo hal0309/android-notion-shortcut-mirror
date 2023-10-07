@@ -21,13 +21,16 @@ class ShortcutTitleView @JvmOverloads constructor(
     private fun init() {
         inflate(context, R.layout.view_shortcut_title, this)
         binding = ViewShortcutTitleBinding.bind(this)
+        binding.apply {
+            content.hint = name
+        }
     }
 
     override fun getContents(): NotionDatabaseProperty{
         return NotionDatabaseProperty(
             NotionApiPropertyEnum.TITLE,
             name,
-            listOf( binding.editTitle.text.toString())
+            listOf( binding.content.text.toString())
         )
     }
 
