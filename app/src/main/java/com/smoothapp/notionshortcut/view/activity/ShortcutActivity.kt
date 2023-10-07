@@ -3,6 +3,10 @@ package com.smoothapp.notionshortcut.view.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
+import android.view.Gravity
+import android.view.WindowManager
+import android.widget.PopupWindow
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.controller.provider.NotionApiProvider
 import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
@@ -47,6 +51,22 @@ class ShortcutActivity : AppCompatActivity() {
 //                            )
 //                    ))
 //                }
+                PopupWindow(this@ShortcutActivity).apply {
+                    val width = TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP,
+                        300f,
+                        resources.displayMetrics
+                    )
+                    setWindowLayoutMode(
+                        width.toInt(),
+                        WindowManager.LayoutParams.WRAP_CONTENT
+                    )
+                    setBackgroundDrawable(resources.getDrawable(R.drawable.ic_launcher_background, null));
+                    setWidth(width.toInt())
+                    height = WindowManager.LayoutParams.WRAP_CONTENT
+                    showAtLocation(binding.root, Gravity.CENTER, 0, 0)
+                }
+                Log.d("", "sub clicked")
             }
 
             shortcutRoot.setTemplate(

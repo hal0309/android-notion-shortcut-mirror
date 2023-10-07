@@ -65,7 +65,7 @@ class ShortcutRootView @JvmOverloads constructor(
                 NotionApiPropertyEnum.RICH_TEXT -> addRichTextBlock(property.name)
                 NotionApiPropertyEnum.NUMBER -> addNumberBlock(property.name)
                 NotionApiPropertyEnum.CHECKBOX -> addCheckboxBlock(property.name)
-                NotionApiPropertyEnum.SELECT -> addSelectBlock(property.name, property.selectList!!)
+                NotionApiPropertyEnum.SELECT -> addSelectBlock(property.name)
                 NotionApiPropertyEnum.MULTI_SELECT -> addMultiSelectBlock(property.name)
                 NotionApiPropertyEnum.STATUS -> addStatusBlock(property.name)
                 NotionApiPropertyEnum.RELATION -> addRelationBlock(property.name)
@@ -110,9 +110,9 @@ class ShortcutRootView @JvmOverloads constructor(
         )
     }
 
-    private fun addSelectBlock(name: String, selectList: List<NotionPostTemplate.Select>) {
+    private fun addSelectBlock(name: String) {
         binding.blockContainer.addView(
-            ShortcutSelectView(context, name = name, selectList = selectList).apply {
+            ShortcutSelectView(context, name = name).apply {
                 Log.e("", getContents().toString())
                 blockList.add(this)
             }
