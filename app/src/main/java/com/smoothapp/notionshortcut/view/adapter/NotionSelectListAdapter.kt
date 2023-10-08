@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.smoothapp.notionshortcut.databinding.ItemNotionSelectBinding
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 
-class NotionSelectListAdapter(val listener: Listener) :
+class NotionSelectListAdapter(val listener: Listener? = null) :
     ListAdapter<NotionPostTemplate.Select, NotionSelectListAdapter.Holder>(DIFF_UTIL_ITEM_CALLBACK) {
 
-    class Holder(private val binding: ItemNotionSelectBinding, private val listener: Listener) :
+    class Holder(private val binding: ItemNotionSelectBinding, private val listener: Listener?) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(select: NotionPostTemplate.Select) {
             binding.name.text = select.name
-            binding.root.setOnClickListener { listener.onClickItem(select) }
+            binding.root.setOnClickListener { listener?.onClickItem(select) }
         }
     }
 
