@@ -18,13 +18,14 @@ class NotionSelectFragment : Fragment() {
 
     private lateinit var binding: FragmentNotionSelectBinding
     private var listener: Listener? = null
-    private var unselectedList: MutableList<NotionPostTemplate.Select>? = null
-    private var selectedList: MutableList<NotionPostTemplate.Select>? = null
+    private lateinit var unselectedList: MutableList<NotionPostTemplate.Select>
+    private lateinit var selectedList: MutableList<NotionPostTemplate.Select>
 
     private lateinit var unselectedListAdapter: NotionSelectListAdapter
     private lateinit var selectedListAdapter: NotionSelectListAdapter
 
     private var isViewCreated = false
+    private var isListInitialized = false
     private var canSelectMultiple = false
 
     override fun onCreateView(
@@ -34,30 +35,29 @@ class NotionSelectFragment : Fragment() {
         binding = FragmentNotionSelectBinding.inflate(inflater, container, false)
         binding.apply {
             isViewCreated = true
-            if(unselectedList != null){
-                initSelectList()
-            }
+            initSelectList()
+
 
             unselectedListAdapter = NotionSelectListAdapter(object : NotionSelectListAdapter.Listener{
                 override fun onClickItem(select: NotionPostTemplate.Select) {
                     listener?.onSelect(select)
-                    unselectedList?.remove(select)
-                    if(!canSelectMultiple && selectedList!!.isNotEmpty()){
-                        val removed = selectedList!!.removeAt(0)
-                        unselectedList?.add(removed)
-                        unselectedList = unselectedList?.sort()
+                    unselectedList.remove(select)
+                    if(!canSelectMultiple && selectedList.isNotEmpty()){
+                        val removed = selectedList.removeAt(0)
+                        unselectedList.add(removed)
+                        unselectedList = unselectedList.sort()
                     }
-                    selectedList?.add(select)
-                    selectedList = selectedList?.sort()
+                    selectedList.add(select)
+                    selectedList = selectedList.sort()
                     updateSelectList()
                 }
             })
             selectedListAdapter = NotionSelectListAdapter(object : NotionSelectListAdapter.Listener{
                 override fun onClickItem(select: NotionPostTemplate.Select) {
                     listener?.onUnselect(select)
-                    selectedList?.remove(select)
-                    unselectedList?.add(select)
-                    unselectedList = unselectedList?.sort()
+                    selectedList.remove(select)
+                    unselectedList.add(select)
+                    unselectedList = unselectedList.sort()
                     updateSelectList()
                 }
             })
@@ -84,12 +84,13 @@ class NotionSelectFragment : Fragment() {
     fun setSelectList(unselectedList: List<NotionPostTemplate.Select>, selectedList: List<NotionPostTemplate.Select>){
         this.unselectedList = unselectedList.toMutableList().sort()
         this.selectedList = selectedList.toMutableList().sort()
+        isListInitialized = true
         initSelectList()
     }
 
     private fun initSelectList(){
-        Log.d("", unselectedList.toString())
-        if(isViewCreated) {
+        // viewCreate と listInitializeどちらでも呼び出し、後に呼ばれた方で実行される
+        if(isViewCreated && isListInitialized) {
             binding.apply {
                 unselectedRecyclerView.apply {
                     adapter = unselectedListAdapter
@@ -101,6 +102,9 @@ class NotionSelectFragment : Fragment() {
                 }
                 unselectedListAdapter.submitList(unselectedList)
                 selectedListAdapter.submitList(selectedList)
+
+                Log.d("", unselectedList.toString())
+                Log.d("", selectedList.toString())
             }
         }
     }
