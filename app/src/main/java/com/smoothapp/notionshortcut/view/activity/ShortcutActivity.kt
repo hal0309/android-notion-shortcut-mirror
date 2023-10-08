@@ -133,10 +133,13 @@ class ShortcutActivity : AppCompatActivity() {
     private suspend fun getSelectList() = withContext(Dispatchers.IO){
         delay(500)
         return@withContext listOf(
-            NotionPostTemplate.Select("hello", NotionColorEnum.BLUE),
-            NotionPostTemplate.Select("goodbye", NotionColorEnum.BLUE),
-            NotionPostTemplate.Select("hoge", NotionColorEnum.BLUE),
-            NotionPostTemplate.Select("huga", NotionColorEnum.BLUE)
+            NotionPostTemplate.Select("apple", NotionColorEnum.BLUE),
+            NotionPostTemplate.Select("banana", NotionColorEnum.BLUE),
+            NotionPostTemplate.Select("chocolate", NotionColorEnum.BLUE),
+            NotionPostTemplate.Select("document", NotionColorEnum.BLUE),
+            NotionPostTemplate.Select("effect", NotionColorEnum.BLUE),
+            NotionPostTemplate.Select("filter", NotionColorEnum.BLUE),
+            NotionPostTemplate.Select("green", NotionColorEnum.BLUE)
         )
     }
 
