@@ -47,23 +47,22 @@ class ShortcutSelectView @JvmOverloads constructor(
         )
     }
 
-    fun getSelected() = selected
+    fun getSelected(): List<NotionPostTemplate.Select>{
+        return when(selected){
+            null -> mutableListOf()
+            else -> mutableListOf(selected!!)
+        }
+    }
 
     fun setSelected(selected: NotionPostTemplate.Select?) {
         this.selected = selected
         applySelected()
     }
 
-    fun applySelected() {
-        selectedBinding.apply {
-            when (selected) {
-                null -> {
-                    name.text = "+"
-                }
-                else -> {
-                    name.text = selected!!.name
-                }
-            }
+    private fun applySelected() {
+        selectedBinding.name.text = when (selected) {
+            null -> "+"
+            else -> selected!!.name
         }
     }
 

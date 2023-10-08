@@ -19,8 +19,11 @@ import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.ShortcutRootView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutSelectView
 import com.smoothapp.notionshortcut.view.fragment.NotionSelectFragment
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -75,6 +78,7 @@ class ShortcutActivity : AppCompatActivity() {
                     )
                 )
             )
+
         }
     }
 
@@ -88,18 +92,31 @@ class ShortcutActivity : AppCompatActivity() {
                 NotionApiPropertyEnum.SELECT -> {
                     addSelectBlock(property.name, listener = object : ShortcutSelectView.Listener {
                         override fun onClick(shortcutSelectView: ShortcutSelectView) {
-                            val fragment = NotionSelectFragment.newInstance("", "").apply {
+                            val fragment = NotionSelectFragment.newInstance().apply {
                                 setListener(
                                     object : NotionSelectFragment.Listener {
                                         override fun onSelect(selected: NotionPostTemplate.Select) {
                                             shortcutSelectView.setSelected(selected)
                                         }
-
+                                        override fun onUnselect(unselected: NotionPostTemplate.Select) {
+                                            shortcutSelectView.setSelected(null)
+                                        }
                                     }
                                 )
+
+                                setCanSelectMultiple(false)
+
+                                MainScope().launch {
+                                    val unselectedList = getSelectList().toMutableList()
+                                    val selectedList = shortcutSelectView.getSelected()
+                                    unselectedList.removeAll(selectedList)
+                                    setSelectList(unselectedList, selectedList)
+                                }
+
                             }
                             supportFragmentManager.beginTransaction()
                                 .add(binding.overlayContainer.id, fragment)
+                                .addToBackStack(null)
                                 .commit()
                         }
                     })
@@ -111,6 +128,16 @@ class ShortcutActivity : AppCompatActivity() {
                 NotionApiPropertyEnum.DATE -> addDateBlock(property.name)
             }
         }
+    }
+
+    private suspend fun getSelectList() = withContext(Dispatchers.IO){
+        delay(500)
+        return@withContext listOf(
+            NotionPostTemplate.Select("hello", NotionColorEnum.BLUE),
+            NotionPostTemplate.Select("goodbye", NotionColorEnum.BLUE),
+            NotionPostTemplate.Select("hoge", NotionColorEnum.BLUE),
+            NotionPostTemplate.Select("huga", NotionColorEnum.BLUE)
+        )
     }
 
 
