@@ -14,8 +14,11 @@ class NotionSelectListAdapter(val listener: Listener? = null) :
     class Holder(private val binding: ItemNotionSelectBinding, private val listener: Listener?) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(select: NotionPostTemplate.Select) {
-            binding.name.text = select.name
-            binding.root.setOnClickListener { listener?.onClickItem(select) }
+            binding.apply {
+                name.text = select.name
+                root.setOnClickListener { listener?.onClickItem(select) }
+                card.setCardBackgroundColor(select.color.getColor(card.context))
+            }
         }
     }
 

@@ -14,8 +14,7 @@ class NotionPostTemplate(
 
     data class Property(
         val type: NotionApiPropertyEnum,
-        val name: String,
-        val selectList: List<Select>? = null
+        val name: String
     )
 
     data class Select(

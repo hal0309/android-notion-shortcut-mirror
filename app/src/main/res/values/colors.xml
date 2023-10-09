@@ -5,5 +5,15 @@
 
     <color name="transparent">#00000000</color>
 
-    <color name="gray0">#993333</color>
+    <color name="notion_light_default">#F1F0EF</color>
+    <color name="notion_light_gray"   >#E3E2E0</color>
+    <color name="notion_light_brown"  >#EEE0DA</color>
+    <color name="notion_light_orange" >#FADEC9</color>
+    <color name="notion_light_yellow" >#FDECC8</color>
+    <color name="notion_light_green"  >#DBEDDB</color>
+    <color name="notion_light_blue"   >#D3E5EF</color>
+    <color name="notion_light_purple" >#E8DEEE</color>
+    <color name="notion_light_pink"   >#F5E0E9</color>
+    <color name="notion_light_red"    >#FFE2DE</color>
+
 </resources>

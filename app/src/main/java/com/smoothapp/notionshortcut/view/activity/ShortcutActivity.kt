@@ -61,12 +61,8 @@ class ShortcutActivity : AppCompatActivity() {
                         NotionPostTemplate.Property(NotionApiPropertyEnum.RICH_TEXT, "テキスト 1"),
                         NotionPostTemplate.Property(NotionApiPropertyEnum.NUMBER, "数値bar"),
                         NotionPostTemplate.Property(NotionApiPropertyEnum.CHECKBOX, "チェックボックス"),
-                        NotionPostTemplate.Property(
-                            NotionApiPropertyEnum.SELECT, "セレクト", listOf(
-                                NotionPostTemplate.Select("hoge", NotionColorEnum.BLUE),
-                                NotionPostTemplate.Select("nice", NotionColorEnum.RED)
-                            )
-                        )
+                        NotionPostTemplate.Property(NotionApiPropertyEnum.SELECT, "セレクト"),
+                        NotionPostTemplate.Property(NotionApiPropertyEnum.MULTI_SELECT, "タグ")
                     )
                 )
             )
@@ -85,7 +81,7 @@ class ShortcutActivity : AppCompatActivity() {
                     addSelectBlock(property.name, listener = createSelectListener(NotionApiPropertyEnum.SELECT))
                 }
                 NotionApiPropertyEnum.MULTI_SELECT -> {
-                    addMultiSelectBlock(property.name, listener = createSelectListener(NotionApiPropertyEnum.SELECT))
+                    addMultiSelectBlock(property.name, listener = createSelectListener(NotionApiPropertyEnum.MULTI_SELECT))
                 }
                 NotionApiPropertyEnum.STATUS -> addStatusBlock(property.name)
                 NotionApiPropertyEnum.RELATION -> addRelationBlock(property.name)
@@ -97,13 +93,23 @@ class ShortcutActivity : AppCompatActivity() {
     private suspend fun getSelectList() = withContext(Dispatchers.IO) {
         delay(500)
         return@withContext listOf(
-            NotionPostTemplate.Select("apple", NotionColorEnum.BLUE),
-            NotionPostTemplate.Select("banana", NotionColorEnum.BLUE),
-            NotionPostTemplate.Select("chocolate", NotionColorEnum.BLUE),
-            NotionPostTemplate.Select("document", NotionColorEnum.BLUE),
-            NotionPostTemplate.Select("effect", NotionColorEnum.BLUE),
-            NotionPostTemplate.Select("filter", NotionColorEnum.BLUE),
-            NotionPostTemplate.Select("green", NotionColorEnum.BLUE)
+//            NotionPostTemplate.Select("apple", NotionColorEnum.BLUE),
+//            NotionPostTemplate.Select("banana", NotionColorEnum.BLUE),
+//            NotionPostTemplate.Select("chocolate", NotionColorEnum.BLUE),
+//            NotionPostTemplate.Select("document", NotionColorEnum.BLUE),
+//            NotionPostTemplate.Select("effect", NotionColorEnum.BLUE),
+//            NotionPostTemplate.Select("filter", NotionColorEnum.BLUE),
+//            NotionPostTemplate.Select("green", NotionColorEnum.BLUE)
+            NotionPostTemplate.Select("default", NotionColorEnum.DEFAULT),
+            NotionPostTemplate.Select("gray", NotionColorEnum.GRAY),
+            NotionPostTemplate.Select("brown", NotionColorEnum.BROWN),
+            NotionPostTemplate.Select("orange", NotionColorEnum.ORANGE),
+            NotionPostTemplate.Select("yellow", NotionColorEnum.YELLOW),
+            NotionPostTemplate.Select("green", NotionColorEnum.GREEN),
+            NotionPostTemplate.Select("blue", NotionColorEnum.BLUE),
+            NotionPostTemplate.Select("purple", NotionColorEnum.PURPLE),
+            NotionPostTemplate.Select("pink", NotionColorEnum.PINK),
+            NotionPostTemplate.Select("red", NotionColorEnum.RED)
         )
     }
 
