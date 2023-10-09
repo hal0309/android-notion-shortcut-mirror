@@ -104,6 +104,7 @@ class ShortcutRootView @JvmOverloads constructor(
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)
+            setSelected(null) //todo: 規定値の設定
         }
     }
 
@@ -112,6 +113,7 @@ class ShortcutRootView @JvmOverloads constructor(
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)
+            setSelected(null) //todo: 規定値の設定
         }
     }
 

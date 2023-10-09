@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.databinding.ViewShortcutBaseSelectBinding
+import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.adapter.NotionSelectListAdapter
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutBlockInterface
@@ -45,9 +46,9 @@ abstract class BaseShortcutSelectView @JvmOverloads constructor(
                 adapter = selectedListAdapter
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             }
-            root.setOnClickListener{
-                listener?.onClick(this@BaseShortcutSelectView)
-            }
+//            root.setOnClickListener{
+//                listener?.onClick(this@BaseShortcutSelectView)
+//            }
         }
     }
 
@@ -64,7 +65,10 @@ abstract class BaseShortcutSelectView @JvmOverloads constructor(
     }
 
     private fun applySelected() {
-        selectedListAdapter.submitList(selectedList)
+        selectedListAdapter.submitList(when(selectedList.isEmpty()){
+            true -> listOf(NotionPostTemplate.Select(" + ", NotionColorEnum.DEFAULT))
+            else -> selectedList
+        })
     }
 
     interface Listener {
