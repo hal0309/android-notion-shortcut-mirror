@@ -6,9 +6,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.smoothapp.notionshortcut.R
-import com.smoothapp.notionshortcut.databinding.ViewShortcutSelectBinding
-import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
-import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.databinding.ViewShortcutBaseSelectBinding
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.adapter.NotionSelectListAdapter
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutBlockInterface
@@ -18,7 +16,7 @@ abstract class BaseShortcutSelectView @JvmOverloads constructor(
     selectedList: List<NotionPostTemplate.Select>? = null, val listener: Listener? = null
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
-    protected lateinit var binding: ViewShortcutSelectBinding
+    protected lateinit var binding: ViewShortcutBaseSelectBinding
 
     private lateinit var selectedListAdapter: NotionSelectListAdapter
 
@@ -33,8 +31,8 @@ abstract class BaseShortcutSelectView @JvmOverloads constructor(
     }
 
     private fun init() {
-        inflate(context, R.layout.view_shortcut_select, this)
-        binding = ViewShortcutSelectBinding.bind(this)
+        inflate(context, R.layout.view_shortcut_base_select, this)
+        binding = ViewShortcutBaseSelectBinding.bind(this)
         binding.apply {
             this.name.text = this@BaseShortcutSelectView.name
 

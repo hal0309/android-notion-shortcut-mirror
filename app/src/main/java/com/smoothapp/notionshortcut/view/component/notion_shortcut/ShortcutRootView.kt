@@ -16,6 +16,7 @@ import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.ShortcutSelectView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutTitleView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.BaseShortcutSelectView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.ShortcutMultiSelectView
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
@@ -104,8 +105,8 @@ class ShortcutRootView @JvmOverloads constructor(
         }
     }
 
-    fun addMultiSelectBlock(name: String) {
-        ShortcutRichTextView(context, name = name).apply {
+    fun addMultiSelectBlock(name: String, listener: BaseShortcutSelectView.Listener? = null) {
+        ShortcutMultiSelectView(context, name = name, listener = listener).apply {
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)

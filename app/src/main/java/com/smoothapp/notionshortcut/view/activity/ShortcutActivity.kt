@@ -82,10 +82,11 @@ class ShortcutActivity : AppCompatActivity() {
                 NotionApiPropertyEnum.NUMBER -> addNumberBlock(property.name)
                 NotionApiPropertyEnum.CHECKBOX -> addCheckboxBlock(property.name)
                 NotionApiPropertyEnum.SELECT -> {
-                    addSelectBlock(property.name, listener = createSelectListener())
+                    addSelectBlock(property.name, listener = createSelectListener(NotionApiPropertyEnum.SELECT))
                 }
-
-                NotionApiPropertyEnum.MULTI_SELECT -> addMultiSelectBlock(property.name)
+                NotionApiPropertyEnum.MULTI_SELECT -> {
+                    addMultiSelectBlock(property.name, listener = createSelectListener(NotionApiPropertyEnum.SELECT))
+                }
                 NotionApiPropertyEnum.STATUS -> addStatusBlock(property.name)
                 NotionApiPropertyEnum.RELATION -> addRelationBlock(property.name)
                 NotionApiPropertyEnum.DATE -> addDateBlock(property.name)
@@ -106,10 +107,14 @@ class ShortcutActivity : AppCompatActivity() {
         )
     }
 
-    private fun createSelectListener() = object : BaseShortcutSelectView.Listener {
+    private fun createSelectListener(type: NotionApiPropertyEnum) = object : BaseShortcutSelectView.Listener {
         override fun onClick(shortcutSelectView: BaseShortcutSelectView) {
             val fragment = NotionSelectFragment.newInstance().apply {
-                setCanSelectMultiple(false)
+                when(type) {
+                    NotionApiPropertyEnum.SELECT -> setCanSelectMultiple(false)
+                    NotionApiPropertyEnum.MULTI_SELECT, NotionApiPropertyEnum.RELATION -> setCanSelectMultiple(true)
+                    else -> {/* todo: exception */}
+                }
                 setListener(
                     object : NotionSelectFragment.Listener {
                         override fun onSelectChanged(selectedList: List<NotionPostTemplate.Select>) {
