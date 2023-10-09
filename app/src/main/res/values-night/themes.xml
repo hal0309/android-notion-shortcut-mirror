@@ -12,5 +12,16 @@
 
 <!--        <item name="android:colorBackground">@color/gray0</item>-->
 <!--        <item name="cardBackgroundColor">@color/gray0</item>-->
+
+        <item name="notionColorDefault">@color/notion_dark_default</item>
+        <item name="notionColorGray">@color/notion_dark_gray</item>
+        <item name="notionColorBrown">@color/notion_dark_brown</item>
+        <item name="notionColorOrange">@color/notion_dark_orange</item>
+        <item name="notionColorYellow">@color/notion_dark_yellow</item>
+        <item name="notionColorGreen">@color/notion_dark_green</item>
+        <item name="notionColorBlue">@color/notion_dark_blue</item>
+        <item name="notionColorPurple">@color/notion_dark_purple</item>
+        <item name="notionColorPink">@color/notion_dark_pink</item>
+        <item name="notionColorRed">@color/notion_dark_red</item>
     </style>
 </resources>

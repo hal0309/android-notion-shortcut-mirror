@@ -1,27 +1,30 @@
 package com.smoothapp.notionshortcut.model.constant
 
 import android.content.Context
+import android.util.TypedValue
 import com.smoothapp.notionshortcut.R
 
 enum class NotionColorEnum(
     private val propertyName: String,
-    private val resourceId: Int
+    private val attrId: Int
 ) {
 
-    DEFAULT("default", R.color.notion_light_default),
-    GRAY("gray", R.color.notion_light_gray),
-    BROWN("brown", R.color.notion_light_brown),
-    ORANGE("orange", R.color.notion_light_orange),
-    YELLOW("yellow", R.color.notion_light_yellow),
-    GREEN("green", R.color.notion_light_green),
-    BLUE("blue", R.color.notion_light_blue),
-    PURPLE("purple", R.color.notion_light_purple),
-    PINK("pink", R.color.notion_light_pink),
-    RED("red", R.color.notion_light_red);
+    DEFAULT("default", R.attr.notionColorDefault),
+    GRAY("gray", R.attr.notionColorGray),
+    BROWN("brown", R.attr.notionColorBrown),
+    ORANGE("orange", R.attr.notionColorOrange),
+    YELLOW("yellow", R.attr.notionColorYellow),
+    GREEN("green", R.attr.notionColorGreen),
+    BLUE("blue", R.attr.notionColorBlue),
+    PURPLE("purple", R.attr.notionColorPurple),
+    PINK("pink", R.attr.notionColorPink),
+    RED("red", R.attr.notionColorRed);
 
     fun getName(): String = propertyName
 
     fun getColor(context: Context): Int {
-        return context.getColor(resourceId)
+        val typedValue = TypedValue()
+        context.theme.resolveAttribute(attrId, typedValue, true)
+        return typedValue.data
     }
 }
