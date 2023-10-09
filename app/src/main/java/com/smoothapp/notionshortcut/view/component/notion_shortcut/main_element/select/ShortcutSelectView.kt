@@ -24,7 +24,8 @@ class ShortcutSelectView @JvmOverloads constructor(
         return NotionDatabaseProperty(
             NotionApiPropertyEnum.SELECT,
             name,
-            selectedList.map { it.name }
+            selectedList.map { it.name },
+            selectedList.map { it.color.getName() } /* optional: color */
         )
     }
 

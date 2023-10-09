@@ -29,7 +29,7 @@ class ShortcutTitleView @JvmOverloads constructor(
         return NotionDatabaseProperty(
             NotionApiPropertyEnum.TITLE,
             name,
-            listOf( binding.content.text.toString())
+            listOf(binding.content.text.toString())
         )
     }
 

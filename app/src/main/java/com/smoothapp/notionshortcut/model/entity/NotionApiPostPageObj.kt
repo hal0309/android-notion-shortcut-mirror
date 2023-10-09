@@ -1,5 +1,6 @@
 package com.smoothapp.notionshortcut.model.entity
 
+import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -54,28 +55,42 @@ object NotionApiPostPageObj {
 
 
 
-    fun propertySelect(name: String, selectName: String) = """
-        "$name": {
-            "select": {
-                "name": "$selectName"
-            }
+    fun propertySelect(name: String, selectName: String, color: String?): String{
+        var result = """
+            "$name": {
+                "select": {
+                    "name": "$selectName"
+        """
+        if(color != null){
+            result += """,
+               "color": "$color" 
+            """.trimIndent()
         }
-    """.trimIndent()
 
-    fun propertyMultiSelect(name: String, selectNameList: List<String>): String{
+        result += "}}"
+
+        return result.trimIndent()
+    }
+
+    fun propertyMultiSelect(name: String, selectNameList: List<String>, colorList: List<String?>): String{
         var result = """
             "$name": {
                 "multi_select": [
         """
 
-        for(selectName in selectNameList){
+        for(i in selectNameList.indices){
+            val selectName = selectNameList[i]
+            val color = colorList[i]
             result += """
                 {
                     "name": "$selectName"
-                }
-            """.trimIndent()
-
-            result += ","
+            """
+            if(color != null){
+                result += """,
+                    "color": "$color" 
+                """
+            }
+            result += "},"
         }
 
         result = result.dropLast(1) + "]}"
@@ -83,7 +98,7 @@ object NotionApiPostPageObj {
         return result
     }
 
-    //todo: 要素追加時の引数(color)
+    //todo: 要素追加時の引数(group, color)
     fun propertyStatus(name: String, statusName: String) = """
         "$name": {
             "status": {

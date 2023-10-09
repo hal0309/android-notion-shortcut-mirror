@@ -44,12 +44,14 @@ class ShortcutRootView @JvmOverloads constructor(
                 Log.d("", blockList.toString())
                 val sendList = mutableListOf<NotionDatabaseProperty>()
                 for (b in blockList) {
+                    val contents = b.getContents()
+                    val isEmpty = contents.contents.isEmpty() || contents.contents[0].isEmpty()
                     Log.d(
                         "",
-                        "${b.getContents().type} ${b.getContents().name} ${b.getContents().contents} ${b.getContents().contents[0].isNotEmpty()}"
+                        "${contents.type} ${contents.name} ${contents.contents} $isEmpty"
                     )
-                    if (b.getContents().contents[0].isNotEmpty()) {
-                        sendList.add(b.getContents())
+                    if (!isEmpty) {
+                        sendList.add(contents)
                     }
                 }
                 MainScope().launch {
