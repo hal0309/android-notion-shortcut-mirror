@@ -7,15 +7,15 @@ import android.widget.LinearLayout
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
 import com.smoothapp.notionshortcut.databinding.ViewShortcutRootBinding
-import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutBlockInterface
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutCheckboxView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutNumberView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutRichTextView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutSelectView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.ShortcutSelectView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutTitleView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.BaseShortcutSelectView
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
@@ -96,7 +96,7 @@ class ShortcutRootView @JvmOverloads constructor(
         }
     }
 
-    fun addSelectBlock(name: String, listener: ShortcutSelectView.Listener? = null) {
+    fun addSelectBlock(name: String, listener: BaseShortcutSelectView.Listener? = null) {
         ShortcutSelectView(context, name = name, listener = listener).apply {
             Log.e("", getContents().toString())
             blockList.add(this)

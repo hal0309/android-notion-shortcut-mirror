@@ -40,7 +40,6 @@ class NotionSelectFragment : Fragment() {
 
             unselectedListAdapter = NotionSelectListAdapter(object : NotionSelectListAdapter.Listener{
                 override fun onClickItem(select: NotionPostTemplate.Select) {
-                    listener?.onSelect(select)
                     unselectedList.remove(select)
                     if(!canSelectMultiple && selectedList.isNotEmpty()){
                         val removed = selectedList.removeAt(0)
@@ -54,7 +53,6 @@ class NotionSelectFragment : Fragment() {
             })
             selectedListAdapter = NotionSelectListAdapter(object : NotionSelectListAdapter.Listener{
                 override fun onClickItem(select: NotionPostTemplate.Select) {
-                    listener?.onUnselect(select)
                     selectedList.remove(select)
                     unselectedList.add(select)
                     unselectedList = unselectedList.sort()
@@ -114,12 +112,12 @@ class NotionSelectFragment : Fragment() {
             unselectedListAdapter.submitList(unselectedList)
             selectedListAdapter.submitList(selectedList)
             Log.e("", unselectedList.toString())
+            listener?.onSelectChanged(selectedList)
         }
     }
 
     interface Listener {
-        fun onSelect(selected: NotionPostTemplate.Select)
-        fun onUnselect(unselected: NotionPostTemplate.Select)
+        fun onSelectChanged(selectedList: List<NotionPostTemplate.Select>)
     }
 
     companion object {

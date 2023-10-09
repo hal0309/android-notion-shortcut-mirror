@@ -1,30 +1,34 @@
-package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element
+package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
-import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.smoothapp.notionshortcut.R
-import com.smoothapp.notionshortcut.databinding.ItemNotionSelectBinding
 import com.smoothapp.notionshortcut.databinding.ViewShortcutSelectBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.adapter.NotionSelectListAdapter
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutBlockInterface
 
-class ShortcutSelectView @JvmOverloads constructor(
+abstract class BaseShortcutSelectView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = "",
-    private var selected: NotionPostTemplate.Select? = null, val listener: Listener? = null
+    selectedList: List<NotionPostTemplate.Select>? = null, val listener: Listener? = null
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
-    private lateinit var binding: ViewShortcutSelectBinding
+    protected lateinit var binding: ViewShortcutSelectBinding
 
     private lateinit var selectedListAdapter: NotionSelectListAdapter
 
+    protected var selectedList: List<NotionPostTemplate.Select>
+
     init {
+        this.selectedList = when(selectedList) {
+            null -> mutableListOf()
+            else -> selectedList
+        }
         init()
     }
 
@@ -32,64 +36,41 @@ class ShortcutSelectView @JvmOverloads constructor(
         inflate(context, R.layout.view_shortcut_select, this)
         binding = ViewShortcutSelectBinding.bind(this)
         binding.apply {
-            this.name.text = this@ShortcutSelectView.name
-//            selectedBinding = ItemNotionSelectBinding.inflate(
-//                LayoutInflater.from(context),
-//                selectContainer,
-//                false
-//            ).apply {
-//                root.setOnClickListener { listener?.onClick(this@ShortcutSelectView) }
-//            }
-//            selectContainer.addView(selectedBinding.root)
+            this.name.text = this@BaseShortcutSelectView.name
 
             selectedListAdapter = NotionSelectListAdapter(object : NotionSelectListAdapter.Listener{
                 override fun onClickItem(select: NotionPostTemplate.Select) {
-                    listener?.onClick(this@ShortcutSelectView)
+                    listener?.onClick(this@BaseShortcutSelectView)
                 }
-
             })
             selectedRecyclerView.apply {
                 adapter = selectedListAdapter
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             }
             root.setOnClickListener{
-                listener?.onClick(this@ShortcutSelectView)
+                listener?.onClick(this@BaseShortcutSelectView)
             }
-
-
-
         }
-    }
-
-    override fun getContents(): NotionDatabaseProperty {
-        return NotionDatabaseProperty(
-            NotionApiPropertyEnum.SELECT,
-            name,
-            listOf(selected?.name ?: "")
-        )
     }
 
     fun getSelected(): List<NotionPostTemplate.Select>{
-        return when(selected){
-            null -> mutableListOf()
-            else -> mutableListOf(selected!!)
-        }
+        return selectedList
     }
 
-    fun setSelected(selected: NotionPostTemplate.Select?) {
-        this.selected = selected
+    fun setSelected(selectedList: List<NotionPostTemplate.Select>?) {
+        this.selectedList = when(selectedList) {
+            null -> mutableListOf()
+            else -> selectedList
+        }
         applySelected()
     }
 
     private fun applySelected() {
-        when(selected){
-            null -> selectedListAdapter.submitList(null)
-            else -> selectedListAdapter.submitList(listOf(selected!!))
-        }
+        selectedListAdapter.submitList(selectedList)
     }
 
     interface Listener {
-        fun onClick(shortcutSelectView: ShortcutSelectView)
+        fun onClick(shortcutSelectView: BaseShortcutSelectView)
     }
 
 }

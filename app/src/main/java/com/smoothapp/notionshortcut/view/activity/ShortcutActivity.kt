@@ -2,22 +2,14 @@ package com.smoothapp.notionshortcut.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.util.TypedValue
-import android.view.Gravity
-import android.view.WindowManager
-import android.widget.PopupWindow
-import androidx.fragment.app.FragmentManager
 import com.smoothapp.notionshortcut.R
-import com.smoothapp.notionshortcut.controller.provider.NotionApiProvider
-import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
 import com.smoothapp.notionshortcut.databinding.ActivityShortcutBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
-import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.ShortcutRootView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutSelectView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.BaseShortcutSelectView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.ShortcutSelectView
 import com.smoothapp.notionshortcut.view.fragment.NotionSelectFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -90,36 +82,7 @@ class ShortcutActivity : AppCompatActivity() {
                 NotionApiPropertyEnum.NUMBER -> addNumberBlock(property.name)
                 NotionApiPropertyEnum.CHECKBOX -> addCheckboxBlock(property.name)
                 NotionApiPropertyEnum.SELECT -> {
-                    addSelectBlock(property.name, listener = object : ShortcutSelectView.Listener {
-                        override fun onClick(shortcutSelectView: ShortcutSelectView) {
-                            val fragment = NotionSelectFragment.newInstance().apply {
-                                setListener(
-                                    object : NotionSelectFragment.Listener {
-                                        override fun onSelect(selected: NotionPostTemplate.Select) {
-                                            shortcutSelectView.setSelected(selected)
-                                        }
-                                        override fun onUnselect(unselected: NotionPostTemplate.Select) {
-                                            shortcutSelectView.setSelected(null)
-                                        }
-                                    }
-                                )
-
-                                setCanSelectMultiple(false)
-
-                                MainScope().launch {
-                                    val unselectedList = getSelectList().toMutableList()
-                                    val selectedList = shortcutSelectView.getSelected()
-                                    unselectedList.removeAll(selectedList)
-                                    setSelectList(unselectedList, selectedList)
-                                }
-
-                            }
-                            supportFragmentManager.beginTransaction()
-                                .add(binding.overlayContainer.id, fragment)
-                                .addToBackStack(null)
-                                .commit()
-                        }
-                    })
+                    addSelectBlock(property.name, listener = createSelectListener())
                 }
 
                 NotionApiPropertyEnum.MULTI_SELECT -> addMultiSelectBlock(property.name)
@@ -130,7 +93,7 @@ class ShortcutActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun getSelectList() = withContext(Dispatchers.IO){
+    private suspend fun getSelectList() = withContext(Dispatchers.IO) {
         delay(500)
         return@withContext listOf(
             NotionPostTemplate.Select("apple", NotionColorEnum.BLUE),
@@ -141,6 +104,31 @@ class ShortcutActivity : AppCompatActivity() {
             NotionPostTemplate.Select("filter", NotionColorEnum.BLUE),
             NotionPostTemplate.Select("green", NotionColorEnum.BLUE)
         )
+    }
+
+    private fun createSelectListener() = object : BaseShortcutSelectView.Listener {
+        override fun onClick(shortcutSelectView: BaseShortcutSelectView) {
+            val fragment = NotionSelectFragment.newInstance().apply {
+                setCanSelectMultiple(false)
+                setListener(
+                    object : NotionSelectFragment.Listener {
+                        override fun onSelectChanged(selectedList: List<NotionPostTemplate.Select>) {
+                            shortcutSelectView.setSelected(selectedList)
+                        }
+                    }
+                )
+                MainScope().launch {
+                    val unselectedList = getSelectList().toMutableList()
+                    val selectedList = shortcutSelectView.getSelected()
+                    unselectedList.removeAll(selectedList)
+                    setSelectList(unselectedList, selectedList)
+                }
+            }
+            supportFragmentManager.beginTransaction()
+                .add(binding.overlayContainer.id, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
 
