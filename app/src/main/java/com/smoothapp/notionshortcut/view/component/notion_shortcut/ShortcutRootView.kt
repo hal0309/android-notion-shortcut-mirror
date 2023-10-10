@@ -12,6 +12,7 @@ import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutBlockInterface
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutCheckboxView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutNumberView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutRelationView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutRichTextView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.ShortcutSelectView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutTitleView
@@ -120,11 +121,12 @@ class ShortcutRootView @JvmOverloads constructor(
         }
     }
 
-    fun addRelationBlock(name: String) {
-        ShortcutRichTextView(context, name = name).apply {
+    fun addRelationBlock(name: String, listener: ShortcutRelationView.Listener? = null) {
+        ShortcutRelationView(context, name = name, listener = listener).apply {
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)
+            setSelected(null) //todo: 規定値の設定
         }
     }
 

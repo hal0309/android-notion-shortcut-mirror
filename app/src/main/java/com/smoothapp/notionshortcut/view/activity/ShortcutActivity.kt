@@ -8,8 +8,10 @@ import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.ShortcutRootView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutRelationView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.BaseShortcutSelectView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.ShortcutSelectView
+import com.smoothapp.notionshortcut.view.fragment.NotionRelationFragment
 import com.smoothapp.notionshortcut.view.fragment.NotionSelectFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -62,7 +64,8 @@ class ShortcutActivity : AppCompatActivity() {
                         NotionPostTemplate.Property(NotionApiPropertyEnum.NUMBER, "数値bar"),
                         NotionPostTemplate.Property(NotionApiPropertyEnum.CHECKBOX, "チェックボックス"),
                         NotionPostTemplate.Property(NotionApiPropertyEnum.SELECT, "セレクト"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.MULTI_SELECT, "タグ")
+                        NotionPostTemplate.Property(NotionApiPropertyEnum.MULTI_SELECT, "タグ"),
+                        NotionPostTemplate.Property(NotionApiPropertyEnum.RELATION, "リレーション")
                     )
                 )
             )
@@ -84,7 +87,9 @@ class ShortcutActivity : AppCompatActivity() {
                     addMultiSelectBlock(property.name, listener = createSelectListener(NotionApiPropertyEnum.MULTI_SELECT))
                 }
                 NotionApiPropertyEnum.STATUS -> addStatusBlock(property.name)
-                NotionApiPropertyEnum.RELATION -> addRelationBlock(property.name)
+                NotionApiPropertyEnum.RELATION -> {
+                    addRelationBlock(property.name, listener = createRelationListener())
+                }
                 NotionApiPropertyEnum.DATE -> addDateBlock(property.name)
             }
         }
@@ -93,13 +98,6 @@ class ShortcutActivity : AppCompatActivity() {
     private suspend fun getSelectList() = withContext(Dispatchers.IO) {
         delay(500)
         return@withContext listOf(
-//            NotionPostTemplate.Select("apple", NotionColorEnum.BLUE),
-//            NotionPostTemplate.Select("banana", NotionColorEnum.BLUE),
-//            NotionPostTemplate.Select("chocolate", NotionColorEnum.BLUE),
-//            NotionPostTemplate.Select("document", NotionColorEnum.BLUE),
-//            NotionPostTemplate.Select("effect", NotionColorEnum.BLUE),
-//            NotionPostTemplate.Select("filter", NotionColorEnum.BLUE),
-//            NotionPostTemplate.Select("green", NotionColorEnum.BLUE)
             NotionPostTemplate.Select("default", NotionColorEnum.DEFAULT),
             NotionPostTemplate.Select("gray", NotionColorEnum.GRAY),
             NotionPostTemplate.Select("brown", NotionColorEnum.BROWN),
@@ -137,6 +135,42 @@ class ShortcutActivity : AppCompatActivity() {
             }
             supportFragmentManager.beginTransaction()
                 .add(binding.overlayContainer.id, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
+    }
+
+    private suspend fun getRelationList() = withContext(Dispatchers.IO) {
+        delay(500)
+        return@withContext listOf(
+            NotionPostTemplate.Relation("page1", "page1Id"),
+            NotionPostTemplate.Relation("page2", "page2Id"),
+            NotionPostTemplate.Relation("page3", "page3Id"),
+            NotionPostTemplate.Relation("page4", "page4Id"),
+            NotionPostTemplate.Relation("page5", "page5Id"),
+            NotionPostTemplate.Relation("page6", "page6Id")
+        )
+    }
+
+    private fun createRelationListener() = object : ShortcutRelationView.Listener {
+        override fun onClick(shortcutRelationView: ShortcutRelationView) {
+            val fragment = NotionRelationFragment.newInstance().apply {
+                setListener(
+                    object : NotionRelationFragment.Listener {
+                        override fun onSelectChanged(selectedList: List<NotionPostTemplate.Relation>) {
+                            shortcutRelationView.setSelected(selectedList)
+                        }
+                    }
+                )
+                MainScope().launch {
+                    val unselectedList = getRelationList().toMutableList()
+                    val selectedList = shortcutRelationView.getSelected()
+                    unselectedList.removeAll(selectedList)
+                    setSelectList(unselectedList, selectedList)
+                }
+            }
+            supportFragmentManager.beginTransaction()
+                .replace(binding.overlayContainer.id, fragment)
                 .addToBackStack(null)
                 .commit()
         }
