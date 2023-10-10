@@ -62,17 +62,14 @@ object NotionApiPostPageObj {
                     "name": "$selectName"
         """
         if(color != null){
-            result += """,
-               "color": "$color" 
-            """.trimIndent()
+            result += """ ,"color": "$color"  """
         }
-
         result += "}}"
 
         return result.trimIndent()
     }
 
-    fun propertyMultiSelect(name: String, selectNameList: List<String>, colorList: List<String?>): String{
+    fun propertyMultiSelect(name: String, selectNameList: List<String>, colorList: List<String?>?): String{
         var result = """
             "$name": {
                 "multi_select": [
@@ -80,15 +77,12 @@ object NotionApiPostPageObj {
 
         for(i in selectNameList.indices){
             val selectName = selectNameList[i]
-            val color = colorList[i]
             result += """
                 {
                     "name": "$selectName"
             """
-            if(color != null){
-                result += """,
-                    "color": "$color" 
-                """
+            if(colorList != null){
+                result += """ ,"color": "${colorList[i]}" """
             }
             result += "},"
         }

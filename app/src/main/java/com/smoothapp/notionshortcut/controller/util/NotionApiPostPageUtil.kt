@@ -7,7 +7,10 @@ import com.smoothapp.notionshortcut.model.entity.NotionApiPostPageObj
 import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
 
 object NotionApiPostPageUtil {
-    suspend fun postPageToDatabase(dbId: String, propertyList: List<NotionDatabaseProperty>): String{
+    suspend fun postPageToDatabase(
+        dbId: String,
+        propertyList: List<NotionDatabaseProperty>
+    ): String {
         val provider = NotionApiProvider()
 
         val requestBodyString = """
@@ -20,30 +23,106 @@ object NotionApiPostPageUtil {
         return provider.postPage(requestBodyString).toString()
     }
 
-    fun createPostPageProperties(propertyList: List<NotionDatabaseProperty>): String{
+    fun createPostPageProperties(propertyList: List<NotionDatabaseProperty>): String {
         var propertyString = """"properties": {"""
 
-        for(prop in propertyList){
+        for (prop in propertyList) {
             prop.apply {
-                propertyString += when(type){
-                    NotionApiPropertyEnum.TITLE -> NotionApiPostPageObj.propertyTitle(name, contents[0])
-                    NotionApiPropertyEnum.RICH_TEXT -> NotionApiPostPageObj.propertyRichText(name, contents[0])
-                    NotionApiPropertyEnum.NUMBER -> NotionApiPostPageObj.propertyNumber(name, contents[0])
-                    NotionApiPropertyEnum.CHECKBOX -> NotionApiPostPageObj.propertyCheckbox(name, contents[0])
-                    NotionApiPropertyEnum.SELECT -> NotionApiPostPageObj.propertySelect(name, contents[0], optionalColor!![0])
-                    NotionApiPropertyEnum.MULTI_SELECT -> NotionApiPostPageObj.propertyMultiSelect(name, contents, optionalColor!!)
-                    NotionApiPropertyEnum.STATUS -> NotionApiPostPageObj.propertyStatus(name, contents[0])
-                    NotionApiPropertyEnum.RELATION -> NotionApiPostPageObj.propertyRelation(name, contents)
+                propertyString += when (type) {
+                    NotionApiPropertyEnum.TITLE -> createPropertyTitleObject()
+                    NotionApiPropertyEnum.RICH_TEXT -> createPropertyRichTextObject()
+                    NotionApiPropertyEnum.NUMBER -> createPropertyNumberObject()
+                    NotionApiPropertyEnum.CHECKBOX -> createPropertyCheckboxObject()
+                    NotionApiPropertyEnum.SELECT -> createPropertySelectObject()
+                    NotionApiPropertyEnum.MULTI_SELECT -> createPropertyMultiSelectObject()
+
+                    NotionApiPropertyEnum.STATUS -> NotionApiPostPageObj.propertyStatus(
+                        name,
+                        contents[0]
+                    )
+
+                    NotionApiPropertyEnum.RELATION -> NotionApiPostPageObj.propertyRelation(
+                        name,
+                        contents
+                    )
+
                     NotionApiPropertyEnum.DATE -> NotionApiPostPageObj.propertyDate(name, contents)
                 }
             }
-            propertyString += ","
         }
 
-        propertyString = propertyString.dropLast(1) +  "}"
+        propertyString = propertyString.dropLast(1) + "}"
 
         Log.d("", propertyString)
 
         return propertyString
     }
+
+    private fun List<String?>?.hasSingleItem(): Boolean {
+        return when (this) {
+            null -> false
+            else -> isNotEmpty() && !get(0).isNullOrEmpty()
+        }
+    }
+
+    private fun isSameSize(contents: List<String>, option: List<String?>): Boolean {
+        return contents.size == option.size
+    }
+
+    private fun NotionDatabaseProperty.createPropertyTitleObject(): String {
+        return when (contents.hasSingleItem()) {
+            false -> ""
+            else -> NotionApiPostPageObj.propertyTitle(name, contents[0]) + ","
+        }
+    }
+
+    private fun NotionDatabaseProperty.createPropertyRichTextObject(): String {
+        return when (contents.hasSingleItem()) {
+            false -> ""
+            else -> NotionApiPostPageObj.propertyRichText(name, contents[0]) + ","
+        }
+    }
+
+    private fun NotionDatabaseProperty.createPropertyNumberObject(): String {
+        return when (contents.hasSingleItem()) {
+            false -> ""
+            else -> NotionApiPostPageObj.propertyNumber(name, contents[0]) + ","
+        }
+    }
+
+    private fun NotionDatabaseProperty.createPropertyCheckboxObject(): String {
+        return when (contents.hasSingleItem()) {
+            false -> ""
+            else -> NotionApiPostPageObj.propertyCheckbox(name, contents[0]) + ","
+        }
+    }
+
+    private fun NotionDatabaseProperty.createPropertySelectObject(): String {
+        return when (contents.hasSingleItem()) {
+            false -> ""
+            else -> when (optionalColor.hasSingleItem()) {
+                false -> NotionApiPostPageObj.propertySelect(name, contents[0], null) + ","
+                else -> NotionApiPostPageObj.propertySelect(
+                    name,
+                    contents[0],
+                    optionalColor!![0]
+                ) + ","  //todo: 整理 optionalColorのnullはhasSingleItemで排除されるため!!でも良いが安全性に欠ける
+            }
+        }
+    }
+
+    private fun NotionDatabaseProperty.createPropertyMultiSelectObject(): String {
+        return when (contents.hasSingleItem()) {
+            false -> ""
+            else -> when (optionalColor.hasSingleItem() && isSameSize(contents, optionalColor!!)) {
+                false -> NotionApiPostPageObj.propertySelect(name, contents[0], null) + ","
+                else -> NotionApiPostPageObj.propertyMultiSelect(
+                    name,
+                    contents,
+                    optionalColor
+                ) + "," //todo: 整理 optionalColorのnullはhasSingleItemで排除されるため!!でも良いが安全性に欠ける
+            }
+        }
+    }
+
 }

@@ -22,5 +22,10 @@ class NotionPostTemplate(
         val color: NotionColorEnum
     )
 
+    data class Relation(
+        val name: String,
+        val id: String
+    )
+
 
 }

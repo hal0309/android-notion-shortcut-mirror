@@ -42,23 +42,18 @@ class ShortcutRootView @JvmOverloads constructor(
         binding.apply {
             sendBtn.setOnClickListener {
                 Log.d("", blockList.toString())
-                val sendList = mutableListOf<NotionDatabaseProperty>()
                 for (b in blockList) {
                     val contents = b.getContents()
-                    val isEmpty = contents.contents.isEmpty() || contents.contents[0].isEmpty()
                     Log.d(
                         "",
-                        "${contents.type} ${contents.name} ${contents.contents} $isEmpty"
+                        "${contents.type} ${contents.name} ${contents.contents}"
                     )
-                    if (!isEmpty) {
-                        sendList.add(contents)
-                    }
                 }
                 MainScope().launch {
                     Log.d(
                         "", NotionApiPostPageUtil.postPageToDatabase(
                             "94f6ca48-d506-439f-9d2e-0fa7a2bcd5d4",
-                            sendList
+                            blockList.map{it.getContents()}
                         )
                     )
                 }
