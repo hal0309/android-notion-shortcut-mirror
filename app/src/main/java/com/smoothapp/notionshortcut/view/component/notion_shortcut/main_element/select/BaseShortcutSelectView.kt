@@ -46,9 +46,6 @@ abstract class BaseShortcutSelectView @JvmOverloads constructor(
                 adapter = selectedListAdapter
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             }
-//            root.setOnClickListener{
-//                listener?.onClick(this@BaseShortcutSelectView)
-//            }
         }
     }
 
@@ -72,7 +69,7 @@ abstract class BaseShortcutSelectView @JvmOverloads constructor(
     }
 
     interface Listener {
-        fun onClick(shortcutSelectView: BaseShortcutSelectView)
+        fun onClick(baseShortcutSelectView: BaseShortcutSelectView)
     }
 
 }

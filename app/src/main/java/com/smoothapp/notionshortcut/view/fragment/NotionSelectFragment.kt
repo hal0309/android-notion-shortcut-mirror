@@ -34,10 +34,6 @@ class NotionSelectFragment : Fragment() {
     ): View {
         binding = FragmentNotionSelectBinding.inflate(inflater, container, false)
         binding.apply {
-            isViewCreated = true
-            initSelectList()
-
-
             unselectedListAdapter = NotionSelectListAdapter(object : NotionSelectListAdapter.Listener{
                 override fun onClickItem(select: NotionPostTemplate.Select) {
                     unselectedList.remove(select)
@@ -62,7 +58,8 @@ class NotionSelectFragment : Fragment() {
             sendBtn.setOnClickListener {
                 parentFragmentManager.popBackStack()
             }
-
+            isViewCreated = true
+            initSelectList()
             return root
         }
     }

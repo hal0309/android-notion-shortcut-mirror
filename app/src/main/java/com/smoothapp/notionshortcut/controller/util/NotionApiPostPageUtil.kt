@@ -35,12 +35,7 @@ object NotionApiPostPageUtil {
                     NotionApiPropertyEnum.CHECKBOX -> createPropertyCheckboxObject()
                     NotionApiPropertyEnum.SELECT -> createPropertySelectObject()
                     NotionApiPropertyEnum.MULTI_SELECT -> createPropertyMultiSelectObject()
-
-                    NotionApiPropertyEnum.STATUS -> NotionApiPostPageObj.propertyStatus(
-                        name,
-                        contents[0]
-                    )
-
+                    NotionApiPropertyEnum.STATUS -> createPropertyStatusObject()
                     NotionApiPropertyEnum.RELATION -> createPropertyRelationObject()
 
                     NotionApiPropertyEnum.DATE -> NotionApiPostPageObj.propertyDate(name, contents)
@@ -126,6 +121,13 @@ object NotionApiPostPageUtil {
         return when (contents.hasSingleItem()) {
             false -> ""
             else -> NotionApiPostPageObj.propertyRelation(name, contents) + ","
+        }
+    }
+
+    private fun NotionDatabaseProperty.createPropertyStatusObject(): String {
+        return when (contents.hasSingleItem()) {
+            false -> ""
+            else -> NotionApiPostPageObj.propertyStatus(name, contents[0]) + ","
         }
     }
 
