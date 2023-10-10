@@ -19,13 +19,7 @@ class NotionPostTemplate(
 
     data class Select(
         val name: String,
-        val color: NotionColorEnum
+        val color: NotionColorEnum,
+        val id: String? = null
     )
-
-    data class Relation(
-        val name: String,
-        val id: String
-    )
-
-
 }

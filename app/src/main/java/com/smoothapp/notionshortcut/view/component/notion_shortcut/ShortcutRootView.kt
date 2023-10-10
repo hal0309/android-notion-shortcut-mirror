@@ -7,17 +7,16 @@ import android.widget.LinearLayout
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
 import com.smoothapp.notionshortcut.databinding.ViewShortcutRootBinding
-import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutBlockInterface
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutCheckboxView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutNumberView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutRelationView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutRichTextView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.ShortcutSelectView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutTitleView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.BaseShortcutSelectView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.ShortcutMultiSelectView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.ShortcutRelationView
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
@@ -121,7 +120,7 @@ class ShortcutRootView @JvmOverloads constructor(
         }
     }
 
-    fun addRelationBlock(name: String, listener: ShortcutRelationView.Listener? = null) {
+    fun addRelationBlock(name: String, listener: BaseShortcutSelectView.Listener? = null) {
         ShortcutRelationView(context, name = name, listener = listener).apply {
             Log.e("", getContents().toString())
             blockList.add(this)

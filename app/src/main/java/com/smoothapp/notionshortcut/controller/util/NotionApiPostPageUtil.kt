@@ -41,10 +41,7 @@ object NotionApiPostPageUtil {
                         contents[0]
                     )
 
-                    NotionApiPropertyEnum.RELATION -> NotionApiPostPageObj.propertyRelation(
-                        name,
-                        contents
-                    )
+                    NotionApiPropertyEnum.RELATION -> createPropertyRelationObject()
 
                     NotionApiPropertyEnum.DATE -> NotionApiPostPageObj.propertyDate(name, contents)
                 }
@@ -122,6 +119,13 @@ object NotionApiPostPageUtil {
                     optionalColor
                 ) + "," //todo: 整理 optionalColorのnullはhasSingleItemで排除されるため!!でも良いが安全性に欠ける
             }
+        }
+    }
+
+    private fun NotionDatabaseProperty.createPropertyRelationObject(): String {
+        return when (contents.hasSingleItem()) {
+            false -> ""
+            else -> NotionApiPostPageObj.propertyRelation(name, contents) + ","
         }
     }
 
