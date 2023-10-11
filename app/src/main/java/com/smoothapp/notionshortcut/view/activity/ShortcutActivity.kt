@@ -2,8 +2,13 @@ package com.smoothapp.notionshortcut.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.format.DateFormat.is24HourFormat
 import android.util.Log
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.smoothapp.notionshortcut.R
+import com.smoothapp.notionshortcut.controller.util.MaterialComponentUtil
 import com.smoothapp.notionshortcut.databinding.ActivityShortcutBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyStatusEnum
@@ -13,6 +18,7 @@ import com.smoothapp.notionshortcut.view.component.notion_shortcut.ShortcutRootV
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutDateView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutStatusView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.BaseShortcutSelectView
+import com.smoothapp.notionshortcut.view.fragment.NotionDateFragment
 import com.smoothapp.notionshortcut.view.fragment.NotionSelectFragment
 import com.smoothapp.notionshortcut.view.fragment.NotionStatusFragment
 import kotlinx.coroutines.Dispatchers
@@ -95,6 +101,7 @@ class ShortcutActivity : AppCompatActivity() {
                 NotionApiPropertyEnum.STATUS -> {
                     addStatusBlock(property.name, createStatusListener(property))
                 }
+
                 NotionApiPropertyEnum.RELATION -> {
                     addRelationBlock(property.name, createSelectListener(property))
                 }
@@ -122,18 +129,53 @@ class ShortcutActivity : AppCompatActivity() {
                     NotionPostTemplate.Select("pink", NotionColorEnum.PINK),
                     NotionPostTemplate.Select("red", NotionColorEnum.RED)
                 )
+
                 NotionApiPropertyEnum.RELATION -> listOf(
-                    NotionPostTemplate.Select("リレーション確認1", NotionColorEnum.DEFAULT, "c12b6304652a443292ea47b73bee7b84"),
-                    NotionPostTemplate.Select("リレーション確認2", NotionColorEnum.DEFAULT, "77b73b9fa06e4cf18eadb37b5ca713c8"),
-                    NotionPostTemplate.Select("リレーション確認3", NotionColorEnum.DEFAULT, "652c65adba874f08a1fd7cc236d52b1f"),
-                    NotionPostTemplate.Select("こいつがメイン", NotionColorEnum.DEFAULT, "ecd1c8b627f54ecca674a309b5826279")
+                    NotionPostTemplate.Select(
+                        "リレーション確認1",
+                        NotionColorEnum.DEFAULT,
+                        "c12b6304652a443292ea47b73bee7b84"
+                    ),
+                    NotionPostTemplate.Select(
+                        "リレーション確認2",
+                        NotionColorEnum.DEFAULT,
+                        "77b73b9fa06e4cf18eadb37b5ca713c8"
+                    ),
+                    NotionPostTemplate.Select(
+                        "リレーション確認3",
+                        NotionColorEnum.DEFAULT,
+                        "652c65adba874f08a1fd7cc236d52b1f"
+                    ),
+                    NotionPostTemplate.Select(
+                        "こいつがメイン",
+                        NotionColorEnum.DEFAULT,
+                        "ecd1c8b627f54ecca674a309b5826279"
+                    )
                 )
+
                 NotionApiPropertyEnum.STATUS -> listOf(
-                    NotionPostTemplate.Select("come soon", NotionColorEnum.DEFAULT, NotionApiPropertyStatusEnum.TO_DO.getName()),
-                    NotionPostTemplate.Select("Not started", NotionColorEnum.DEFAULT, NotionApiPropertyStatusEnum.TO_DO.getName()),
-                    NotionPostTemplate.Select("In progress", NotionColorEnum.BLUE, NotionApiPropertyStatusEnum.IN_PROGRESS.getName()),
-                    NotionPostTemplate.Select("Done", NotionColorEnum.ORANGE, NotionApiPropertyStatusEnum.COMPLETE.getName())
+                    NotionPostTemplate.Select(
+                        "come soon",
+                        NotionColorEnum.DEFAULT,
+                        NotionApiPropertyStatusEnum.TO_DO.getName()
+                    ),
+                    NotionPostTemplate.Select(
+                        "Not started",
+                        NotionColorEnum.DEFAULT,
+                        NotionApiPropertyStatusEnum.TO_DO.getName()
+                    ),
+                    NotionPostTemplate.Select(
+                        "In progress",
+                        NotionColorEnum.BLUE,
+                        NotionApiPropertyStatusEnum.IN_PROGRESS.getName()
+                    ),
+                    NotionPostTemplate.Select(
+                        "Done",
+                        NotionColorEnum.ORANGE,
+                        NotionApiPropertyStatusEnum.COMPLETE.getName()
+                    )
                 )
+
                 else -> listOf()
             }
         }
@@ -185,9 +227,15 @@ class ShortcutActivity : AppCompatActivity() {
                     )
                     MainScope().launch {
                         val allStatusList = getSelectList(property)
-                        val toDoList = allStatusList.filter { it.id ==  NotionApiPropertyStatusEnum.TO_DO.getName()}.toMutableList()
-                        val inProgressList = allStatusList.filter { it.id ==  NotionApiPropertyStatusEnum.IN_PROGRESS.getName()}.toMutableList()
-                        val completeList = allStatusList.filter { it.id ==  NotionApiPropertyStatusEnum.COMPLETE.getName()}.toMutableList()
+                        val toDoList =
+                            allStatusList.filter { it.id == NotionApiPropertyStatusEnum.TO_DO.getName() }
+                                .toMutableList()
+                        val inProgressList =
+                            allStatusList.filter { it.id == NotionApiPropertyStatusEnum.IN_PROGRESS.getName() }
+                                .toMutableList()
+                        val completeList =
+                            allStatusList.filter { it.id == NotionApiPropertyStatusEnum.COMPLETE.getName() }
+                                .toMutableList()
                         val selected = shortcutStatusView.getSelected()
                         setSelectList(toDoList, inProgressList, completeList, selected)
                     }
@@ -202,7 +250,13 @@ class ShortcutActivity : AppCompatActivity() {
     private fun createDateListener() =
         object : ShortcutDateView.Listener {
             override fun onClick(shortcutDateView: ShortcutDateView) {
-                Log.d("", "date clicked")
+                val fragment = NotionDateFragment.newInstance().apply {
+
+                }
+                supportFragmentManager.beginTransaction()
+                    .add(binding.overlayContainer.id, fragment)
+                    .addToBackStack(null)
+                    .commit()
             }
 
         }
