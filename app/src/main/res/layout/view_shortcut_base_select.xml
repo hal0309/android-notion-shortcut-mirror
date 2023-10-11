@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="select" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/selectContainer"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="7"
+            android:gravity="center_vertical|start"
+            android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/selectedRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</merge>
+
