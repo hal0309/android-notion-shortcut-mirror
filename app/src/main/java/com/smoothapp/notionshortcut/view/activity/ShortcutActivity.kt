@@ -2,6 +2,7 @@ package com.smoothapp.notionshortcut.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.databinding.ActivityShortcutBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
@@ -9,6 +10,7 @@ import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyStatusEnum
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.ShortcutRootView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutDateView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutStatusView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.BaseShortcutSelectView
 import com.smoothapp.notionshortcut.view.fragment.NotionSelectFragment
@@ -66,7 +68,8 @@ class ShortcutActivity : AppCompatActivity() {
                         NotionPostTemplate.Property(NotionApiPropertyEnum.SELECT, "セレクト"),
                         NotionPostTemplate.Property(NotionApiPropertyEnum.MULTI_SELECT, "タグ"),
                         NotionPostTemplate.Property(NotionApiPropertyEnum.RELATION, "hoge"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.STATUS, "ステータス")
+                        NotionPostTemplate.Property(NotionApiPropertyEnum.STATUS, "ステータス"),
+                        NotionPostTemplate.Property(NotionApiPropertyEnum.DATE, "日付")
                     )
                 )
             )
@@ -96,7 +99,9 @@ class ShortcutActivity : AppCompatActivity() {
                     addRelationBlock(property.name, createSelectListener(property))
                 }
 
-                NotionApiPropertyEnum.DATE -> addDateBlock(property.name)
+                NotionApiPropertyEnum.DATE -> {
+                    addDateBlock(property.name, createDateListener())
+                }
             }
         }
     }
@@ -192,6 +197,14 @@ class ShortcutActivity : AppCompatActivity() {
                     .addToBackStack(null)
                     .commit()
             }
+        }
+
+    private fun createDateListener() =
+        object : ShortcutDateView.Listener {
+            override fun onClick(shortcutDateView: ShortcutDateView) {
+                Log.d("", "date clicked")
+            }
+
         }
 
 }

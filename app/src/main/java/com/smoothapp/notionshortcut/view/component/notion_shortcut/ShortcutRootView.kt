@@ -10,6 +10,7 @@ import com.smoothapp.notionshortcut.databinding.ViewShortcutRootBinding
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutBlockInterface
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutCheckboxView
+import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutDateView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutNumberView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutRichTextView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutStatusView
@@ -131,8 +132,8 @@ class ShortcutRootView @JvmOverloads constructor(
         }
     }
 
-    fun addDateBlock(name: String) {
-        ShortcutRichTextView(context, name = name).apply {
+    fun addDateBlock(name: String, listener: ShortcutDateView.Listener? = null) {
+        ShortcutDateView(context, name = name, listener = listener).apply {
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)
