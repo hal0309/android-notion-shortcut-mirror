@@ -37,6 +37,7 @@ class ShortcutDateView @JvmOverloads constructor(
     fun setDateTime(fromDateTime: DateTimeUtil.DateTime?, toDateTime: DateTimeUtil.DateTime?){
         this.fromDateTime = fromDateTime
         this.toDateTime = toDateTime
+        binding.dateText.text = DateTimeUtil.getDisplayDateTimeToDateTimeString(fromDateTime, toDateTime)
         Log.d("", "from: ${DateTimeUtil.convertDateTimeToString(fromDateTime?: DateTimeUtil.DateTime())}")
         Log.d("", "to: ${DateTimeUtil.convertDateTimeToString(toDateTime?: DateTimeUtil.DateTime())}")
     }
@@ -55,7 +56,6 @@ class ShortcutDateView @JvmOverloads constructor(
                 propertyList.add(it)
             }
         }
-        Log.e("", "${propertyList} ${DateTimeUtil.convertDateTimeToString(fromDateTime?: DateTimeUtil.DateTime())} $toDateTime")
         return NotionDatabaseProperty(
             NotionApiPropertyEnum.DATE,
             name,

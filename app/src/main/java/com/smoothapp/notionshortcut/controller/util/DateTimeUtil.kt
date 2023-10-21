@@ -84,5 +84,18 @@ object DateTimeUtil {
         return getDisplayTimeString(hour.toLong(), minute.toLong())
     }
 
+    fun getDisplayDateTimeToDateTimeString(fromDateTime: DateTime?, toDateTime: DateTime?): String{
+        if(fromDateTime == null){
+            return "set"
+        }
+        var result = fromDateTime.getTimeMillis().toString()
+        if(toDateTime != null){
+            result += "→"
+            result += toDateTime.getTimeMillis().toString()
+        }
+
+        return result
+    }
+
 
 }
