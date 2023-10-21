@@ -6,18 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.timepicker.MaterialTimePicker
 import com.smoothapp.notionshortcut.controller.util.MaterialComponentUtil
+import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
 import com.smoothapp.notionshortcut.databinding.FragmentNotionDateBinding
-import com.smoothapp.notionshortcut.databinding.FragmentNotionSelectBinding
-import com.smoothapp.notionshortcut.databinding.FragmentNotionStatusBinding
-import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
-import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
-import com.smoothapp.notionshortcut.view.adapter.NotionSelectListAdapter
-import java.util.Date
 
 class NotionDateFragment : Fragment() {
 
@@ -29,6 +20,13 @@ class NotionDateFragment : Fragment() {
     private var isListInitialized = false
     private var isPickerShowing = false
 
+    private var isTimeEnabled = false
+    private var isToDateEnabled = false
+
+    private val fromDateTime = DateTimeUtil.DateTime()
+    private val toDateTime = DateTimeUtil.DateTime()
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,29 +35,39 @@ class NotionDateFragment : Fragment() {
         binding.apply {
             val commonPickerListener = createCommonPickerListener()
 
-
-            startDateContainer.setOnClickListener {
+            fromDateContainer.setOnClickListener {
                 if(!isPickerShowing){
                     isPickerShowing = true
                     val picker = MaterialComponentUtil.createDatePicker(listener = commonPickerListener).apply {
                         addOnPositiveButtonClickListener {
-                            Log.d("", Date(it).toString())
+                            fromDateTime.dateLong = DateTimeUtil.convertDateLongUTCToDefaultLocal(it)
+                            sendDateTime()
+                        }
+                    }
+                    picker.show(parentFragmentManager, null)
+                }
+            }
+            fromTimeContainer.setOnClickListener {
+                if(!isPickerShowing){
+                    isPickerShowing = true
+                    val picker = MaterialComponentUtil.createTimePicker(requireContext(), listener = commonPickerListener).apply {
+                        addOnPositiveButtonClickListener {
+                            Log.d("", "$hour $minute")
+                            fromDateTime.hourInt = hour
+                            fromDateTime.minuteInt = minute
+                            sendDateTime()
                         }
                     }
                     picker.show(parentFragmentManager, null)
                 }
             }
 
-            startTimeContainer.setOnClickListener {
-                if(!isPickerShowing){
-                    isPickerShowing = true
-                    val picker = MaterialComponentUtil.createTimePicker(requireContext(), listener = commonPickerListener).apply {
-                        addOnPositiveButtonClickListener {
-                            Log.d("", "$hour $minute")
-                        }
-                    }
-                    picker.show(parentFragmentManager, null)
-                }
+            includeTimeCheckbox.setOnCheckedChangeListener { _, checked ->
+                isTimeEnabled = checked
+            }
+
+            includeToDateCheckbox.setOnCheckedChangeListener { _, checked ->
+                isToDateEnabled = checked
             }
 
             sendBtn.setOnClickListener {
@@ -81,6 +89,8 @@ class NotionDateFragment : Fragment() {
     }
 
 
+
+
     fun setListener(listener: Listener) {
         this.listener = listener
     }
@@ -88,7 +98,6 @@ class NotionDateFragment : Fragment() {
     fun setSelectList(
 
     ) {
-
         isListInitialized = true
         initSelectList()
     }
@@ -102,8 +111,25 @@ class NotionDateFragment : Fragment() {
 
     }
 
+    private fun sendDateTime() {
+        when(isTimeEnabled) {
+            true -> {
+                when(isToDateEnabled) {
+                    true -> listener?.onDateChanged(fromDateTime, toDateTime)
+                    false -> listener?.onDateChanged(fromDateTime, null)
+                }
+            }
+            false -> {
+                when(isToDateEnabled) {
+                    true -> listener?.onDateChanged(fromDateTime.getOnlyDate(), toDateTime.getOnlyDate())
+                    false -> listener?.onDateChanged(fromDateTime.getOnlyDate(), null)
+                }
+            }
+        }
+    }
+
     interface Listener {
-        fun onSelectChanged(selected: NotionPostTemplate.Select?)
+        fun onDateChanged(fromDateTime: DateTimeUtil.DateTime?, toDateTime: DateTimeUtil.DateTime?)
     }
 
     companion object {

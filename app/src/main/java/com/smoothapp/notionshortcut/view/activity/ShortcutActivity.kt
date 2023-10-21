@@ -2,13 +2,8 @@ package com.smoothapp.notionshortcut.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.format.DateFormat.is24HourFormat
-import android.util.Log
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import com.smoothapp.notionshortcut.R
-import com.smoothapp.notionshortcut.controller.util.MaterialComponentUtil
+import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
 import com.smoothapp.notionshortcut.databinding.ActivityShortcutBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyStatusEnum
@@ -251,7 +246,17 @@ class ShortcutActivity : AppCompatActivity() {
         object : ShortcutDateView.Listener {
             override fun onClick(shortcutDateView: ShortcutDateView) {
                 val fragment = NotionDateFragment.newInstance().apply {
+                    setListener(
+                        object: NotionDateFragment.Listener {
+                            override fun onDateChanged(
+                                fromDateTime: DateTimeUtil.DateTime?,
+                                toDateTime: DateTimeUtil.DateTime?
+                            ) {
+                                shortcutDateView.setDateTime(fromDateTime, toDateTime)
+                            }
 
+                        }
+                    )
                 }
                 supportFragmentManager.beginTransaction()
                     .add(binding.overlayContainer.id, fragment)

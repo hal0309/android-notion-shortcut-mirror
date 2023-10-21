@@ -12,8 +12,8 @@ object MaterialComponentUtil {
         val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
         val picker = MaterialTimePicker.Builder()
             .setTimeFormat(clockFormat)
-            .setHour(12)
-            .setMinute(10)
+//            .setHour(0)
+//            .setMinute(0)
             .setTitleText("this is title")
             .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
             .build()

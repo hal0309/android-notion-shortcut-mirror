@@ -44,8 +44,57 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/startContainer"
+                    android:id="@+id/optionContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="9"
+                            android:gravity="center"
+                            android:text="include time" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/includeTimeCheckbox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="9"
+                            android:gravity="center"
+                            android:text="include to date" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/includeToDateCheckbox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/fromContainer"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -53,9 +102,9 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="start"/>
+                        android:text="from"/>
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/startDateContainer"
+                        android:id="@+id/fromDateContainer"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:orientation="horizontal">
@@ -83,7 +132,7 @@
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.appcompat.widget.LinearLayoutCompat>
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/startTimeContainer"
+                        android:id="@+id/fromTimeContainer"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:orientation="horizontal">
@@ -112,7 +161,7 @@
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/endContainer"
+                    android:id="@+id/toContainer"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -120,9 +169,9 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="end"/>
+                        android:text="to"/>
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/endDateContainer"
+                        android:id="@+id/toDateContainer"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:orientation="horizontal">
@@ -150,7 +199,7 @@
                         </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.appcompat.widget.LinearLayoutCompat>
                     <androidx.appcompat.widget.LinearLayoutCompat
-                        android:id="@+id/endTimeContainer"
+                        android:id="@+id/toTimeContainer"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:orientation="horizontal">

@@ -37,8 +37,7 @@ object NotionApiPostPageUtil {
                     NotionApiPropertyEnum.MULTI_SELECT -> createPropertyMultiSelectObject()
                     NotionApiPropertyEnum.STATUS -> createPropertyStatusObject()
                     NotionApiPropertyEnum.RELATION -> createPropertyRelationObject()
-
-                    NotionApiPropertyEnum.DATE -> NotionApiPostPageObj.propertyDate(name, contents)
+                    NotionApiPropertyEnum.DATE -> createPropertyDateObject()
                 }
             }
         }
@@ -128,6 +127,13 @@ object NotionApiPostPageUtil {
         return when (contents.hasSingleItem()) {
             false -> ""
             else -> NotionApiPostPageObj.propertyStatus(name, contents[0]) + ","
+        }
+    }
+
+    private fun NotionDatabaseProperty.createPropertyDateObject(): String {
+        return when (contents.hasSingleItem()) {
+            false -> ""
+            else -> NotionApiPostPageObj.propertyDate(name, contents) + ","
         }
     }
 
