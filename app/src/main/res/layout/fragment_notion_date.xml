@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.fragment.NotionSelectFragment"
-    android:background="#55000000">
+    android:background="#55000000"
+    android:clickable="true">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
@@ -120,6 +121,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="7">
                             <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/fromDateText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
@@ -148,6 +150,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="7">
                             <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/fromTimeText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
@@ -187,6 +190,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="7">
                             <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/toDateText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
@@ -215,6 +219,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="7">
                             <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/toTimeText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="center"

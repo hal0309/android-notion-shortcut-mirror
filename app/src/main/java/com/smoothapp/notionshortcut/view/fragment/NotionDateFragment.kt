@@ -36,11 +36,20 @@ class NotionDateFragment : Fragment() {
             val commonPickerListener = createCommonPickerListener()
 
             fromDateContainer.setOnClickListener {
-                if(!isPickerShowing){
+                if (!isPickerShowing) {
                     isPickerShowing = true
-                    val picker = MaterialComponentUtil.createDatePicker(listener = commonPickerListener).apply {
+                    val picker = MaterialComponentUtil.createDatePicker(
+                        listener = commonPickerListener,
+                        toLong = toDateTime.dateLong
+                    ).apply {
                         addOnPositiveButtonClickListener {
-                            fromDateTime.dateLong = DateTimeUtil.convertDateLongUTCToDefaultLocal(it)
+                            val defaultLocalDateLong =
+                                DateTimeUtil.convertDateLongUTCToDefaultLocal(it)
+                            fromDateTime.setDate(defaultLocalDateLong)
+                            fromDateText.text = DateTimeUtil.getDisplayDateString(
+                                requireContext(),
+                                defaultLocalDateLong
+                            )
                             sendDateTime()
                         }
                     }
@@ -48,13 +57,56 @@ class NotionDateFragment : Fragment() {
                 }
             }
             fromTimeContainer.setOnClickListener {
-                if(!isPickerShowing){
+                if (!isPickerShowing) {
                     isPickerShowing = true
-                    val picker = MaterialComponentUtil.createTimePicker(requireContext(), listener = commonPickerListener).apply {
+                    val picker = MaterialComponentUtil.createTimePicker(
+                        requireContext(),
+                        listener = commonPickerListener
+                    ).apply {
                         addOnPositiveButtonClickListener {
                             Log.d("", "$hour $minute")
-                            fromDateTime.hourInt = hour
-                            fromDateTime.minuteInt = minute
+                            fromDateTime.setHour(hour)
+                            fromDateTime.setMinute(minute)
+                            fromTimeText.text = DateTimeUtil.getDisplayTimeString(hour, minute)
+                            sendDateTime()
+                        }
+                    }
+                    picker.show(parentFragmentManager, null)
+                }
+            }
+            toDateContainer.setOnClickListener {
+                if (!isPickerShowing) {
+                    isPickerShowing = true
+                    val picker = MaterialComponentUtil.createDatePicker(
+                        listener = commonPickerListener,
+                        fromLong = fromDateTime.dateLong
+                    ).apply {
+                        addOnPositiveButtonClickListener {
+                            val defaultLocalDateLong =
+                                DateTimeUtil.convertDateLongUTCToDefaultLocal(it)
+                            toDateTime.setDate(defaultLocalDateLong)
+                            toDateText.text = DateTimeUtil.getDisplayDateString(
+                                requireContext(),
+                                defaultLocalDateLong
+                            )
+                            sendDateTime()
+                        }
+                    }
+                    picker.show(parentFragmentManager, null)
+                }
+            }
+            toTimeContainer.setOnClickListener {
+                if (!isPickerShowing) {
+                    isPickerShowing = true
+                    val picker = MaterialComponentUtil.createTimePicker(
+                        requireContext(),
+                        listener = commonPickerListener
+                    ).apply {
+                        addOnPositiveButtonClickListener {
+                            Log.d("", "$hour $minute")
+                            toDateTime.setHour(hour)
+                            toDateTime.setMinute(minute)
+                            toTimeText.text = DateTimeUtil.getDisplayTimeString(hour, minute)
                             sendDateTime()
                         }
                     }
@@ -81,14 +133,12 @@ class NotionDateFragment : Fragment() {
     }
 
     fun createCommonPickerListener(): MaterialComponentUtil.PickerListener {
-        return object : MaterialComponentUtil.PickerListener{
+        return object : MaterialComponentUtil.PickerListener {
             override fun onDismissed() {
                 isPickerShowing = false
             }
         }
     }
-
-
 
 
     fun setListener(listener: Listener) {
@@ -112,16 +162,21 @@ class NotionDateFragment : Fragment() {
     }
 
     private fun sendDateTime() {
-        when(isTimeEnabled) {
+        when (isTimeEnabled) {
             true -> {
-                when(isToDateEnabled) {
+                when (isToDateEnabled) {
                     true -> listener?.onDateChanged(fromDateTime, toDateTime)
                     false -> listener?.onDateChanged(fromDateTime, null)
                 }
             }
+
             false -> {
-                when(isToDateEnabled) {
-                    true -> listener?.onDateChanged(fromDateTime.getOnlyDate(), toDateTime.getOnlyDate())
+                when (isToDateEnabled) {
+                    true -> listener?.onDateChanged(
+                        fromDateTime.getOnlyDate(),
+                        toDateTime.getOnlyDate()
+                    )
+
                     false -> listener?.onDateChanged(fromDateTime.getOnlyDate(), null)
                 }
             }
