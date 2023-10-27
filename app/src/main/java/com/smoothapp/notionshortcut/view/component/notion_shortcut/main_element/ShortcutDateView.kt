@@ -2,9 +2,10 @@ package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.widget.LinearLayout
 import com.smoothapp.notionshortcut.R
-import com.smoothapp.notionshortcut.databinding.ViewShortcutCheckboxBinding
+import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
 import com.smoothapp.notionshortcut.databinding.ViewShortcutDateBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
@@ -15,6 +16,9 @@ class ShortcutDateView @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
     private lateinit var binding: ViewShortcutDateBinding
+
+    private var fromDateTime: DateTimeUtil.DateTime? = null
+    private var toDateTime: DateTimeUtil.DateTime? = null
 
     init {
         init()
@@ -30,11 +34,32 @@ class ShortcutDateView @JvmOverloads constructor(
         }
     }
 
+    fun setDateTime(fromDateTime: DateTimeUtil.DateTime?, toDateTime: DateTimeUtil.DateTime?){
+        this.fromDateTime = fromDateTime
+        this.toDateTime = toDateTime
+        binding.dateText.text = DateTimeUtil.getDisplayDateTimeToDateTimeString(fromDateTime, toDateTime)
+        Log.d("", "from: ${DateTimeUtil.convertDateTimeToString(fromDateTime?: DateTimeUtil.DateTime())}")
+        Log.d("", "to: ${DateTimeUtil.convertDateTimeToString(toDateTime?: DateTimeUtil.DateTime())}")
+    }
+
+
+
     override fun getContents(): NotionDatabaseProperty{
+        val propertyList = mutableListOf<String>()
+        if(fromDateTime != null){
+            DateTimeUtil.convertDateTimeToString(fromDateTime!!).let{
+                propertyList.add(it?: "")
+            }
+        }
+        if(toDateTime != null){
+            DateTimeUtil.convertDateTimeToString(toDateTime!!)?.let {
+                propertyList.add(it)
+            }
+        }
         return NotionDatabaseProperty(
-            NotionApiPropertyEnum.CHECKBOX,
+            NotionApiPropertyEnum.DATE,
             name,
-            listOf( "")
+            propertyList
         )
     }
 

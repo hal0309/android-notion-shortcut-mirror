@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.fragment.NotionSelectFragment"
-    android:background="#55000000">
+    android:background="#55000000"
+    android:clickable="true">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
