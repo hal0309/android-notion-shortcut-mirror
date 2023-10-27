@@ -26,11 +26,15 @@ class ShortcutRootView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
+    interface Listener {
+        fun onSendBtnClicked()
+    }
+
+    private var listener: Listener? = null
+
     private lateinit var binding: ViewShortcutRootBinding
 
     private val blockList = mutableListOf<ShortcutBlockInterface>()
-
-    private lateinit var template: NotionPostTemplate
 
     init {
         init()
@@ -39,83 +43,54 @@ class ShortcutRootView @JvmOverloads constructor(
     private fun init() {
         inflate(context, R.layout.view_shortcut_root, this)
         binding = ViewShortcutRootBinding.bind(this)
-//        addTitleBlock("hoge")
-//        addRichTextBlock("boke")
         binding.apply {
             sendBtn.setOnClickListener {
-                Log.d("", blockList.toString())
-                for (b in blockList) {
-                    val contents = b.getContents()
-                    Log.d(
-                        "",
-                        "${contents.type} ${contents.name} ${contents.contents}"
-                    )
-                }
-                MainScope().launch {
-                    Log.d(
-                        "", NotionApiPostPageUtil.postPageToDatabase(
-                            "94f6ca48-d506-439f-9d2e-0fa7a2bcd5d4",
-                            blockList.map{it.getContents()}
-                        )
-                    )
-                }
+                listener?.onSendBtnClicked()
             }
         }
     }
 
+    fun setListener(listener: Listener) {
+        this.listener = listener
+    }
 
-    fun addTitleBlock(name: String) {
-        ShortcutTitleView(context, name = name).apply {
+    fun getBlockList() = blockList
+
+
+    fun addTitleBlock(property: NotionPostTemplate.Property) {
+        ShortcutTitleView(context, name = property.name).apply {
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)
         }
     }
 
-    fun addRichTextBlock(name: String) {
-        ShortcutRichTextView(context, name = name).apply {
+    fun addRichTextBlock(property: NotionPostTemplate.Property) {
+        ShortcutRichTextView(context, name = property.name).apply {
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)
         }
     }
 
-    fun addNumberBlock(name: String) {
-        ShortcutNumberView(context, name = name).apply {
+    fun addNumberBlock(property: NotionPostTemplate.Property) {
+        ShortcutNumberView(context, name = property.name).apply {
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)
         }
     }
 
-    fun addCheckboxBlock(name: String) {
-        ShortcutCheckboxView(context, name = name).apply {
+    fun addCheckboxBlock(property: NotionPostTemplate.Property) {
+        ShortcutCheckboxView(context, name = property.name).apply {
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)
         }
     }
 
-    fun addSelectBlock(name: String, listener: BaseShortcutSelectView.Listener? = null) {
-        ShortcutSelectView(context, name = name, listener = listener).apply {
-            Log.e("", getContents().toString())
-            blockList.add(this)
-            binding.blockContainer.addView(this)
-            setSelected(null) //todo: 規定値の設定
-        }
-    }
-
-    fun addMultiSelectBlock(name: String, listener: BaseShortcutSelectView.Listener? = null) {
-        ShortcutMultiSelectView(context, name = name, listener = listener).apply {
-            Log.e("", getContents().toString())
-            blockList.add(this)
-            binding.blockContainer.addView(this)
-            setSelected(null) //todo: 規定値の設定
-        }
-    }
-
-    fun addStatusBlock(name: String, listener: ShortcutStatusView.Listener? = null) {
-        ShortcutStatusView(context, name = name, listener = listener).apply {
+    fun addSelectBlock(property: NotionPostTemplate.Property, listener: BaseShortcutSelectView.Listener? = null) {
+        ShortcutSelectView(context, name = property.name, listener = listener).apply {
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)
@@ -123,8 +98,8 @@ class ShortcutRootView @JvmOverloads constructor(
         }
     }
 
-    fun addRelationBlock(name: String, listener: BaseShortcutSelectView.Listener? = null) {
-        ShortcutRelationView(context, name = name, listener = listener).apply {
+    fun addMultiSelectBlock(property: NotionPostTemplate.Property, listener: BaseShortcutSelectView.Listener? = null) {
+        ShortcutMultiSelectView(context, name = property.name, listener = listener).apply {
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)
@@ -132,8 +107,26 @@ class ShortcutRootView @JvmOverloads constructor(
         }
     }
 
-    fun addDateBlock(name: String, listener: ShortcutDateView.Listener? = null) {
-        ShortcutDateView(context, name = name, listener = listener).apply {
+    fun addStatusBlock(property: NotionPostTemplate.Property, listener: ShortcutStatusView.Listener? = null) {
+        ShortcutStatusView(context, name = property.name, listener = listener).apply {
+            Log.e("", getContents().toString())
+            blockList.add(this)
+            binding.blockContainer.addView(this)
+            setSelected(null) //todo: 規定値の設定
+        }
+    }
+
+    fun addRelationBlock(property: NotionPostTemplate.Property, listener: BaseShortcutSelectView.Listener? = null) {
+        ShortcutRelationView(context, name = property.name, listener = listener).apply {
+            Log.e("", getContents().toString())
+            blockList.add(this)
+            binding.blockContainer.addView(this)
+            setSelected(null) //todo: 規定値の設定
+        }
+    }
+
+    fun addDateBlock(property: NotionPostTemplate.Property, listener: ShortcutDateView.Listener? = null) {
+        ShortcutDateView(context, name = property.name, listener = listener).apply {
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)
