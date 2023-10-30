@@ -6,7 +6,7 @@ import android.widget.LinearLayout
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.databinding.ViewShortcutNumberBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
-import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 
 class ShortcutNumberView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = ""
@@ -25,7 +25,7 @@ class ShortcutNumberView @JvmOverloads constructor(
         }
     }
 
-    override fun getContents(): NotionDatabaseProperty{
+    override fun getContents(): NotionDatabaseProperty {
         return NotionDatabaseProperty(
             NotionApiPropertyEnum.NUMBER,
             name,

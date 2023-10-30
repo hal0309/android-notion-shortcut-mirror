@@ -4,7 +4,14 @@ import android.util.Log
 import com.smoothapp.notionshortcut.controller.provider.NotionApiProvider
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.NotionApiPostPageObj
-import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyCheckbox
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyMultiSelect
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyNumber
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyRelation
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyRichText
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertySelect
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyTitle
 
 object NotionApiPostPageUtil {
     suspend fun postPageToDatabase(
@@ -61,65 +68,72 @@ object NotionApiPostPageUtil {
     }
 
     private fun NotionDatabaseProperty.createPropertyTitleObject(): String {
-        return when (contents.hasSingleItem()) {
-            false -> ""
-            else -> NotionApiPostPageObj.propertyTitle(name, contents[0]) + ","
+        this as NotionDatabasePropertyTitle
+        return getTitle().let {
+            when(it) {
+                null -> ""
+                else -> NotionApiPostPageObj.propertyTitle(name, it) + ","
+            }
         }
     }
 
     private fun NotionDatabaseProperty.createPropertyRichTextObject(): String {
-        return when (contents.hasSingleItem()) {
-            false -> ""
-            else -> NotionApiPostPageObj.propertyRichText(name, contents[0]) + ","
+        this as NotionDatabasePropertyRichText
+        return getRichText().let {
+            when(it) {
+                null -> ""
+                else -> NotionApiPostPageObj.propertyRichText(name, it) + ","
+            }
         }
     }
 
     private fun NotionDatabaseProperty.createPropertyNumberObject(): String {
-        return when (contents.hasSingleItem()) {
-            false -> ""
-            else -> NotionApiPostPageObj.propertyNumber(name, contents[0]) + ","
+        this as NotionDatabasePropertyNumber
+        return getNumber().let {
+            when(it) {
+                null -> ""
+                else -> NotionApiPostPageObj.propertyNumber(name, it) + ","
+            }
         }
     }
 
     private fun NotionDatabaseProperty.createPropertyCheckboxObject(): String {
-        return when (contents.hasSingleItem()) {
-            false -> ""
-            else -> NotionApiPostPageObj.propertyCheckbox(name, contents[0]) + ","
+        this as NotionDatabasePropertyCheckbox
+        return getCheckbox().let {
+            when(it) {
+                null -> ""
+                else -> NotionApiPostPageObj.propertyCheckbox(name, it) + ","
+            }
         }
     }
 
     private fun NotionDatabaseProperty.createPropertySelectObject(): String {
-        return when (contents.hasSingleItem()) {
-            false -> ""
-            else -> when (optionalColor.hasSingleItem()) {
-                false -> NotionApiPostPageObj.propertySelect(name, contents[0], null) + ","
-                else -> NotionApiPostPageObj.propertySelect(
-                    name,
-                    contents[0],
-                    optionalColor!![0]
-                ) + ","  //todo: 整理 optionalColorのnullはhasSingleItemで排除されるため!!でも良いが安全性に欠ける
+        this as NotionDatabasePropertySelect
+        return getSelectName().let {
+            when(it) {
+                null -> ""
+                else -> NotionApiPostPageObj.propertySelect(name, it, getSelectColor()) + ","  //todo 確認 colorを新規作成する場合などはどうなる？
             }
         }
     }
 
     private fun NotionDatabaseProperty.createPropertyMultiSelectObject(): String {
-        return when (contents.hasSingleItem()) {
-            false -> ""
-            else -> when (optionalColor.hasSingleItem() && isSameSize(contents, optionalColor!!)) {
-                false -> NotionApiPostPageObj.propertySelect(name, contents[0], null) + ","
-                else -> NotionApiPostPageObj.propertyMultiSelect(
-                    name,
-                    contents,
-                    optionalColor
-                ) + "," //todo: 整理 optionalColorのnullはhasSingleItemで排除されるため!!でも良いが安全性に欠ける
+        this as NotionDatabasePropertyMultiSelect
+        return getMultiSelectName().let {
+            when(it) {
+                null -> ""
+                else -> NotionApiPostPageObj.propertyMultiSelect(name, it, getMultiSelectColor())
             }
         }
     }
 
     private fun NotionDatabaseProperty.createPropertyRelationObject(): String {
-        return when (contents.hasSingleItem()) {
-            false -> ""
-            else -> NotionApiPostPageObj.propertyRelation(name, contents) + ","
+        this as NotionDatabasePropertyRelation
+        return getRelationId().let {
+            when(it) {
+                null -> ""
+                else -> NotionApiPostPageObj.propertyRelation(name, it)
+            }
         }
     }
 
