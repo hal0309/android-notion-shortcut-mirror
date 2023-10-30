@@ -14,12 +14,17 @@ class NotionPostTemplate(
 
     data class Property(
         val type: NotionApiPropertyEnum,
-        val name: String
+        val name: String,
+        val preset: Preset? = null
     )
 
     data class Select(
         val name: String,
         val color: NotionColorEnum,
         val id: String? = null
+    )
+
+    data class Preset(
+        val contentList: List<String?>
     )
 }

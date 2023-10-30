@@ -2,8 +2,10 @@ package com.smoothapp.notionshortcut.view.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
+import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
 import com.smoothapp.notionshortcut.databinding.ActivityShortcutBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyStatusEnum
@@ -58,22 +60,45 @@ class ShortcutActivity : AppCompatActivity() {
 //                }
             }
 
-            shortcutRoot.setTemplate(
-                NotionPostTemplate(
-                    NotionPostTemplate.TemplateType.DATABASE,
-                    listOf(
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.TITLE, "名前"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.RICH_TEXT, "テキスト 1"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.NUMBER, "数値bar"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.CHECKBOX, "チェックボックス"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.SELECT, "セレクト"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.MULTI_SELECT, "タグ"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.RELATION, "hoge"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.STATUS, "ステータス"),
-                        NotionPostTemplate.Property(NotionApiPropertyEnum.DATE, "日付")
+            shortcutRoot.apply{
+                setTemplate(
+                    NotionPostTemplate(
+                        NotionPostTemplate.TemplateType.DATABASE,
+                        listOf(
+                            NotionPostTemplate.Property(NotionApiPropertyEnum.TITLE, "名前"),
+                            NotionPostTemplate.Property(NotionApiPropertyEnum.RICH_TEXT, "テキスト 1"),
+                            NotionPostTemplate.Property(NotionApiPropertyEnum.NUMBER, "数値bar"),
+                            NotionPostTemplate.Property(NotionApiPropertyEnum.CHECKBOX, "チェックボックス"),
+                            NotionPostTemplate.Property(NotionApiPropertyEnum.SELECT, "セレクト"),
+                            NotionPostTemplate.Property(NotionApiPropertyEnum.MULTI_SELECT, "タグ"),
+                            NotionPostTemplate.Property(NotionApiPropertyEnum.RELATION, "hoge"),
+                            NotionPostTemplate.Property(NotionApiPropertyEnum.STATUS, "ステータス"),
+                            NotionPostTemplate.Property(NotionApiPropertyEnum.DATE, "日付")
+                        )
                     )
                 )
-            )
+                setListener(object : ShortcutRootView.Listener{
+                    override fun onSendBtnClicked() {
+                        val blockList = getBlockList()
+                        Log.d("", blockList.toString())
+                        for (b in blockList) {
+                            val contents = b.getContents()
+                            Log.d(
+                                "",
+                                "${contents.type} ${contents.name} ${contents.contents}"
+                            )
+                        }
+                        MainScope().launch {
+                            Log.d(
+                                "", NotionApiPostPageUtil.postPageToDatabase(
+                                    "94f6ca48-d506-439f-9d2e-0fa7a2bcd5d4",
+                                    blockList.map{it.getContents()}
+                                )
+                            )
+                        }
+                    }
+                })
+            }
 
         }
     }
@@ -81,28 +106,28 @@ class ShortcutActivity : AppCompatActivity() {
     private fun ShortcutRootView.setTemplate(template: NotionPostTemplate) {
         for (property in template.propertyList) {
             when (property.type) {
-                NotionApiPropertyEnum.TITLE -> addTitleBlock(property.name)
-                NotionApiPropertyEnum.RICH_TEXT -> addRichTextBlock(property.name)
-                NotionApiPropertyEnum.NUMBER -> addNumberBlock(property.name)
-                NotionApiPropertyEnum.CHECKBOX -> addCheckboxBlock(property.name)
+                NotionApiPropertyEnum.TITLE -> addTitleBlock(property)
+                NotionApiPropertyEnum.RICH_TEXT -> addRichTextBlock(property)
+                NotionApiPropertyEnum.NUMBER -> addNumberBlock(property)
+                NotionApiPropertyEnum.CHECKBOX -> addCheckboxBlock(property)
                 NotionApiPropertyEnum.SELECT -> {
-                    addSelectBlock(property.name, listener = createSelectListener(property))
+                    addSelectBlock(property, listener = createSelectListener(property))
                 }
 
                 NotionApiPropertyEnum.MULTI_SELECT -> {
-                    addMultiSelectBlock(property.name, listener = createSelectListener(property))
+                    addMultiSelectBlock(property, listener = createSelectListener(property))
                 }
 
                 NotionApiPropertyEnum.STATUS -> {
-                    addStatusBlock(property.name, createStatusListener(property))
+                    addStatusBlock(property, createStatusListener(property))
                 }
 
                 NotionApiPropertyEnum.RELATION -> {
-                    addRelationBlock(property.name, createSelectListener(property))
+                    addRelationBlock(property, createSelectListener(property))
                 }
 
                 NotionApiPropertyEnum.DATE -> {
-                    addDateBlock(property.name, createDateListener())
+                    addDateBlock(property, createDateListener())
                 }
             }
         }
@@ -265,5 +290,4 @@ class ShortcutActivity : AppCompatActivity() {
             }
 
         }
-
 }
