@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyRelation
 
 
 class ShortcutRelationView @JvmOverloads constructor(
@@ -20,9 +21,8 @@ class ShortcutRelationView @JvmOverloads constructor(
 
     }
 
-    override fun getContents(): NotionDatabaseProperty {
-        return NotionDatabaseProperty(
-            NotionApiPropertyEnum.RELATION,
+    override fun getContents(): NotionDatabasePropertyRelation {
+        return NotionDatabasePropertyRelation(
             name,
             selectedList.map { it.id?: "" } // todo: null safe
         )

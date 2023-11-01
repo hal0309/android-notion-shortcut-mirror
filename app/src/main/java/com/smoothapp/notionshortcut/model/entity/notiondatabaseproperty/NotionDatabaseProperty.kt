@@ -3,10 +3,16 @@ package com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 
 open class NotionDatabaseProperty(
-    val type: NotionApiPropertyEnum,
-    val name: String,
-    val contents: List<String?>,
-    val optionalColor: List<String?>? = null,
-    val optionalId: List<String>? = null,
-    val optionalGroupId: List<String>? = null
-)
+    private val type: NotionApiPropertyEnum,
+    private val name: String,
+    protected var contents: List<String?>
+){
+    protected fun setPropertyContents(contents: List<String?>){
+        this.contents = contents
+    }
+
+    fun getType() = type
+    fun getName() = name
+
+    fun getPropertyContents() = contents
+}

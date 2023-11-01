@@ -5,6 +5,8 @@ import android.util.AttributeSet
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyMultiSelect
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertySelect
 
 
 class ShortcutMultiSelectView @JvmOverloads constructor(
@@ -20,9 +22,8 @@ class ShortcutMultiSelectView @JvmOverloads constructor(
 
     }
 
-    override fun getContents(): NotionDatabaseProperty {
-        return NotionDatabaseProperty(
-            NotionApiPropertyEnum.MULTI_SELECT,
+    override fun getContents(): NotionDatabasePropertyMultiSelect {
+        return NotionDatabasePropertyMultiSelect(
             name,
             selectedList.map { it.name },
             selectedList.map { it.color.getName() } /* optional: color */

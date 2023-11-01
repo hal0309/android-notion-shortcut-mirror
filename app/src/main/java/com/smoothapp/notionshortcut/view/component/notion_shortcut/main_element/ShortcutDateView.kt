@@ -9,6 +9,7 @@ import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
 import com.smoothapp.notionshortcut.databinding.ViewShortcutDateBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyDate
 
 class ShortcutDateView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = "",
@@ -44,22 +45,11 @@ class ShortcutDateView @JvmOverloads constructor(
 
 
 
-    override fun getContents(): NotionDatabaseProperty {
-        val propertyList = mutableListOf<String>()
-        if(fromDateTime != null){
-            DateTimeUtil.convertDateTimeToString(fromDateTime!!).let{
-                propertyList.add(it?: "")
-            }
-        }
-        if(toDateTime != null){
-            DateTimeUtil.convertDateTimeToString(toDateTime!!)?.let {
-                propertyList.add(it)
-            }
-        }
-        return NotionDatabaseProperty(
-            NotionApiPropertyEnum.DATE,
+    override fun getContents(): NotionDatabasePropertyDate {
+        return NotionDatabasePropertyDate(
             name,
-            propertyList
+            fromDateTime?.let { DateTimeUtil.convertDateTimeToString(it) },
+            toDateTime?.let { DateTimeUtil.convertDateTimeToString(it) }
         )
     }
 

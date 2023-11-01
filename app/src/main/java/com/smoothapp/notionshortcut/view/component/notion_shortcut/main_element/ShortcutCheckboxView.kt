@@ -7,6 +7,7 @@ import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.databinding.ViewShortcutCheckboxBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyCheckbox
 
 class ShortcutCheckboxView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = ""
@@ -25,9 +26,8 @@ class ShortcutCheckboxView @JvmOverloads constructor(
         }
     }
 
-    override fun getContents(): NotionDatabaseProperty {
-        return NotionDatabaseProperty(
-            NotionApiPropertyEnum.CHECKBOX,
+    override fun getContents(): NotionDatabasePropertyCheckbox {
+        return NotionDatabasePropertyCheckbox(
             name,
             listOf( binding.content.isChecked.toString())
         )

@@ -1,11 +1,19 @@
 package com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty
 
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
+import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 
 class NotionDatabasePropertySelect(
     name: String,
-    contents: List<String?>
-) : NotionDatabaseProperty(NotionApiPropertyEnum.SELECT, name, contents) {
+    selectName: String?,
+    selectColor: NotionColorEnum?
+) : NotionDatabaseProperty(NotionApiPropertyEnum.SELECT, name, listOf()) {
+
+    init {
+        val contents = listOf(selectName, selectColor?.getName())
+        setPropertyContents(contents)
+    }
+
     private fun hasContents(): Boolean{
         return  contents.size == SET_SIZE && !contents[NAME_INDEX].isNullOrEmpty()
     }

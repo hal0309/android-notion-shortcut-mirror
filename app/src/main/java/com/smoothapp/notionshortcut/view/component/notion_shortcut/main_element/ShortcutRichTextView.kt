@@ -7,6 +7,7 @@ import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.databinding.ViewShortcutRichTextBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyRichText
 
 class ShortcutRichTextView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = ""
@@ -25,9 +26,8 @@ class ShortcutRichTextView @JvmOverloads constructor(
         }
     }
 
-    override fun getContents(): NotionDatabaseProperty {
-        return NotionDatabaseProperty(
-            NotionApiPropertyEnum.RICH_TEXT,
+    override fun getContents(): NotionDatabasePropertyRichText {
+        return NotionDatabasePropertyRichText(
             name,
             listOf( binding.content.text.toString())
         )

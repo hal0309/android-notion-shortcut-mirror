@@ -4,13 +4,23 @@ import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 
 class NotionDatabasePropertyRelation(
     name: String,
-    contents: List<String?>
-) : NotionDatabaseProperty(NotionApiPropertyEnum.RELATION, name, contents) {
+    relationId: List<String>
+) : NotionDatabaseProperty(NotionApiPropertyEnum.RELATION, name, listOf()) {
+
+    init {
+        val size = relationId.size
+        val contents: MutableList<String?> = MutableList(size){null}
+        for(i in 0 until size){
+            contents[i* SET_SIZE + ID_INDEX] = relationId[i]
+        }
+        setPropertyContents(contents)
+    }
+
     private fun hasContents(): Boolean{
         val size = contents.size
         if(size < SET_SIZE || size % SET_SIZE != 0) return false
         for (i in 0 until size / SET_SIZE ){
-            if(contents[i*SET_SIZE].isNullOrEmpty()){ //ID部分に空があったらfalse
+            if(contents[i*SET_SIZE + ID_INDEX].isNullOrEmpty()){ //ID部分に空があったらfalse
                 return false
             }
         }

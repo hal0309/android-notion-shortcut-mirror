@@ -6,11 +6,13 @@ import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.entity.NotionApiPostPageObj
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyCheckbox
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyDate
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyMultiSelect
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyNumber
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyRelation
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyRichText
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertySelect
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyStatus
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyTitle
 
 object NotionApiPostPageUtil {
@@ -35,7 +37,7 @@ object NotionApiPostPageUtil {
 
         for (prop in propertyList) {
             prop.apply {
-                propertyString += when (type) {
+                propertyString += when (getType()) {
                     NotionApiPropertyEnum.TITLE -> createPropertyTitleObject()
                     NotionApiPropertyEnum.RICH_TEXT -> createPropertyRichTextObject()
                     NotionApiPropertyEnum.NUMBER -> createPropertyNumberObject()
@@ -72,7 +74,7 @@ object NotionApiPostPageUtil {
         return getTitle().let {
             when(it) {
                 null -> ""
-                else -> NotionApiPostPageObj.propertyTitle(name, it) + ","
+                else -> NotionApiPostPageObj.propertyTitle(getName(), it) + ","
             }
         }
     }
@@ -82,7 +84,7 @@ object NotionApiPostPageUtil {
         return getRichText().let {
             when(it) {
                 null -> ""
-                else -> NotionApiPostPageObj.propertyRichText(name, it) + ","
+                else -> NotionApiPostPageObj.propertyRichText(getName(), it) + ","
             }
         }
     }
@@ -92,7 +94,7 @@ object NotionApiPostPageUtil {
         return getNumber().let {
             when(it) {
                 null -> ""
-                else -> NotionApiPostPageObj.propertyNumber(name, it) + ","
+                else -> NotionApiPostPageObj.propertyNumber(getName(), it) + ","
             }
         }
     }
@@ -102,7 +104,7 @@ object NotionApiPostPageUtil {
         return getCheckbox().let {
             when(it) {
                 null -> ""
-                else -> NotionApiPostPageObj.propertyCheckbox(name, it) + ","
+                else -> NotionApiPostPageObj.propertyCheckbox(getName(), it) + ","
             }
         }
     }
@@ -112,7 +114,7 @@ object NotionApiPostPageUtil {
         return getSelectName().let {
             when(it) {
                 null -> ""
-                else -> NotionApiPostPageObj.propertySelect(name, it, getSelectColor()) + ","  //todo 確認 colorを新規作成する場合などはどうなる？
+                else -> NotionApiPostPageObj.propertySelect(getName(), it, getSelectColor()) + ","  //todo 確認 colorを新規作成する場合などはどうなる？
             }
         }
     }
@@ -122,7 +124,7 @@ object NotionApiPostPageUtil {
         return getMultiSelectName().let {
             when(it) {
                 null -> ""
-                else -> NotionApiPostPageObj.propertyMultiSelect(name, it, getMultiSelectColor())
+                else -> NotionApiPostPageObj.propertyMultiSelect(getName(), it, getMultiSelectColor()) + ","
             }
         }
     }
@@ -132,22 +134,28 @@ object NotionApiPostPageUtil {
         return getRelationId().let {
             when(it) {
                 null -> ""
-                else -> NotionApiPostPageObj.propertyRelation(name, it)
+                else -> NotionApiPostPageObj.propertyRelation(getName(), it) + ","
             }
         }
     }
 
     private fun NotionDatabaseProperty.createPropertyStatusObject(): String {
-        return when (contents.hasSingleItem()) {
-            false -> ""
-            else -> NotionApiPostPageObj.propertyStatus(name, contents[0]) + ","
+        this as NotionDatabasePropertyStatus
+        return getStatusName().let {
+            when(it) {
+                null -> ""
+                else -> NotionApiPostPageObj.propertyStatus(getName(), it) + ","
+            }
         }
     }
 
     private fun NotionDatabaseProperty.createPropertyDateObject(): String {
-        return when (contents.hasSingleItem()) {
-            false -> ""
-            else -> NotionApiPostPageObj.propertyDate(name, contents) + ","
+        this as NotionDatabasePropertyDate
+        return getDateFrom().let {
+            when(it) {
+                null -> ""
+                else -> NotionApiPostPageObj.propertyDate(getName(), it, getDateTo()) + ","
+            }
         }
     }
 

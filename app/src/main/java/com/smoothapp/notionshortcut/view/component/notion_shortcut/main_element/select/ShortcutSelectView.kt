@@ -3,8 +3,10 @@ package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element
 import android.content.Context
 import android.util.AttributeSet
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
+import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertySelect
 
 
 class ShortcutSelectView @JvmOverloads constructor(
@@ -20,12 +22,17 @@ class ShortcutSelectView @JvmOverloads constructor(
 
     }
 
-    override fun getContents(): NotionDatabaseProperty {
-        return NotionDatabaseProperty(
-            NotionApiPropertyEnum.SELECT,
+    override fun getContents(): NotionDatabasePropertySelect {
+        var selectName: String? = null
+        var selectColor: NotionColorEnum? = null
+        if(selectedList.isNotEmpty()){
+            selectName = selectedList[0].name
+            selectColor = selectedList[0].color
+        }
+        return NotionDatabasePropertySelect(
             name,
-            selectedList.map { it.name },
-            selectedList.map { it.color.getName() } /* optional: color */
+            selectName,
+            selectColor
         )
     }
 

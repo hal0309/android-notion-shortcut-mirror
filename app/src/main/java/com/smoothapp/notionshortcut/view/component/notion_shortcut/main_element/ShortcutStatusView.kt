@@ -11,6 +11,7 @@ import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyStatus
 import com.smoothapp.notionshortcut.view.adapter.NotionSelectListAdapter
 
 class ShortcutStatusView @JvmOverloads constructor(
@@ -68,11 +69,10 @@ class ShortcutStatusView @JvmOverloads constructor(
         fun onClick(shortcutStatusView: ShortcutStatusView)
     }
 
-    override fun getContents(): NotionDatabaseProperty {
-        return NotionDatabaseProperty(
-            NotionApiPropertyEnum.STATUS,
+    override fun getContents(): NotionDatabasePropertyStatus {
+        return NotionDatabasePropertyStatus(
             name,
-            listOf(selected?.name ?: "")
+            selected?.name
         )
     }
 
