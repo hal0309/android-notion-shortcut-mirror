@@ -5,8 +5,8 @@ import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 
 class NotionDatabasePropertyRichText(
     name: String,
-    contents: List<String?>
-) : NotionDatabaseProperty(NotionApiPropertyEnum.RICH_TEXT, name, contents) {
+    richText: String?
+) : NotionDatabaseProperty(NotionApiPropertyEnum.RICH_TEXT, name, listOf(richText)) {
     fun hasContents(): Boolean{
         return contents.isNotEmpty() && !contents[0].isNullOrEmpty()
     }

@@ -4,8 +4,8 @@ import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 
 class NotionDatabasePropertyCheckbox(
     name: String,
-    contents: List<String?>
-) : NotionDatabaseProperty(NotionApiPropertyEnum.CHECKBOX, name, contents) {
+    checkbox: Boolean
+) : NotionDatabaseProperty(NotionApiPropertyEnum.CHECKBOX, name, listOf(checkbox.toString())) {
     fun hasContents(): Boolean{
         return contents.isNotEmpty() && !contents[0].isNullOrEmpty()
     }

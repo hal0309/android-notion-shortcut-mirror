@@ -8,6 +8,7 @@ import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
 import com.smoothapp.notionshortcut.databinding.ViewShortcutRootBinding
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyTitle
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutBlockInterface
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutCheckboxView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutDateView
@@ -57,8 +58,8 @@ class ShortcutRootView @JvmOverloads constructor(
     fun getBlockList() = blockList
 
 
-    fun addTitleBlock(property: NotionPostTemplate.Property) {
-        ShortcutTitleView(context, name = property.name).apply {
+    fun addTitleBlock(property: NotionDatabasePropertyTitle) {
+        ShortcutTitleView(context, name = property.getName()).apply {
             Log.e("", getContents().toString())
             blockList.add(this)
             binding.blockContainer.addView(this)
