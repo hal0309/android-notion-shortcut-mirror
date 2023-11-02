@@ -10,7 +10,7 @@ import com.smoothapp.notionshortcut.controller.util.MaterialComponentUtil
 import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
 import com.smoothapp.notionshortcut.databinding.FragmentNotionDateBinding
 
-class NotionDateFragment : Fragment() {
+class NotionDateFragment(val fromDateTime: DateTimeUtil.DateTime, val toDateTime: DateTimeUtil.DateTime) : Fragment() {
 
 
     private lateinit var binding: FragmentNotionDateBinding
@@ -23,8 +23,6 @@ class NotionDateFragment : Fragment() {
     private var isTimeEnabled = false
     private var isToDateEnabled = false
 
-    private val fromDateTime = DateTimeUtil.DateTime()
-    private val toDateTime = DateTimeUtil.DateTime()
 
 
     override fun onCreateView(
@@ -33,6 +31,8 @@ class NotionDateFragment : Fragment() {
     ): View {
         binding = FragmentNotionDateBinding.inflate(inflater, container, false)
         binding.apply {
+            setDisplayText()
+
             val commonPickerListener = createCommonPickerListener()
 
             fromDateContainer.setOnClickListener {
@@ -46,10 +46,8 @@ class NotionDateFragment : Fragment() {
                             val defaultLocalDateLong =
                                 DateTimeUtil.convertDateLongUTCToDefaultLocal(it)
                             fromDateTime.setDate(defaultLocalDateLong)
-                            fromDateText.text = DateTimeUtil.getDisplayDateString(
-                                requireContext(),
-                                defaultLocalDateLong
-                            )
+                            setDisplayText()
+
                             sendDateTime()
                         }
                     }
@@ -67,7 +65,7 @@ class NotionDateFragment : Fragment() {
                             Log.d("", "$hour $minute")
                             fromDateTime.setHour(hour)
                             fromDateTime.setMinute(minute)
-                            fromTimeText.text = DateTimeUtil.getDisplayTimeString(hour, minute)
+                            setDisplayText()
                             sendDateTime()
                         }
                     }
@@ -85,10 +83,7 @@ class NotionDateFragment : Fragment() {
                             val defaultLocalDateLong =
                                 DateTimeUtil.convertDateLongUTCToDefaultLocal(it)
                             toDateTime.setDate(defaultLocalDateLong)
-                            toDateText.text = DateTimeUtil.getDisplayDateString(
-                                requireContext(),
-                                defaultLocalDateLong
-                            )
+                            setDisplayText()
                             sendDateTime()
                         }
                     }
@@ -106,7 +101,7 @@ class NotionDateFragment : Fragment() {
                             Log.d("", "$hour $minute")
                             toDateTime.setHour(hour)
                             toDateTime.setMinute(minute)
-                            toTimeText.text = DateTimeUtil.getDisplayTimeString(hour, minute)
+                            setDisplayText()
                             sendDateTime()
                         }
                     }
@@ -129,6 +124,22 @@ class NotionDateFragment : Fragment() {
             isViewCreated = true
             initSelectList()
             return root
+        }
+    }
+
+    fun setDisplayText() {
+        binding.apply {
+            fromDateText.text = DateTimeUtil.getDisplayDateString(
+                requireContext(),
+                fromDateTime.dateLong
+            )
+            fromTimeText.text = DateTimeUtil.getDisplayTimeString(fromDateTime.hourLong, fromDateTime.minuteLong)
+
+            toDateText.text = DateTimeUtil.getDisplayDateString(
+                requireContext(),
+                toDateTime.dateLong
+            )
+            toTimeText.text = DateTimeUtil.getDisplayTimeString(toDateTime.hourLong, toDateTime.minuteLong)
         }
     }
 
@@ -189,6 +200,10 @@ class NotionDateFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = NotionDateFragment()
+        fun newInstance(fromDateTime: DateTimeUtil.DateTime?, toDateTime: DateTimeUtil.DateTime?)
+            = NotionDateFragment(
+                fromDateTime?: DateTimeUtil.DateTime(),
+                toDateTime?: DateTimeUtil.DateTime()
+            )
     }
 }

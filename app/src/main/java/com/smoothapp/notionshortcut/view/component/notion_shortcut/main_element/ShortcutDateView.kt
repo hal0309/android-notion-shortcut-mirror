@@ -33,6 +33,7 @@ class ShortcutDateView @JvmOverloads constructor(
 
         binding.apply {
             name.text = property.getName()
+            setDateTime(fromDateTime, toDateTime)
             dateContainer.setOnClickListener{
                 listener?.onClick(this@ShortcutDateView)
             }
@@ -46,6 +47,9 @@ class ShortcutDateView @JvmOverloads constructor(
         Log.d("", "from: ${fromDateTime?.convertToString()}")
         Log.d("", "to: ${toDateTime?.convertToString()}")
     }
+
+    fun getFromDateTime() = fromDateTime
+    fun getToDateTime() = toDateTime
 
 
 

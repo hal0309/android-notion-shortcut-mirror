@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import kotlin.math.min
 
 
 object DateTimeUtil {
@@ -107,7 +108,8 @@ object DateTimeUtil {
     }
 
 
-    fun convertDateTimeToString(dateTime: DateTime): String? {
+    fun convertDateTimeToString(dateTime: DateTime?): String? {
+        if(dateTime == null) return null
         val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
 //        val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
         if (dateTime.dateLong == null) return null
@@ -128,14 +130,20 @@ object DateTimeUtil {
         return dateAsDefaultLocal.time
     }
 
-    fun getDisplayDateString(context: Context, dateLong: Long): String {
-        return DateUtils.formatDateTime(context, dateLong,
-            FORMAT_SHOW_YEAR or FORMAT_SHOW_DATE
-        )
+    fun getDisplayDateString(context: Context, dateLong: Long?): String {
+        return when(dateLong){
+            null -> "undefined"
+            else -> DateUtils.formatDateTime(context, dateLong,
+                FORMAT_SHOW_YEAR or FORMAT_SHOW_DATE
+            )
+        }
     }
 
-    fun getDisplayTimeString(hour: Long, minute: Long): String {
-        return String.format("%2d:%02d", hour, minute)
+    fun getDisplayTimeString(hour: Long?, minute: Long?): String {
+        return when(hour == null || minute == null){
+            true -> "undefined"
+            else -> String.format("%2d:%02d", hour, minute)
+        }
     }
 
     fun getDisplayTimeString(hour: Int, minute: Int): String {
@@ -143,13 +151,12 @@ object DateTimeUtil {
     }
 
     fun getDisplayDateTimeToDateTimeString(fromDateTime: DateTime?, toDateTime: DateTime?): String{
-        if(fromDateTime == null){
-            return "set"
-        }
-        var result = fromDateTime.getTimeMillis().toString()
-        if(toDateTime != null){
+        val fromString = convertDateTimeToString(fromDateTime) ?: return "set"
+        val toString = convertDateTimeToString(toDateTime)
+        var result = fromString
+        if(toString != null){
             result += "→"
-            result += toDateTime.getTimeMillis().toString()
+            result += toString
         }
 
         return result
