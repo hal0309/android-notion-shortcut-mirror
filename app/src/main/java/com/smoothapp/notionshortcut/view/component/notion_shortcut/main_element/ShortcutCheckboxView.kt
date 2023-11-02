@@ -29,7 +29,7 @@ class ShortcutCheckboxView @JvmOverloads constructor(
     override fun getContents(): NotionDatabasePropertyCheckbox {
         return NotionDatabasePropertyCheckbox(
             name,
-            listOf( binding.content.isChecked.toString())
+            binding.content.isChecked
         )
     }
 

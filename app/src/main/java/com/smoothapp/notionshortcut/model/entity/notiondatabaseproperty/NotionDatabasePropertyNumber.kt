@@ -5,8 +5,8 @@ import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 
 class NotionDatabasePropertyNumber(
     name: String,
-    number: Float
-) : NotionDatabaseProperty(NotionApiPropertyEnum.NUMBER, name, listOf(number.toString())) {
+    number: String?
+) : NotionDatabaseProperty(NotionApiPropertyEnum.NUMBER, name, listOf(number)) {
     fun hasContents(): Boolean{
         return contents.isNotEmpty() && !contents[0].isNullOrEmpty()
     }
