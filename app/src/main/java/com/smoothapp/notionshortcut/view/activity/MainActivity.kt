@@ -1,5 +1,6 @@
 package com.smoothapp.notionshortcut.view.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.statusBarColor = this.getColor(R.color.transparent)
+
+        startActivity(Intent(this, ShortcutActivity::class.java))
 
         binding.apply {
 

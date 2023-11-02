@@ -58,17 +58,6 @@ object NotionApiPostPageUtil {
         return propertyString
     }
 
-    private fun List<String?>?.hasSingleItem(): Boolean {
-        return when (this) {
-            null -> false
-            else -> isNotEmpty() && !get(0).isNullOrEmpty()
-        }
-    }
-
-    private fun isSameSize(contents: List<String>, option: List<String?>): Boolean {
-        return contents.size == option.size
-    }
-
     private fun NotionDatabaseProperty.createPropertyTitleObject(): String {
         this as NotionDatabasePropertyTitle
         return getTitle().let {

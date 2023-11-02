@@ -46,6 +46,10 @@ object DateTimeUtil {
             }
             return timeMillis
         }
+
+        fun convertToString(): String? {
+            return convertDateTimeToString(this)
+        }
     }
 
 

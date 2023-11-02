@@ -12,7 +12,7 @@ class NotionDatabasePropertyMultiSelect(
     init {
         val size = multiSelectName.size
         if(size == multiSelectColor.size){
-            val contents: MutableList<String?> = MutableList(size){null}
+            val contents: MutableList<String?> = MutableList(size* SET_SIZE){null}
             for(i in 0 until size){
                 contents[i* SET_SIZE + NAME_INDEX] = multiSelectName[i]
                 contents[i* SET_SIZE + COLOR_INDEX] = multiSelectColor?.get(i)

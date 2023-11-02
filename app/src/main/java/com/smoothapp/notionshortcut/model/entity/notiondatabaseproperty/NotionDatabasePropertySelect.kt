@@ -10,7 +10,9 @@ class NotionDatabasePropertySelect(
 ) : NotionDatabaseProperty(NotionApiPropertyEnum.SELECT, name, listOf()) {
 
     init {
-        val contents = listOf(selectName, selectColor?.getName())
+        val contents: MutableList<String?> = MutableList(SET_SIZE){null}
+        contents[NAME_INDEX] = selectName
+        contents[COLOR_INDEX] = selectColor?.getName()
         setPropertyContents(contents)
     }
 

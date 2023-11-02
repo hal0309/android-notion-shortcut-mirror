@@ -9,7 +9,7 @@ class NotionDatabasePropertyRelation(
 
     init {
         val size = relationId.size
-        val contents: MutableList<String?> = MutableList(size){null}
+        val contents: MutableList<String?> = MutableList(size* SET_SIZE){null}
         for(i in 0 until size){
             contents[i* SET_SIZE + ID_INDEX] = relationId[i]
         }
@@ -32,8 +32,8 @@ class NotionDatabasePropertyRelation(
         return when(hasContents()){
             false -> null
             true -> {
-                val contentsName = contents.filterIndexed { index, _ ->  index % SET_SIZE == ID_INDEX}
-                contentsName as List<String>
+                val contentsId = contents.filterIndexed { index, _ ->  index % SET_SIZE == ID_INDEX}
+                contentsId as List<String>
             }
         }
     }
