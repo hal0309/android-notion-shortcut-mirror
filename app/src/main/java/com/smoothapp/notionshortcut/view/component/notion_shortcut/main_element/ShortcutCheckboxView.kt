@@ -10,7 +10,7 @@ import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDa
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyCheckbox
 
 class ShortcutCheckboxView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = ""
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabasePropertyCheckbox
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
     private lateinit var binding: ViewShortcutCheckboxBinding
@@ -22,13 +22,14 @@ class ShortcutCheckboxView @JvmOverloads constructor(
         inflate(context, R.layout.view_shortcut_checkbox, this)
         binding = ViewShortcutCheckboxBinding.bind(this)
         binding.apply {
-            this.name.text = this@ShortcutCheckboxView.name
+            name.text = property.getName()
+            content.isChecked = property.getCheckbox().toBoolean() //todo: Stringへの変換は挟まない方が良い..?
         }
     }
 
     override fun getContents(): NotionDatabasePropertyCheckbox {
         return NotionDatabasePropertyCheckbox(
-            name,
+            property.getName(),
             binding.content.isChecked
         )
     }

@@ -10,7 +10,7 @@ import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDa
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyNumber
 
 class ShortcutNumberView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = ""
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabasePropertyNumber
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
     private lateinit var binding: ViewShortcutNumberBinding
@@ -22,13 +22,14 @@ class ShortcutNumberView @JvmOverloads constructor(
         inflate(context, R.layout.view_shortcut_number, this)
         binding = ViewShortcutNumberBinding.bind(this)
         binding.apply {
-            name.text = this@ShortcutNumberView.name
+            name.text = property.getName()
+            content.setText(property.getNumber())
         }
     }
 
     override fun getContents(): NotionDatabasePropertyNumber {
         return NotionDatabasePropertyNumber(
-            name,
+            property.getName(),
             binding.content.text.toString()
         )
     }

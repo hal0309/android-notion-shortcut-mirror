@@ -1,15 +1,18 @@
 package com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty
 
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
+import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 
 class NotionDatabasePropertyStatus(
     name: String,
-    statusName: String?
+    statusName: String?,
+    statusColor: NotionColorEnum?
 ) : NotionDatabaseProperty(NotionApiPropertyEnum.STATUS, name, listOf()) {
 
     init {
         val contents: MutableList<String?> = MutableList(SET_SIZE){null}
         contents[NAME_INDEX] = statusName
+        contents[COLOR_INDEX] = statusColor?.getName()
         setPropertyContents(contents)
     }
 

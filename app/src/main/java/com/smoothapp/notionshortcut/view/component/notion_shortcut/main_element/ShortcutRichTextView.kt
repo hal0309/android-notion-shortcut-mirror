@@ -10,7 +10,7 @@ import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDa
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyRichText
 
 class ShortcutRichTextView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = ""
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabasePropertyRichText
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
     private lateinit var binding: ViewShortcutRichTextBinding
@@ -22,13 +22,14 @@ class ShortcutRichTextView @JvmOverloads constructor(
         inflate(context, R.layout.view_shortcut_rich_text, this)
         binding = ViewShortcutRichTextBinding.bind(this)
         binding.apply {
-            content.hint = name
+            content.hint = property.getName()
+            content.setText(property.getRichText())
         }
     }
 
     override fun getContents(): NotionDatabasePropertyRichText {
         return NotionDatabasePropertyRichText(
-            name,
+            property.getName(),
             binding.content.text.toString()
         )
     }

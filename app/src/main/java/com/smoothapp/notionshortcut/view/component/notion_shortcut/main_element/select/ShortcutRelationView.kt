@@ -9,9 +9,9 @@ import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDa
 
 
 class ShortcutRelationView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, name: String = "",
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, property: NotionDatabasePropertyRelation,
     selectedList: List<NotionPostTemplate.Select>? = null, listener: Listener? = null
-) : BaseShortcutSelectView(context, attrs, defStyleAttr, name, selectedList, listener) {
+) : BaseShortcutSelectView(context, attrs, defStyleAttr, property, selectedList, listener) {
 
     init {
         init()
@@ -23,7 +23,7 @@ class ShortcutRelationView @JvmOverloads constructor(
 
     override fun getContents(): NotionDatabasePropertyRelation {
         return NotionDatabasePropertyRelation(
-            name,
+            property.getName(),
             selectedList.map { it.id?: "" } // todo: null safe
         )
     }

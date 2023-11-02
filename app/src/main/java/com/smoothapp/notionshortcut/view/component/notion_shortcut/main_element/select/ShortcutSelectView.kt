@@ -10,9 +10,9 @@ import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDa
 
 
 class ShortcutSelectView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, name: String = "",
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, property: NotionDatabasePropertySelect,
     selectedList: List<NotionPostTemplate.Select>? = null, listener: Listener? = null
-) : BaseShortcutSelectView(context, attrs, defStyleAttr, name, selectedList, listener) {
+) : BaseShortcutSelectView(context, attrs, defStyleAttr, property, selectedList, listener) {
 
     init {
         init()
@@ -30,7 +30,7 @@ class ShortcutSelectView @JvmOverloads constructor(
             selectColor = selectedList[0].color
         }
         return NotionDatabasePropertySelect(
-            name,
+            property.getName(),
             selectName,
             selectColor
         )

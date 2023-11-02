@@ -2,10 +2,11 @@ package com.smoothapp.notionshortcut.model.entity
 
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 
 class NotionPostTemplate(
     val templateType: TemplateType,
-    val propertyList: List<Property>
+    val propertyList: List<NotionDatabaseProperty>
 ){
     enum class TemplateType{
         PAGE,

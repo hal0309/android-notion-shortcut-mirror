@@ -10,7 +10,7 @@ import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDa
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyTitle
 
 class ShortcutTitleView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = ""
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabasePropertyTitle, // todo: propertyにデフォルト値を設定していないからlayoutから呼び出したら終わる?
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
     private lateinit var binding: ViewShortcutTitleBinding
@@ -22,13 +22,14 @@ class ShortcutTitleView @JvmOverloads constructor(
         inflate(context, R.layout.view_shortcut_title, this)
         binding = ViewShortcutTitleBinding.bind(this)
         binding.apply {
-            content.hint = name
+            content.hint = property.getName()
+            content.setText(property.getTitle())
         }
     }
 
     override fun getContents(): NotionDatabasePropertyTitle {
         return NotionDatabasePropertyTitle(
-            name,
+            property.getName(),
             binding.content.text.toString()
         )
     }

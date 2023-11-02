@@ -10,9 +10,9 @@ import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDa
 
 
 class ShortcutMultiSelectView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, name: String = "",
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, property: NotionDatabasePropertyMultiSelect,
     selectedList: List<NotionPostTemplate.Select>? = null, listener: Listener? = null
-) : BaseShortcutSelectView(context, attrs, defStyleAttr, name, selectedList, listener) {
+) : BaseShortcutSelectView(context, attrs, defStyleAttr, property, selectedList, listener) {
 
     init {
         init()
@@ -24,7 +24,7 @@ class ShortcutMultiSelectView @JvmOverloads constructor(
 
     override fun getContents(): NotionDatabasePropertyMultiSelect {
         return NotionDatabasePropertyMultiSelect(
-            name,
+            property.getName(),
             selectedList.map { it.name },
             selectedList.map { it.color.getName() } /* optional: color */
         )

@@ -12,7 +12,7 @@ import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDa
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyDate
 
 class ShortcutDateView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = "",
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabasePropertyDate,
     val listener: Listener? = null
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
@@ -27,8 +27,12 @@ class ShortcutDateView @JvmOverloads constructor(
     private fun init() {
         inflate(context, R.layout.view_shortcut_date, this)
         binding = ViewShortcutDateBinding.bind(this)
+
+        fromDateTime = DateTimeUtil.convertStringToDateTime(property.getDateFrom())
+        toDateTime = DateTimeUtil.convertStringToDateTime(property.getDateTo())
+
         binding.apply {
-            this.name.text = this@ShortcutDateView.name
+            name.text = property.getName()
             dateContainer.setOnClickListener{
                 listener?.onClick(this@ShortcutDateView)
             }
@@ -47,7 +51,7 @@ class ShortcutDateView @JvmOverloads constructor(
 
     override fun getContents(): NotionDatabasePropertyDate {
         return NotionDatabasePropertyDate(
-            name,
+            property.getName(),
             fromDateTime?.convertToString(),
             toDateTime?.convertToString()
         )
