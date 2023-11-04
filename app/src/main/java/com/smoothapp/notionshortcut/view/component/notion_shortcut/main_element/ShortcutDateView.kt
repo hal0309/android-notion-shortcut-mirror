@@ -43,7 +43,7 @@ class ShortcutDateView @JvmOverloads constructor(
     fun setDateTime(fromDateTime: DateTimeUtil.DateTime?, toDateTime: DateTimeUtil.DateTime?){
         this.fromDateTime = fromDateTime
         this.toDateTime = toDateTime
-        binding.dateText.text = DateTimeUtil.getDisplayDateTimeToDateTimeString(fromDateTime, toDateTime)
+//        binding.dateText.text = DateTimeUtil.getDisplayDateTimeToDateTimeString(fromDateTime, toDateTime)
         Log.d("", "from: ${fromDateTime?.convertToString()}")
         Log.d("", "to: ${toDateTime?.convertToString()}")
     }
