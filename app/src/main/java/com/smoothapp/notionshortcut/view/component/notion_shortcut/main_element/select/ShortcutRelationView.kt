@@ -2,8 +2,7 @@ package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element
 
 import android.content.Context
 import android.util.AttributeSet
-import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
-import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyRelation
 
@@ -21,10 +20,33 @@ class ShortcutRelationView @JvmOverloads constructor(
 
     }
 
+    override fun getSelected(): List<NotionPostTemplate.Select> {
+        property as NotionDatabasePropertyRelation
+        val idList = property.getRelationId()
+        val nameList = property.getRelationName()
+
+        val selectedList = mutableListOf<NotionPostTemplate.Select>()
+        for(i in idList.indices){
+            selectedList.add(NotionPostTemplate.Select(
+                    nameList[i]?: "", NotionColorEnum.DEFAULT, idList[i]
+            ))
+        }
+        return selectedList
+    }
+
+    override fun setSelected(selectedList: List<NotionPostTemplate.Select>) {
+        property as NotionDatabasePropertyRelation
+        val idList = selectedList.map { it.id?: "" } // todo: nameからidをsearchする処理
+        val nameList = selectedList.map { it.name } // todo: nameからidをsearchする処理
+        property.updateContents(idList, nameList)
+        applySelected()
+    }
+
     override fun getContents(): NotionDatabasePropertyRelation {
         return NotionDatabasePropertyRelation(
             property.getName(),
-            selectedList.map { it.id?: "" } // todo: null safe
+            getSelected().map { it.id?: "" }, // todo: null safe
+            getSelected().map { it.name}, // todo: null safe
         )
     }
 

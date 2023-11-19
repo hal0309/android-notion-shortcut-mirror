@@ -83,11 +83,11 @@ class ShortcutActivity : AppCompatActivity() {
                             NotionDatabasePropertyRichText("テキスト 1", "リッチテキストプリセット"),
                             NotionDatabasePropertyNumber("数値bar", "2.3"),
                             NotionDatabasePropertyCheckbox("チェックボックス", true),
-                            NotionDatabasePropertySelect("セレクト", null, null),
-                            NotionDatabasePropertyMultiSelect("タグ", listOf(), listOf()),
-                            NotionDatabasePropertyRelation("hoge", listOf()),
+                            NotionDatabasePropertySelect("セレクト", "orange", NotionColorEnum.ORANGE),
+                            NotionDatabasePropertyMultiSelect("タグ", listOf("orange", "blue"), listOf(NotionColorEnum.ORANGE, NotionColorEnum.BLUE)),
+                            NotionDatabasePropertyRelation("hoge", listOf("c12b6304652a443292ea47b73bee7b84"), listOf("リレーション確認1")),
                             NotionDatabasePropertyStatus("ステータス", null, null),
-                            NotionDatabasePropertyDate("日付", formatD, formatD )
+                            NotionDatabasePropertyDate("日付", formatD, formatD)
 
                         )
 //                        listOf(

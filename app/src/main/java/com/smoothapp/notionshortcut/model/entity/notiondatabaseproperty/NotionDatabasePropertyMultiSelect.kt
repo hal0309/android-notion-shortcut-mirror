@@ -1,16 +1,19 @@
 package com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty
 
-import android.util.Log
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 
 class NotionDatabasePropertyMultiSelect(
     name: String,
-    multiSelectName: List<String>,
-    multiSelectColor: List<NotionColorEnum?>
+    private var multiSelectName: List<String>,
+    private var multiSelectColor: List<NotionColorEnum?>
 ) : NotionDatabaseProperty(NotionApiPropertyEnum.MULTI_SELECT, name, listOf()) {
 
     init {
+        updateParentContents()
+    }
+
+    private fun updateParentContents() {
         val size = multiSelectName.size
         if(size == multiSelectColor.size){
             val contents: MutableList<String?> = MutableList(size* SET_SIZE){null}
@@ -21,6 +24,14 @@ class NotionDatabasePropertyMultiSelect(
             setPropertyContents(contents)
         }
     }
+
+    fun updateContents(multiSelectName: List<String>, multiSelectColor: List<NotionColorEnum?>){
+        this.multiSelectName = multiSelectName
+        this.multiSelectColor = multiSelectColor
+        updateParentContents()
+    }
+
+
 
     private fun hasContents(): Boolean{
         val size = contents.size
@@ -33,23 +44,26 @@ class NotionDatabasePropertyMultiSelect(
         return true
     }
 
+    fun getMultiSelectName(): List<String> = multiSelectName
 
-    fun getMultiSelectName(): List<String>?{
-        return when(hasContents()){
-            false -> null
-            true -> {
-                val contentsName = contents.filterIndexed { index, _ ->  index % SET_SIZE == NAME_INDEX}
-                contentsName as List<String>
-            }
-        }
-    }
 
-    fun getMultiSelectColor(): List<String?>?{
-        return when(hasContents()){
-            false -> null
-            true -> contents.filterIndexed { index, _ ->  index % SET_SIZE == COLOR_INDEX}
-        }
-    }
+//    fun getMultiSelectName(): List<String>?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> {
+//                val contentsName = contents.filterIndexed { index, _ ->  index % SET_SIZE == NAME_INDEX}
+//                contentsName as List<String>
+//            }
+//        }
+//    }
+    fun getMultiSelectColor(): List<NotionColorEnum?> = multiSelectColor
+
+//    fun getMultiSelectColor(): List<String?>?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents.filterIndexed { index, _ ->  index % SET_SIZE == COLOR_INDEX}
+//        }
+//    }
 
     fun getMultiSelectId(): List<String?>?{
         return when(hasContents()){

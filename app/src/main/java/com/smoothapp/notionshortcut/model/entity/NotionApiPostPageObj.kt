@@ -55,21 +55,21 @@ object NotionApiPostPageObj {
 
 
 
-    fun propertySelect(name: String, selectName: String, color: String?): String{
+    fun propertySelect(name: String, selectName: String, color: NotionColorEnum?): String{
         var result = """
             "$name": {
                 "select": {
                     "name": "$selectName"
         """
         if(color != null){
-            result += """ ,"color": "$color"  """
+            result += """ ,"color": "${color.getName()}"  """
         }
         result += "}}"
 
         return result.trimIndent()
     }
 
-    fun propertyMultiSelect(name: String, selectNameList: List<String>, colorList: List<String?>?): String{
+    fun propertyMultiSelect(name: String, selectNameList: List<String>, colorList: List<NotionColorEnum?>?): String{
         var result = """
             "$name": {
                 "multi_select": [
@@ -81,8 +81,12 @@ object NotionApiPostPageObj {
                 {
                     "name": "$selectName"
             """
+
             if(colorList != null){
-                result += """ ,"color": "${colorList[i]}" """
+                val color = colorList[i]
+                if(color != null) {
+                    result += """ ,"color": "${color.getName()}" """
+                }
             }
             result += "},"
         }

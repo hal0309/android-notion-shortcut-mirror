@@ -2,11 +2,9 @@ package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element
 
 import android.content.Context
 import android.util.AttributeSet
-import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
-import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyMultiSelect
-import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertySelect
 
 
 class ShortcutMultiSelectView @JvmOverloads constructor(
@@ -22,11 +20,39 @@ class ShortcutMultiSelectView @JvmOverloads constructor(
 
     }
 
+    override fun getSelected(): List<NotionPostTemplate.Select> {
+        property as NotionDatabasePropertyMultiSelect
+        val nameList = property.getMultiSelectName()
+        val colorList = property.getMultiSelectColor()
+
+        val selectedList = mutableListOf<NotionPostTemplate.Select>()
+        for(i in nameList.indices){
+            selectedList.add(
+                NotionPostTemplate.Select(
+                nameList[i], colorList[i]?: NotionColorEnum.DEFAULT
+            ))
+        }
+        return selectedList
+    }
+
+    override fun setSelected(selectedList: List<NotionPostTemplate.Select>) {
+        property as NotionDatabasePropertyMultiSelect
+        val nameList = mutableListOf<String>()
+        val colorList = mutableListOf<NotionColorEnum>()
+
+        for(selected in selectedList){
+            nameList.add(selected.name)
+            colorList.add(selected.color)
+        }
+        property.updateContents(nameList, colorList)
+        applySelected()
+    }
+
     override fun getContents(): NotionDatabasePropertyMultiSelect {
         return NotionDatabasePropertyMultiSelect(
             property.getName(),
-            selectedList.map { it.name },
-            selectedList.map { it.color } /* optional: color */
+            getSelected().map { it.name },
+            getSelected().map { it.color } /* optional: color */
         )
     }
 
