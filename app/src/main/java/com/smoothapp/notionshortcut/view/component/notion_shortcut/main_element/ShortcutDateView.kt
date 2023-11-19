@@ -8,10 +8,11 @@ import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
 import com.smoothapp.notionshortcut.databinding.ViewShortcutDateBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
-import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyDate
 
 class ShortcutDateView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = "",
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabasePropertyDate,
     val listener: Listener? = null
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
@@ -26,8 +27,13 @@ class ShortcutDateView @JvmOverloads constructor(
     private fun init() {
         inflate(context, R.layout.view_shortcut_date, this)
         binding = ViewShortcutDateBinding.bind(this)
+
+        fromDateTime = DateTimeUtil.convertStringToDateTime(property.getDateFrom())
+        toDateTime = DateTimeUtil.convertStringToDateTime(property.getDateTo())
+
         binding.apply {
-            this.name.text = this@ShortcutDateView.name
+            name.text = property.getName()
+            setDateTime(fromDateTime, toDateTime)
             dateContainer.setOnClickListener{
                 listener?.onClick(this@ShortcutDateView)
             }
@@ -37,29 +43,21 @@ class ShortcutDateView @JvmOverloads constructor(
     fun setDateTime(fromDateTime: DateTimeUtil.DateTime?, toDateTime: DateTimeUtil.DateTime?){
         this.fromDateTime = fromDateTime
         this.toDateTime = toDateTime
-        binding.dateText.text = DateTimeUtil.getDisplayDateTimeToDateTimeString(fromDateTime, toDateTime)
-        Log.d("", "from: ${DateTimeUtil.convertDateTimeToString(fromDateTime?: DateTimeUtil.DateTime())}")
-        Log.d("", "to: ${DateTimeUtil.convertDateTimeToString(toDateTime?: DateTimeUtil.DateTime())}")
+//        binding.dateText.text = DateTimeUtil.getDisplayDateTimeToDateTimeString(fromDateTime, toDateTime)
+        Log.d("", "from: ${fromDateTime?.convertToString()}")
+        Log.d("", "to: ${toDateTime?.convertToString()}")
     }
 
+    fun getFromDateTime() = fromDateTime
+    fun getToDateTime() = toDateTime
 
 
-    override fun getContents(): NotionDatabaseProperty{
-        val propertyList = mutableListOf<String>()
-        if(fromDateTime != null){
-            DateTimeUtil.convertDateTimeToString(fromDateTime!!).let{
-                propertyList.add(it?: "")
-            }
-        }
-        if(toDateTime != null){
-            DateTimeUtil.convertDateTimeToString(toDateTime!!)?.let {
-                propertyList.add(it)
-            }
-        }
-        return NotionDatabaseProperty(
-            NotionApiPropertyEnum.DATE,
-            name,
-            propertyList
+
+    override fun getContents(): NotionDatabasePropertyDate {
+        return NotionDatabasePropertyDate(
+            property.getName(),
+            fromDateTime?.convertToString(),
+            toDateTime?.convertToString()
         )
     }
 

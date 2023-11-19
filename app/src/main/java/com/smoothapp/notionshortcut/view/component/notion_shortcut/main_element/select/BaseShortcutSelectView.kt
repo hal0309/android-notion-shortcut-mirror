@@ -9,11 +9,12 @@ import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.databinding.ViewShortcutBaseSelectBinding
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.view.adapter.NotionSelectListAdapter
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutBlockInterface
 
 abstract class BaseShortcutSelectView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = "",
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabaseProperty,
     selectedList: List<NotionPostTemplate.Select>? = null, val listener: Listener? = null
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
@@ -35,7 +36,7 @@ abstract class BaseShortcutSelectView @JvmOverloads constructor(
         inflate(context, R.layout.view_shortcut_base_select, this)
         binding = ViewShortcutBaseSelectBinding.bind(this)
         binding.apply {
-            this.name.text = this@BaseShortcutSelectView.name
+            this.name.text = property.getName()
 
             selectedListAdapter = NotionSelectListAdapter(object : NotionSelectListAdapter.Listener{
                 override fun onClickItem(select: NotionPostTemplate.Select) {

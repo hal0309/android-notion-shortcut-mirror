@@ -3,14 +3,15 @@ package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element
 import android.content.Context
 import android.util.AttributeSet
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
-import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyRelation
 
 
 class ShortcutRelationView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, name: String = "",
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, property: NotionDatabasePropertyRelation,
     selectedList: List<NotionPostTemplate.Select>? = null, listener: Listener? = null
-) : BaseShortcutSelectView(context, attrs, defStyleAttr, name, selectedList, listener) {
+) : BaseShortcutSelectView(context, attrs, defStyleAttr, property, selectedList, listener) {
 
     init {
         init()
@@ -20,10 +21,9 @@ class ShortcutRelationView @JvmOverloads constructor(
 
     }
 
-    override fun getContents(): NotionDatabaseProperty {
-        return NotionDatabaseProperty(
-            NotionApiPropertyEnum.RELATION,
-            name,
+    override fun getContents(): NotionDatabasePropertyRelation {
+        return NotionDatabasePropertyRelation(
+            property.getName(),
             selectedList.map { it.id?: "" } // todo: null safe
         )
     }

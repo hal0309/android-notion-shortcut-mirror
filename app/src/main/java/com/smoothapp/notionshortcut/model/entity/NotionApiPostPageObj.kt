@@ -124,17 +124,17 @@ object NotionApiPostPageObj {
     }
 
 
-    fun propertyDate(name: String, startEndList: List<String>): String{
+    fun propertyDate(name: String, fromDate: String, toDate: String?): String{
         var result = """
             "$name": {
                 "date": {
-                    "start": "${startEndList[0]}"
+                    "start": "$fromDate"
         """
 
-        if(startEndList.size == 2){
+        if(toDate != null){
             result += """
                     ,
-                    "end": "${startEndList[1]}"
+                    "end": "$toDate"
             """
         }
 

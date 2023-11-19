@@ -2,16 +2,17 @@ package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
-import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyMultiSelect
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertySelect
 
 
 class ShortcutMultiSelectView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, name: String = "",
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, property: NotionDatabasePropertyMultiSelect,
     selectedList: List<NotionPostTemplate.Select>? = null, listener: Listener? = null
-) : BaseShortcutSelectView(context, attrs, defStyleAttr, name, selectedList, listener) {
+) : BaseShortcutSelectView(context, attrs, defStyleAttr, property, selectedList, listener) {
 
     init {
         init()
@@ -21,12 +22,11 @@ class ShortcutMultiSelectView @JvmOverloads constructor(
 
     }
 
-    override fun getContents(): NotionDatabaseProperty {
-        return NotionDatabaseProperty(
-            NotionApiPropertyEnum.MULTI_SELECT,
-            name,
+    override fun getContents(): NotionDatabasePropertyMultiSelect {
+        return NotionDatabasePropertyMultiSelect(
+            property.getName(),
             selectedList.map { it.name },
-            selectedList.map { it.color.getName() } /* optional: color */
+            selectedList.map { it.color } /* optional: color */
         )
     }
 

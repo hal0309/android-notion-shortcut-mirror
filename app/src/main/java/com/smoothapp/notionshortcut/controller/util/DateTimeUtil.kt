@@ -3,12 +3,14 @@ package com.smoothapp.notionshortcut.controller.util
 import android.content.Context
 import android.text.format.DateUtils
 import android.text.format.DateUtils.FORMAT_SHOW_DATE
-import android.text.format.DateUtils.FORMAT_SHOW_WEEKDAY
 import android.text.format.DateUtils.FORMAT_SHOW_YEAR
+import android.util.Log
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import kotlin.math.min
 
 
 object DateTimeUtil {
@@ -46,10 +48,68 @@ object DateTimeUtil {
             }
             return timeMillis
         }
+
+        fun convertToString(): String? {
+            return convertDateTimeToString(this)
+        }
+    }
+
+    fun convertStringToDateTime(string: String?): DateTime? {
+        if(string == null) return null
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
+        var date: Date? = null
+        try {
+            date = sdf.parse(string)
+        } catch (e: ParseException) {
+            Log.e("parse", e.message.toString())
+        }
+        return when(date){
+            null -> null
+            else -> {
+                val dateLong = getOnlyDate(date) ?: return null
+                val hourLong = getOnlyHour(date)
+                val minuteLong = getOnlyMinute(date)
+
+
+
+                Log.d("", "dayLong ${getOnlyDate(date)}")
+                Log.d("", "hourLong ${getOnlyHour(date)}")
+                Log.d("", "minuteLong ${getOnlyMinute(date)}")
+                DateTime(dateLong, hourLong, minuteLong)
+            }
+        }
+    }
+
+    fun getOnlyDate(date: Date): Long?{
+        val sdf = SimpleDateFormat("yyyy-MM-ddXXX", Locale.getDefault())
+        val dateString =sdf.format(date)
+        Log.d("", "date: $dateString")
+        var dayLong: Long? = null
+        try {
+            dayLong = sdf.parse(dateString).time
+        } catch (e: ParseException){
+            Log.e("parse", e.message.toString())
+        }
+        return dayLong
+    }
+
+    fun getOnlyHour(date: Date): Long{
+        val sdf = SimpleDateFormat("HH", Locale.getDefault())
+        val hourString =sdf.format(date)
+        Log.d("", "hour: $hourString")
+        return hourString.toLong()
+    }
+
+    fun getOnlyMinute(date: Date): Long{
+        val sdf = SimpleDateFormat("mm", Locale.getDefault())
+        val minuteString =sdf.format(date)
+        Log.d("", "minute: $minuteString")
+        return minuteString.toLong()
     }
 
 
-    fun convertDateTimeToString(dateTime: DateTime): String? {
+    fun convertDateTimeToString(dateTime: DateTime?): String? {
+        if(dateTime == null) return null
         val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
 //        val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
         if (dateTime.dateLong == null) return null
@@ -70,14 +130,20 @@ object DateTimeUtil {
         return dateAsDefaultLocal.time
     }
 
-    fun getDisplayDateString(context: Context, dateLong: Long): String {
-        return DateUtils.formatDateTime(context, dateLong,
-            FORMAT_SHOW_YEAR or FORMAT_SHOW_DATE
-        )
+    fun getDisplayDateString(context: Context, dateLong: Long?): String {
+        return when(dateLong){
+            null -> "undefined"
+            else -> DateUtils.formatDateTime(context, dateLong,
+                FORMAT_SHOW_YEAR or FORMAT_SHOW_DATE
+            )
+        }
     }
 
-    fun getDisplayTimeString(hour: Long, minute: Long): String {
-        return String.format("%2d:%02d", hour, minute)
+    fun getDisplayTimeString(hour: Long?, minute: Long?): String {
+        return when(hour == null || minute == null){
+            true -> "undefined"
+            else -> String.format("%2d:%02d", hour, minute)
+        }
     }
 
     fun getDisplayTimeString(hour: Int, minute: Int): String {
@@ -85,13 +151,12 @@ object DateTimeUtil {
     }
 
     fun getDisplayDateTimeToDateTimeString(fromDateTime: DateTime?, toDateTime: DateTime?): String{
-        if(fromDateTime == null){
-            return "set"
-        }
-        var result = fromDateTime.getTimeMillis().toString()
-        if(toDateTime != null){
+        val fromString = convertDateTimeToString(fromDateTime) ?: return "set"
+        val toString = convertDateTimeToString(toDateTime)
+        var result = fromString
+        if(toString != null){
             result += "→"
-            result += toDateTime.getTimeMillis().toString()
+            result += toString
         }
 
         return result

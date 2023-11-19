@@ -9,12 +9,13 @@ import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.databinding.ViewShortcutBaseSelectBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
-import com.smoothapp.notionshortcut.model.entity.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyStatus
 import com.smoothapp.notionshortcut.view.adapter.NotionSelectListAdapter
 
 class ShortcutStatusView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val name: String = "",
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabasePropertyStatus,
     private var selected: NotionPostTemplate.Select? = null, val listener: Listener? = null
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
@@ -31,7 +32,7 @@ class ShortcutStatusView @JvmOverloads constructor(
         inflate(context, R.layout.view_shortcut_base_select, this)
         binding = ViewShortcutBaseSelectBinding.bind(this)
         binding.apply {
-            this.name.text = this@ShortcutStatusView.name
+            name.text = property.getName()
 
             selectedListAdapter =
                 NotionSelectListAdapter(object : NotionSelectListAdapter.Listener {
@@ -68,11 +69,11 @@ class ShortcutStatusView @JvmOverloads constructor(
         fun onClick(shortcutStatusView: ShortcutStatusView)
     }
 
-    override fun getContents(): NotionDatabaseProperty {
-        return NotionDatabaseProperty(
-            NotionApiPropertyEnum.STATUS,
-            name,
-            listOf(selected?.name ?: "")
+    override fun getContents(): NotionDatabasePropertyStatus {
+        return NotionDatabasePropertyStatus(
+            property.getName(),
+            selected?.name,
+            selected?.color
         )
     }
 

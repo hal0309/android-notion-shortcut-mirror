@@ -11,6 +11,16 @@ import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyStatusEnum
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyCheckbox
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyDate
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyMultiSelect
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyNumber
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyRelation
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyRichText
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertySelect
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyStatus
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyTitle
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.ShortcutRootView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutDateView
 import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutStatusView
@@ -23,6 +33,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.internal.format
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -61,20 +72,32 @@ class ShortcutActivity : AppCompatActivity() {
             }
 
             shortcutRoot.apply{
+                val d = Date()
+                val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
+                val formatD = sf.format(d)
                 setTemplate(
                     NotionPostTemplate(
                         NotionPostTemplate.TemplateType.DATABASE,
                         listOf(
-                            NotionPostTemplate.Property(NotionApiPropertyEnum.TITLE, "名前"),
-                            NotionPostTemplate.Property(NotionApiPropertyEnum.RICH_TEXT, "テキスト 1"),
-                            NotionPostTemplate.Property(NotionApiPropertyEnum.NUMBER, "数値bar"),
-                            NotionPostTemplate.Property(NotionApiPropertyEnum.CHECKBOX, "チェックボックス"),
-                            NotionPostTemplate.Property(NotionApiPropertyEnum.SELECT, "セレクト"),
-                            NotionPostTemplate.Property(NotionApiPropertyEnum.MULTI_SELECT, "タグ"),
-                            NotionPostTemplate.Property(NotionApiPropertyEnum.RELATION, "hoge"),
-                            NotionPostTemplate.Property(NotionApiPropertyEnum.STATUS, "ステータス"),
-                            NotionPostTemplate.Property(NotionApiPropertyEnum.DATE, "日付")
+                            NotionDatabasePropertyTitle("名前", "タイトルプリセット"),
+                            NotionDatabasePropertyRichText("テキスト 1", "リッチテキストプリセット"),
+                            NotionDatabasePropertyNumber("数値bar", "2.3"),
+                            NotionDatabasePropertyCheckbox("チェックボックス", true),
+                            NotionDatabasePropertySelect("セレクト", null, null),
+                            NotionDatabasePropertyMultiSelect("タグ", listOf(), listOf()),
+                            NotionDatabasePropertyRelation("hoge", listOf()),
+                            NotionDatabasePropertyStatus("ステータス", null, null),
+                            NotionDatabasePropertyDate("日付", formatD, formatD )
+
                         )
+//                        listOf(
+//                            NotionDatabasePropertyTitle("",null),
+//                            NotionDatabasePropertyMultiSelect("重要度", listOf("リモート", "副業"), listOf(NotionColorEnum.BLUE, NotionColorEnum.PURPLE)),
+//                            NotionDatabasePropertyMultiSelect("タグ", listOf("リモート", "副業"), listOf(NotionColorEnum.BLUE, NotionColorEnum.PURPLE)),
+//                            NotionDatabasePropertyStatus("ステータス", null, null),
+//                            NotionDatabasePropertyRichText("備考", null)
+//
+//                        )
                     )
                 )
                 setListener(object : ShortcutRootView.Listener{
@@ -85,7 +108,7 @@ class ShortcutActivity : AppCompatActivity() {
                             val contents = b.getContents()
                             Log.d(
                                 "",
-                                "${contents.type} ${contents.name} ${contents.contents}"
+                                "${contents.getType()} ${contents.getName()} ${contents.getPropertyContents()}"
                             )
                         }
                         MainScope().launch {
@@ -105,38 +128,38 @@ class ShortcutActivity : AppCompatActivity() {
 
     private fun ShortcutRootView.setTemplate(template: NotionPostTemplate) {
         for (property in template.propertyList) {
-            when (property.type) {
-                NotionApiPropertyEnum.TITLE -> addTitleBlock(property)
-                NotionApiPropertyEnum.RICH_TEXT -> addRichTextBlock(property)
-                NotionApiPropertyEnum.NUMBER -> addNumberBlock(property)
-                NotionApiPropertyEnum.CHECKBOX -> addCheckboxBlock(property)
+            when (property.getType()) {
+                NotionApiPropertyEnum.TITLE -> addTitleBlock(property as NotionDatabasePropertyTitle)
+                NotionApiPropertyEnum.RICH_TEXT -> addRichTextBlock(property as NotionDatabasePropertyRichText)
+                NotionApiPropertyEnum.NUMBER -> addNumberBlock(property as NotionDatabasePropertyNumber)
+                NotionApiPropertyEnum.CHECKBOX -> addCheckboxBlock(property as NotionDatabasePropertyCheckbox)
                 NotionApiPropertyEnum.SELECT -> {
-                    addSelectBlock(property, listener = createSelectListener(property))
+                    addSelectBlock(property as NotionDatabasePropertySelect, listener = createSelectListener(property))
                 }
 
                 NotionApiPropertyEnum.MULTI_SELECT -> {
-                    addMultiSelectBlock(property, listener = createSelectListener(property))
+                    addMultiSelectBlock(property as NotionDatabasePropertyMultiSelect, listener = createSelectListener(property))
                 }
 
                 NotionApiPropertyEnum.STATUS -> {
-                    addStatusBlock(property, createStatusListener(property))
+                    addStatusBlock(property as NotionDatabasePropertyStatus, createStatusListener(property))
                 }
 
                 NotionApiPropertyEnum.RELATION -> {
-                    addRelationBlock(property, createSelectListener(property))
+                    addRelationBlock(property as NotionDatabasePropertyRelation, createSelectListener(property))
                 }
 
                 NotionApiPropertyEnum.DATE -> {
-                    addDateBlock(property, createDateListener())
+                    addDateBlock(property as NotionDatabasePropertyDate, createDateListener())
                 }
             }
         }
     }
 
-    private suspend fun getSelectList(property: NotionPostTemplate.Property) =
+    private suspend fun getSelectList(property: NotionDatabaseProperty) =
         withContext(Dispatchers.IO) {
-            delay(500)
-            return@withContext when (property.type) {
+//            delay(500)
+            return@withContext when (property.getType()) {
                 NotionApiPropertyEnum.SELECT, NotionApiPropertyEnum.MULTI_SELECT -> listOf(
                     NotionPostTemplate.Select("default", NotionColorEnum.DEFAULT),
                     NotionPostTemplate.Select("gray", NotionColorEnum.GRAY),
@@ -147,7 +170,15 @@ class ShortcutActivity : AppCompatActivity() {
                     NotionPostTemplate.Select("blue", NotionColorEnum.BLUE),
                     NotionPostTemplate.Select("purple", NotionColorEnum.PURPLE),
                     NotionPostTemplate.Select("pink", NotionColorEnum.PINK),
-                    NotionPostTemplate.Select("red", NotionColorEnum.RED)
+                    NotionPostTemplate.Select("red", NotionColorEnum.RED),
+//                    NotionPostTemplate.Select("リモート", NotionColorEnum.BLUE),
+//                    NotionPostTemplate.Select("出社", NotionColorEnum.DEFAULT),
+//                    NotionPostTemplate.Select("副業", NotionColorEnum.PURPLE),
+//                    NotionPostTemplate.Select("休日", NotionColorEnum.RED),
+//                    NotionPostTemplate.Select("Amazon", NotionColorEnum.RED),
+//                    NotionPostTemplate.Select("自分用", NotionColorEnum.GREEN),
+//                    NotionPostTemplate.Select("高", NotionColorEnum.RED),
+//                    NotionPostTemplate.Select("日常", NotionColorEnum.GREEN),
                 )
 
                 NotionApiPropertyEnum.RELATION -> listOf(
@@ -200,11 +231,11 @@ class ShortcutActivity : AppCompatActivity() {
             }
         }
 
-    private fun createSelectListener(property: NotionPostTemplate.Property) =
+    private fun createSelectListener(property: NotionDatabaseProperty) =
         object : BaseShortcutSelectView.Listener {
             override fun onClick(baseShortcutSelectView: BaseShortcutSelectView) {
                 val fragment = NotionSelectFragment.newInstance().apply {
-                    when (property.type) {
+                    when (property.getType()) {
                         NotionApiPropertyEnum.SELECT -> setCanSelectMultiple(false)
                         NotionApiPropertyEnum.MULTI_SELECT, NotionApiPropertyEnum.RELATION -> setCanSelectMultiple(
                             true
@@ -234,7 +265,7 @@ class ShortcutActivity : AppCompatActivity() {
             }
         }
 
-    private fun createStatusListener(property: NotionPostTemplate.Property) =
+    private fun createStatusListener(property: NotionDatabaseProperty) =
         object : ShortcutStatusView.Listener {
             override fun onClick(shortcutStatusView: ShortcutStatusView) {
                 val fragment = NotionStatusFragment.newInstance().apply {
@@ -270,7 +301,7 @@ class ShortcutActivity : AppCompatActivity() {
     private fun createDateListener() =
         object : ShortcutDateView.Listener {
             override fun onClick(shortcutDateView: ShortcutDateView) {
-                val fragment = NotionDateFragment.newInstance().apply {
+                val fragment = NotionDateFragment.newInstance(shortcutDateView.getFromDateTime(), shortcutDateView.getToDateTime()).apply {
                     setListener(
                         object: NotionDateFragment.Listener {
                             override fun onDateChanged(
