@@ -26,7 +26,7 @@ class ShortcutMultiSelectView @JvmOverloads constructor(
         return NotionDatabasePropertyMultiSelect(
             property.getName(),
             selectedList.map { it.name },
-            selectedList.map { it.color.getName() } /* optional: color */
+            selectedList.map { it.color } /* optional: color */
         )
     }
 

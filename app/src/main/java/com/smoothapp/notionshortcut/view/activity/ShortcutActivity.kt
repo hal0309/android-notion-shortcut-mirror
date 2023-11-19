@@ -89,15 +89,15 @@ class ShortcutActivity : AppCompatActivity() {
                             NotionDatabasePropertyStatus("ステータス", null, null),
                             NotionDatabasePropertyDate("日付", formatD, formatD )
 
-//                            NotionPostTemplate.Property(NotionApiPropertyEnum.RICH_TEXT, "テキスト 1"),
-//                            NotionPostTemplate.Property(NotionApiPropertyEnum.NUMBER, "数値bar"),
-//                            NotionPostTemplate.Property(NotionApiPropertyEnum.CHECKBOX, "チェックボックス"),
-//                            NotionPostTemplate.Property(NotionApiPropertyEnum.SELECT, "セレクト"),
-//                            NotionPostTemplate.Property(NotionApiPropertyEnum.MULTI_SELECT, "タグ"),
-//                            NotionPostTemplate.Property(NotionApiPropertyEnum.RELATION, "hoge"),
-//                            NotionPostTemplate.Property(NotionApiPropertyEnum.STATUS, "ステータス"),
-//                            NotionPostTemplate.Property(NotionApiPropertyEnum.DATE, "日付")
                         )
+//                        listOf(
+//                            NotionDatabasePropertyTitle("",null),
+//                            NotionDatabasePropertyMultiSelect("重要度", listOf("リモート", "副業"), listOf(NotionColorEnum.BLUE, NotionColorEnum.PURPLE)),
+//                            NotionDatabasePropertyMultiSelect("タグ", listOf("リモート", "副業"), listOf(NotionColorEnum.BLUE, NotionColorEnum.PURPLE)),
+//                            NotionDatabasePropertyStatus("ステータス", null, null),
+//                            NotionDatabasePropertyRichText("備考", null)
+//
+//                        )
                     )
                 )
                 setListener(object : ShortcutRootView.Listener{
@@ -158,7 +158,7 @@ class ShortcutActivity : AppCompatActivity() {
 
     private suspend fun getSelectList(property: NotionDatabaseProperty) =
         withContext(Dispatchers.IO) {
-            delay(500)
+//            delay(500)
             return@withContext when (property.getType()) {
                 NotionApiPropertyEnum.SELECT, NotionApiPropertyEnum.MULTI_SELECT -> listOf(
                     NotionPostTemplate.Select("default", NotionColorEnum.DEFAULT),
@@ -170,7 +170,15 @@ class ShortcutActivity : AppCompatActivity() {
                     NotionPostTemplate.Select("blue", NotionColorEnum.BLUE),
                     NotionPostTemplate.Select("purple", NotionColorEnum.PURPLE),
                     NotionPostTemplate.Select("pink", NotionColorEnum.PINK),
-                    NotionPostTemplate.Select("red", NotionColorEnum.RED)
+                    NotionPostTemplate.Select("red", NotionColorEnum.RED),
+//                    NotionPostTemplate.Select("リモート", NotionColorEnum.BLUE),
+//                    NotionPostTemplate.Select("出社", NotionColorEnum.DEFAULT),
+//                    NotionPostTemplate.Select("副業", NotionColorEnum.PURPLE),
+//                    NotionPostTemplate.Select("休日", NotionColorEnum.RED),
+//                    NotionPostTemplate.Select("Amazon", NotionColorEnum.RED),
+//                    NotionPostTemplate.Select("自分用", NotionColorEnum.GREEN),
+//                    NotionPostTemplate.Select("高", NotionColorEnum.RED),
+//                    NotionPostTemplate.Select("日常", NotionColorEnum.GREEN),
                 )
 
                 NotionApiPropertyEnum.RELATION -> listOf(

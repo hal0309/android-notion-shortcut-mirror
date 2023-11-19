@@ -2,11 +2,12 @@ package com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty
 
 import android.util.Log
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
+import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 
 class NotionDatabasePropertyMultiSelect(
     name: String,
     multiSelectName: List<String>,
-    multiSelectColor: List<String>
+    multiSelectColor: List<NotionColorEnum?>
 ) : NotionDatabaseProperty(NotionApiPropertyEnum.MULTI_SELECT, name, listOf()) {
 
     init {
@@ -15,7 +16,7 @@ class NotionDatabasePropertyMultiSelect(
             val contents: MutableList<String?> = MutableList(size* SET_SIZE){null}
             for(i in 0 until size){
                 contents[i* SET_SIZE + NAME_INDEX] = multiSelectName[i]
-                contents[i* SET_SIZE + COLOR_INDEX] = multiSelectColor?.get(i)
+                contents[i* SET_SIZE + COLOR_INDEX] = multiSelectColor[i]?.getName()
             }
             setPropertyContents(contents)
         }
