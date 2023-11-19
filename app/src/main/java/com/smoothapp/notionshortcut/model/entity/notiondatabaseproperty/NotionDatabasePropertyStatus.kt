@@ -5,33 +5,47 @@ import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 
 class NotionDatabasePropertyStatus(
     name: String,
-    statusName: String?,
-    statusColor: NotionColorEnum?
+    private var statusName: String?,
+    private var statusColor: NotionColorEnum?
 ) : NotionDatabaseProperty(NotionApiPropertyEnum.STATUS, name, listOf()) {
 
     init {
+        updateParentContents()
+    }
+
+    private fun updateParentContents() {
         val contents: MutableList<String?> = MutableList(SET_SIZE){null}
         contents[NAME_INDEX] = statusName
         contents[COLOR_INDEX] = statusColor?.getName()
         setPropertyContents(contents)
     }
 
+    fun updateContents(statusName: String?, statusColor: NotionColorEnum?){
+        this.statusName = statusName
+        this.statusColor = statusColor
+        updateParentContents()
+    }
+
     private fun hasContents(): Boolean{
         return  contents.size == SET_SIZE && !contents[NAME_INDEX].isNullOrEmpty()
     }
-    fun getStatusName(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[NAME_INDEX]
-        }
-    }
 
-    fun getStatusColor(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[COLOR_INDEX]
-        }
-    }
+    fun getStatusName(): String? = statusName
+//    fun getStatusName(): String?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents[NAME_INDEX]
+//        }
+//    }
+
+    fun getStatusColor(): NotionColorEnum? = statusColor
+
+//    fun getStatusColor(): String?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents[COLOR_INDEX]
+//        }
+//    }
 
     fun getStatusId(): String?{
         return when(hasContents()){

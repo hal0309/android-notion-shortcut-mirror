@@ -33,9 +33,7 @@ class ShortcutSelectView @JvmOverloads constructor(
     override fun setSelected(selectedList: List<NotionPostTemplate.Select>) {
         property as NotionDatabasePropertySelect
         when(selectedList.isEmpty()){
-            true -> {
-                property.updateContents(null, null)
-            }
+            true -> property.updateContents(null, null)
             else -> {
                 val selected = selectedList[0]
                 property.updateContents(selected.name, selected.color)

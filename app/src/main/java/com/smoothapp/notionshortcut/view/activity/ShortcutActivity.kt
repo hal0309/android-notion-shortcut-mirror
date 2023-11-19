@@ -86,7 +86,7 @@ class ShortcutActivity : AppCompatActivity() {
                             NotionDatabasePropertySelect("セレクト", "orange", NotionColorEnum.ORANGE),
                             NotionDatabasePropertyMultiSelect("タグ", listOf("orange", "blue"), listOf(NotionColorEnum.ORANGE, NotionColorEnum.BLUE)),
                             NotionDatabasePropertyRelation("hoge", listOf("c12b6304652a443292ea47b73bee7b84"), listOf("リレーション確認1")),
-                            NotionDatabasePropertyStatus("ステータス", null, null),
+                            NotionDatabasePropertyStatus("ステータス", "come soon", NotionColorEnum.DEFAULT),
                             NotionDatabasePropertyDate("日付", formatD, formatD)
 
                         )
