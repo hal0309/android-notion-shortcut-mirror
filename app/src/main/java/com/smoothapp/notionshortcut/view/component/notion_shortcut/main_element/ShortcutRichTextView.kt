@@ -3,6 +3,7 @@ package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import androidx.core.widget.doOnTextChanged
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.databinding.ViewShortcutRichTextBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
@@ -24,14 +25,18 @@ class ShortcutRichTextView @JvmOverloads constructor(
         binding.apply {
             content.hint = property.getName()
             content.setText(property.getRichText())
+            content.doOnTextChanged { text, _, _, _ ->
+                property.updateContents(text?.toString())
+            }
         }
     }
 
     override fun getContents(): NotionDatabasePropertyRichText {
-        return NotionDatabasePropertyRichText(
-            property.getName(),
-            binding.content.text.toString()
-        )
+//        return NotionDatabasePropertyRichText(
+//            property.getName(),
+//            binding.content.text.toString()
+//        )
+        return property
     }
 
 }

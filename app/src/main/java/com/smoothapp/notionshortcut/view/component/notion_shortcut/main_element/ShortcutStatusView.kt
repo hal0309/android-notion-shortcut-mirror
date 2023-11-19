@@ -80,11 +80,7 @@ class ShortcutStatusView @JvmOverloads constructor(
     }
 
     override fun getContents(): NotionDatabasePropertyStatus {
-        return NotionDatabasePropertyStatus(
-            property.getName(),
-            getSelected()?.name,
-            getSelected()?.color
-        )
+        return property
     }
 
 }

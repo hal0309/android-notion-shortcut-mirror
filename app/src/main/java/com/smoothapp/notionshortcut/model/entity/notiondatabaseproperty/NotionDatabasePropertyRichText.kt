@@ -5,17 +5,33 @@ import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 
 class NotionDatabasePropertyRichText(
     name: String,
-    richText: String?
-) : NotionDatabaseProperty(NotionApiPropertyEnum.RICH_TEXT, name, listOf(richText)) {
+    private var richText: String?
+) : NotionDatabaseProperty(NotionApiPropertyEnum.RICH_TEXT, name, listOf()) {
+
+    init {
+        updateParentContents()
+    }
+    private fun updateParentContents(){
+        setPropertyContents(listOf(richText))
+    }
+
+    fun updateContents(richText: String?){
+        this.richText = richText
+        updateParentContents()
+    }
+
     fun hasContents(): Boolean{
         return contents.isNotEmpty() && !contents[0].isNullOrEmpty()
     }
-    fun getRichText(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[0]
-        }
-    }
+
+    fun getRichText(): String? = richText
+
+//    fun getRichText(): String?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents[0]
+//        }
+//    }
 }
 
 

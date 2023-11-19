@@ -25,6 +25,7 @@ class NotionDatabasePropertyRelation(
     fun updateContents(relationId: List<String>, relationName: List<String?>){
         this.relationId = relationId
         this.relationName = relationName
+        updateParentContents()
     }
 
     private fun hasContents(): Boolean{

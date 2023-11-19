@@ -1,5 +1,6 @@
 package com.smoothapp.notionshortcut.model.entity
 
+import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -47,7 +48,7 @@ object NotionApiPostPageObj {
     """.trimIndent()
 
 
-    fun propertyCheckbox(name: String, checked: String) = """
+    fun propertyCheckbox(name: String, checked: Boolean) = """
         "$name": {
             "checkbox": $checked
         }
@@ -128,17 +129,17 @@ object NotionApiPostPageObj {
     }
 
 
-    fun propertyDate(name: String, fromDate: String, toDate: String?): String{
+    fun propertyDate(name: String, fromDate: DateTimeUtil.DateTime, toDate: DateTimeUtil.DateTime?): String{
         var result = """
             "$name": {
                 "date": {
-                    "start": "$fromDate"
+                    "start": "${fromDate.convertToString()}"
         """
 
         if(toDate != null){
             result += """
                     ,
-                    "end": "$toDate"
+                    "end": "${toDate.convertToString()}"
             """
         }
 

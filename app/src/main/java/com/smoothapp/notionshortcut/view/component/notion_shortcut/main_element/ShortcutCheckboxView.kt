@@ -23,15 +23,15 @@ class ShortcutCheckboxView @JvmOverloads constructor(
         binding = ViewShortcutCheckboxBinding.bind(this)
         binding.apply {
             name.text = property.getName()
-            content.isChecked = property.getCheckbox().toBoolean() //todo: Stringへの変換は挟まない方が良い..?
+            content.isChecked = property.getCheckbox()
+            content.setOnCheckedChangeListener { _, isChecked ->
+                property.updateContents(isChecked)
+            }
         }
     }
 
     override fun getContents(): NotionDatabasePropertyCheckbox {
-        return NotionDatabasePropertyCheckbox(
-            property.getName(),
-            binding.content.isChecked
-        )
+        return property
     }
 
 }

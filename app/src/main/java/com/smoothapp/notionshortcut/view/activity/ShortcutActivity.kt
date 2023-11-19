@@ -75,6 +75,7 @@ class ShortcutActivity : AppCompatActivity() {
                 val d = Date()
                 val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
                 val formatD = sf.format(d)
+                val fromDateTIme = DateTimeUtil.convertStringToDateTime(formatD)
                 setTemplate(
                     NotionPostTemplate(
                         NotionPostTemplate.TemplateType.DATABASE,
@@ -87,7 +88,7 @@ class ShortcutActivity : AppCompatActivity() {
                             NotionDatabasePropertyMultiSelect("タグ", listOf("orange", "blue"), listOf(NotionColorEnum.ORANGE, NotionColorEnum.BLUE)),
                             NotionDatabasePropertyRelation("hoge", listOf("c12b6304652a443292ea47b73bee7b84"), listOf("リレーション確認1")),
                             NotionDatabasePropertyStatus("ステータス", "come soon", NotionColorEnum.DEFAULT),
-                            NotionDatabasePropertyDate("日付", formatD, formatD)
+                            NotionDatabasePropertyDate("日付", fromDateTIme, fromDateTIme)
 
                         )
 //                        listOf(

@@ -18,8 +18,8 @@ class ShortcutDateView @JvmOverloads constructor(
 
     private lateinit var binding: ViewShortcutDateBinding
 
-    private var fromDateTime: DateTimeUtil.DateTime? = null
-    private var toDateTime: DateTimeUtil.DateTime? = null
+//    private var fromDateTime: DateTimeUtil.DateTime? = null
+//    private var toDateTime: DateTimeUtil.DateTime? = null
 
     init {
         init()
@@ -28,12 +28,12 @@ class ShortcutDateView @JvmOverloads constructor(
         inflate(context, R.layout.view_shortcut_date, this)
         binding = ViewShortcutDateBinding.bind(this)
 
-        fromDateTime = DateTimeUtil.convertStringToDateTime(property.getDateFrom())
-        toDateTime = DateTimeUtil.convertStringToDateTime(property.getDateTo())
+//        fromDateTime = DateTimeUtil.convertStringToDateTime(property.getDateFrom())
+//        toDateTime = DateTimeUtil.convertStringToDateTime(property.getDateTo())
 
         binding.apply {
             name.text = property.getName()
-            setDateTime(fromDateTime, toDateTime)
+            setDateTime(getFromDateTime(), getToDateTime())
             dateContainer.setOnClickListener{
                 listener?.onClick(this@ShortcutDateView)
             }
@@ -41,24 +41,26 @@ class ShortcutDateView @JvmOverloads constructor(
     }
 
     fun setDateTime(fromDateTime: DateTimeUtil.DateTime?, toDateTime: DateTimeUtil.DateTime?){
-        this.fromDateTime = fromDateTime
-        this.toDateTime = toDateTime
+//        this.fromDateTime = fromDateTime
+//        this.toDateTime = toDateTime
+        property.updateContents(fromDateTime, toDateTime)
 //        binding.dateText.text = DateTimeUtil.getDisplayDateTimeToDateTimeString(fromDateTime, toDateTime)
         Log.d("", "from: ${fromDateTime?.convertToString()}")
         Log.d("", "to: ${toDateTime?.convertToString()}")
     }
 
-    fun getFromDateTime() = fromDateTime
-    fun getToDateTime() = toDateTime
+    fun getFromDateTime(): DateTimeUtil.DateTime? = property.getDateFrom()
+    fun getToDateTime(): DateTimeUtil.DateTime? = property.getDateTo()
 
 
 
     override fun getContents(): NotionDatabasePropertyDate {
-        return NotionDatabasePropertyDate(
-            property.getName(),
-            fromDateTime?.convertToString(),
-            toDateTime?.convertToString()
-        )
+//        return NotionDatabasePropertyDate(
+//            property.getName(),
+//            fromDateTime?.convertToString(),
+//            toDateTime?.convertToString()
+//        )
+        return property
     }
 
     interface Listener {

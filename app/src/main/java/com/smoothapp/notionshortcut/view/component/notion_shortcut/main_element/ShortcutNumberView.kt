@@ -3,6 +3,7 @@ package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import androidx.core.widget.doOnTextChanged
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.databinding.ViewShortcutNumberBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
@@ -24,14 +25,18 @@ class ShortcutNumberView @JvmOverloads constructor(
         binding.apply {
             name.text = property.getName()
             content.setText(property.getNumber())
+            content.doOnTextChanged { text, _, _, _ ->
+                property.updateContents(text?.toString())
+            }
         }
     }
 
     override fun getContents(): NotionDatabasePropertyNumber {
-        return NotionDatabasePropertyNumber(
-            property.getName(),
-            binding.content.text.toString()
-        )
+//        return NotionDatabasePropertyNumber(
+//            property.getName(),
+//            binding.content.text.toString()
+//        )
+        return property
     }
 
 }

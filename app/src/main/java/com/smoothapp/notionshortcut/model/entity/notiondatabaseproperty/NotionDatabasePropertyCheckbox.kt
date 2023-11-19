@@ -4,17 +4,34 @@ import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 
 class NotionDatabasePropertyCheckbox(
     name: String,
-    checkbox: Boolean
-) : NotionDatabaseProperty(NotionApiPropertyEnum.CHECKBOX, name, listOf(checkbox.toString())) {
+    private var checkbox: Boolean
+) : NotionDatabaseProperty(NotionApiPropertyEnum.CHECKBOX, name, listOf()) {
+
+    init {
+        updateParentContents()
+    }
+
+    private fun updateParentContents(){
+        setPropertyContents(listOf(checkbox.toString()))
+    }
+
+    fun updateContents(checkbox: Boolean){
+        this.checkbox = checkbox
+        updateParentContents()
+    }
+
     fun hasContents(): Boolean{
         return contents.isNotEmpty() && !contents[0].isNullOrEmpty()
     }
-    fun getCheckbox(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[0]
-        }
-    }
+
+    fun getCheckbox(): Boolean = checkbox
+
+//    fun getCheckbox(): String?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents[0]
+//        }
+//    }
 }
 
 
