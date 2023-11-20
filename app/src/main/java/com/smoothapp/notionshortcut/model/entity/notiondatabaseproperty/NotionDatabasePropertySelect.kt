@@ -26,20 +26,16 @@ class NotionDatabasePropertySelect(
         updateParentContents()
     }
 
-    private fun hasContents(): Boolean{
-        return  contents.size == SET_SIZE && !contents[NAME_INDEX].isNullOrEmpty()
-    }
-
     fun getSelectName(): String? = selectName
 
     fun getSelectColor(): NotionColorEnum? = selectColor
 
-    fun getSelectId(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[ID_INDEX]
-        }
-    }
+//    fun getSelectId(): String?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents[ID_INDEX]
+//        }
+//    }
 
     companion object {
         private const val NAME_INDEX = 0 // primary

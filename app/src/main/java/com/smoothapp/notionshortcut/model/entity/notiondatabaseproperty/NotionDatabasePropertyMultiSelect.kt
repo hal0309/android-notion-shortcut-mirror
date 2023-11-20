@@ -1,5 +1,6 @@
 package com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty
 
+import com.smoothapp.notionshortcut.controller.exception.DifferentListSizeException
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 
@@ -15,14 +16,14 @@ class NotionDatabasePropertyMultiSelect(
 
     private fun updateParentContents() {
         val size = multiSelectName.size
-        if(size == multiSelectColor.size){
-            val contents: MutableList<String?> = MutableList(size* SET_SIZE){null}
-            for(i in 0 until size){
-                contents[i* SET_SIZE + NAME_INDEX] = multiSelectName[i]
-                contents[i* SET_SIZE + COLOR_INDEX] = multiSelectColor[i]?.getName()
-            }
-            setPropertyContents(contents)
+        if(size != multiSelectColor.size) throw DifferentListSizeException("multiSelect color")
+
+        val contents: MutableList<String?> = MutableList(size* SET_SIZE){null}
+        for(i in 0 until size){
+            contents[i* SET_SIZE + NAME_INDEX] = multiSelectName[i]
+            contents[i* SET_SIZE + COLOR_INDEX] = multiSelectColor[i]?.getName()
         }
+        setPropertyContents(contents)
     }
 
     fun updateContents(multiSelectName: List<String>, multiSelectColor: List<NotionColorEnum?>){
@@ -31,27 +32,16 @@ class NotionDatabasePropertyMultiSelect(
         updateParentContents()
     }
 
-    private fun hasContents(): Boolean{
-        val size = contents.size
-        if(size < SET_SIZE || size % SET_SIZE != 0) return false
-        for (i in 0 until size / SET_SIZE ){
-            if(contents[i*SET_SIZE].isNullOrEmpty()){ //NAME部分に空があったらfalse
-                return false
-            }
-        }
-        return true
-    }
-
     fun getMultiSelectName(): List<String> = multiSelectName
 
     fun getMultiSelectColor(): List<NotionColorEnum?> = multiSelectColor
 
-    fun getMultiSelectId(): List<String?>?{
-        return when(hasContents()){
-            false -> null
-            true -> contents.filterIndexed { index, _ ->  index % SET_SIZE == ID_INDEX}
-        }
-    }
+//    fun getMultiSelectId(): List<String?>?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents.filterIndexed { index, _ ->  index % SET_SIZE == ID_INDEX}
+//        }
+//    }
 
     companion object {
         private const val NAME_INDEX = 0 // primary

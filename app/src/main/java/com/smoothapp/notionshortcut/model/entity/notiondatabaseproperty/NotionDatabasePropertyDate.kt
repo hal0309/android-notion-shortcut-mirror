@@ -26,10 +26,6 @@ class NotionDatabasePropertyDate(
         updateParentContents()
     }
 
-    private fun hasContents(): Boolean{
-        return  contents.size == SET_SIZE && !contents[FROM_INDEX].isNullOrEmpty()
-    }
-
     fun getDateFrom(): DateTimeUtil.DateTime? = dateFrom
 
     fun getDateTo(): DateTimeUtil.DateTime? = dateTo

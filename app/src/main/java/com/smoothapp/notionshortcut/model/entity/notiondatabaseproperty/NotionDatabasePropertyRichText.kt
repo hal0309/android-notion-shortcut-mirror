@@ -20,10 +20,6 @@ class NotionDatabasePropertyRichText(
         updateParentContents()
     }
 
-    fun hasContents(): Boolean{
-        return contents.isNotEmpty() && !contents[0].isNullOrEmpty()
-    }
-
     fun getRichText(): String? = richText
 }
 

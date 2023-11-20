@@ -26,41 +26,37 @@ class NotionDatabasePropertyStatus(
         updateParentContents()
     }
 
-    private fun hasContents(): Boolean{
-        return  contents.size == SET_SIZE && !contents[NAME_INDEX].isNullOrEmpty()
-    }
-
     fun getStatusName(): String? = statusName
 
     fun getStatusColor(): NotionColorEnum? = statusColor
 
-    fun getStatusId(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[ID_INDEX]
-        }
-    }
-
-    fun getStatusGroupName(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[GROUP_NAME_INDEX]
-        }
-    }
-
-    fun getStatusGroupColor(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[GROUP_COLOR_INDEX]
-        }
-    }
-
-    fun getStatusGroupId(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[GROUP_ID_INDEX]
-        }
-    }
+//    fun getStatusId(): String?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents[ID_INDEX]
+//        }
+//    }
+//
+//    fun getStatusGroupName(): String?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents[GROUP_NAME_INDEX]
+//        }
+//    }
+//
+//    fun getStatusGroupColor(): String?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents[GROUP_COLOR_INDEX]
+//        }
+//    }
+//
+//    fun getStatusGroupId(): String?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents[GROUP_ID_INDEX]
+//        }
+//    }
 
 
 

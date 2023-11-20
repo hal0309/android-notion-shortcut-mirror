@@ -20,10 +20,6 @@ class NotionDatabasePropertyCheckbox(
         updateParentContents()
     }
 
-    fun hasContents(): Boolean{
-        return contents.isNotEmpty() && !contents[0].isNullOrEmpty()
-    }
-
     fun getCheckbox(): Boolean = checkbox
 
 }

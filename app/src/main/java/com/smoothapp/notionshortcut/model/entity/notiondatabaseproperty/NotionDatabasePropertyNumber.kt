@@ -20,10 +20,6 @@ class NotionDatabasePropertyNumber(
         updateParentContents()
     }
 
-    fun hasContents(): Boolean{
-        return contents.isNotEmpty() && !contents[0].isNullOrEmpty()
-    }
-
     fun getNumber(): String? = number
 }
 

@@ -1,5 +1,6 @@
 package com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty
 
+import com.smoothapp.notionshortcut.controller.exception.DifferentListSizeException
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 
 class NotionDatabasePropertyRelation(
@@ -14,6 +15,8 @@ class NotionDatabasePropertyRelation(
 
     private fun updateParentContents() {
         val size = relationId.size
+        if(size != relationName.size) throw DifferentListSizeException("relation name")
+
         val contents: MutableList<String?> = MutableList(size* SET_SIZE){null}
         for(i in 0 until size){
             contents[i* SET_SIZE + ID_INDEX] = relationId[i]
@@ -28,20 +31,10 @@ class NotionDatabasePropertyRelation(
         updateParentContents()
     }
 
-    private fun hasContents(): Boolean{
-        val size = contents.size
-        if(size < SET_SIZE || size % SET_SIZE != 0) return false
-        for (i in 0 until size / SET_SIZE ){
-            if(contents[i*SET_SIZE + ID_INDEX].isNullOrEmpty()){ //ID部分に空があったらfalse
-                return false
-            }
-        }
-        return true
-    }
-
     fun getRelationId(): List<String> = relationId
 
     fun getRelationName(): List<String?> = relationName
+
 
     companion object {
         private const val ID_INDEX = 0 // primary

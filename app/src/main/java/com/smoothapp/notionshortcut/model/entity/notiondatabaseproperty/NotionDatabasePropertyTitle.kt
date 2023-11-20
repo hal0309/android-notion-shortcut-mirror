@@ -19,10 +19,6 @@ class NotionDatabasePropertyTitle(
         updateParentContents()
     }
 
-    fun hasContents(): Boolean{
-        return contents.isNotEmpty() && !contents[0].isNullOrEmpty()
-    }
-
     fun getTitle(): String? = title
 }
 
