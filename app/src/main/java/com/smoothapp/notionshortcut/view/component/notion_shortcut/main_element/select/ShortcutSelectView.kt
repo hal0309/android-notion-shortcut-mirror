@@ -43,18 +43,6 @@ class ShortcutSelectView @JvmOverloads constructor(
     }
 
     override fun getContents(): NotionDatabasePropertySelect {
-//        var selectName: String? = null
-//        var selectColor: NotionColorEnum? = null
-//        val selectedList = getSelected()
-//        if(selectedList.isNotEmpty()){
-//            selectName = selectedList[0].name
-//            selectColor = selectedList[0].color
-//        }
-//        return NotionDatabasePropertySelect(
-//            property.getName(),
-//            selectName,
-//            selectColor
-//        )
         return property as NotionDatabasePropertySelect
     }
 

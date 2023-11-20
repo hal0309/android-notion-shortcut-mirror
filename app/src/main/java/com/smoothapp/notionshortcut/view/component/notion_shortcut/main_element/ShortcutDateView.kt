@@ -55,11 +55,6 @@ class ShortcutDateView @JvmOverloads constructor(
 
 
     override fun getContents(): NotionDatabasePropertyDate {
-//        return NotionDatabasePropertyDate(
-//            property.getName(),
-//            fromDateTime?.convertToString(),
-//            toDateTime?.convertToString()
-//        )
         return property
     }
 

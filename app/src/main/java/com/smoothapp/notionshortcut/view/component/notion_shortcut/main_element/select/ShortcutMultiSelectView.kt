@@ -49,11 +49,6 @@ class ShortcutMultiSelectView @JvmOverloads constructor(
     }
 
     override fun getContents(): NotionDatabasePropertyMultiSelect {
-//        return NotionDatabasePropertyMultiSelect(
-//            property.getName(),
-//            getSelected().map { it.name },
-//            getSelected().map { it.color } /* optional: color */
-//        )
         return property as NotionDatabasePropertyMultiSelect
     }
 

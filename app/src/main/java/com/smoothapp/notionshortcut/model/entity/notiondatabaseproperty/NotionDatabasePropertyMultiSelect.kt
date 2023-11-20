@@ -31,8 +31,6 @@ class NotionDatabasePropertyMultiSelect(
         updateParentContents()
     }
 
-
-
     private fun hasContents(): Boolean{
         val size = contents.size
         if(size < SET_SIZE || size % SET_SIZE != 0) return false

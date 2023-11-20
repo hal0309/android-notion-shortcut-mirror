@@ -32,10 +32,6 @@ class ShortcutNumberView @JvmOverloads constructor(
     }
 
     override fun getContents(): NotionDatabasePropertyNumber {
-//        return NotionDatabasePropertyNumber(
-//            property.getName(),
-//            binding.content.text.toString()
-//        )
         return property
     }
 

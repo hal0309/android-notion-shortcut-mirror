@@ -25,13 +25,6 @@ class NotionDatabasePropertyNumber(
     }
 
     fun getNumber(): String? = number
-
-//    fun getNumber(): String?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> contents[0]
-//        }
-//    }
 }
 
 

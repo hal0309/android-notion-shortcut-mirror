@@ -22,13 +22,7 @@ abstract class BaseShortcutSelectView @JvmOverloads constructor(
 
     private lateinit var selectedListAdapter: NotionSelectListAdapter
 
-//    protected var selectedList: List<NotionPostTemplate.Select>
-
     init {
-//        this.selectedList = when(selectedList) {
-//            null -> mutableListOf()
-//            else -> selectedList
-//        }
         init()
     }
 
@@ -52,18 +46,10 @@ abstract class BaseShortcutSelectView @JvmOverloads constructor(
     }
 
     abstract fun getSelected(): List<NotionPostTemplate.Select>
-//    {
-//        return selectedList
-//    }
+
 
     abstract fun setSelected(selectedList: List<NotionPostTemplate.Select>)
-//    {
-//        this.selectedList = when(selectedList) {
-//            null -> mutableListOf()
-//            else -> selectedList
-//        }
-//        applySelected()
-//    }
+
 
     protected fun applySelected() {
         val selectedList = getSelected()

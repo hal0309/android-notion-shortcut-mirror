@@ -24,13 +24,6 @@ class NotionDatabasePropertyTitle(
     }
 
     fun getTitle(): String? = title
-
-//    fun getTitle(): String?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> contents[0]
-//        }
-//    }
 }
 
 

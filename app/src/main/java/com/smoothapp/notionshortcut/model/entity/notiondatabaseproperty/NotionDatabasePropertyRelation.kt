@@ -41,26 +41,7 @@ class NotionDatabasePropertyRelation(
 
     fun getRelationId(): List<String> = relationId
 
-
-//    fun getRelationId(): List<String>?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> {
-//                val contentsId = contents.filterIndexed { index, _ ->  index % SET_SIZE == ID_INDEX}
-//                contentsId as List<String>
-//            }
-//        }
-//    }
-
     fun getRelationName(): List<String?> = relationName
-
-//    fun getRelationName(): List<String?>?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> contents.filterIndexed { index, _ ->  index % SET_SIZE == NAME_INDEX}
-//        }
-//    }
-
 
     companion object {
         private const val ID_INDEX = 0 // primary

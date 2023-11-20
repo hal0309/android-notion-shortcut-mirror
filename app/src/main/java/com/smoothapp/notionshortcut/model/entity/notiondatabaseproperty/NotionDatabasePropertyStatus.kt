@@ -31,21 +31,8 @@ class NotionDatabasePropertyStatus(
     }
 
     fun getStatusName(): String? = statusName
-//    fun getStatusName(): String?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> contents[NAME_INDEX]
-//        }
-//    }
 
     fun getStatusColor(): NotionColorEnum? = statusColor
-
-//    fun getStatusColor(): String?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> contents[COLOR_INDEX]
-//        }
-//    }
 
     fun getStatusId(): String?{
         return when(hasContents()){

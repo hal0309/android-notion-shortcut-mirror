@@ -30,24 +30,9 @@ class NotionDatabasePropertySelect(
         return  contents.size == SET_SIZE && !contents[NAME_INDEX].isNullOrEmpty()
     }
 
-    fun getSelectName(): String?{
-        return selectName
-//        when(hasContents()){
-//            false -> null
-//            true -> contents[NAME_INDEX]
-//        }
-    }
+    fun getSelectName(): String? = selectName
 
-    fun getSelectColor(): NotionColorEnum?{
-        return selectColor
-    }
-
-//    fun getSelectColor(): String?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> contents[COLOR_INDEX]
-//        }
-//    }
+    fun getSelectColor(): NotionColorEnum? = selectColor
 
     fun getSelectId(): String?{
         return when(hasContents()){

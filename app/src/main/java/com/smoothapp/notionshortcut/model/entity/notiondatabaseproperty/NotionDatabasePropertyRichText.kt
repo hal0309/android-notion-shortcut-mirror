@@ -25,13 +25,6 @@ class NotionDatabasePropertyRichText(
     }
 
     fun getRichText(): String? = richText
-
-//    fun getRichText(): String?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> contents[0]
-//        }
-//    }
 }
 
 

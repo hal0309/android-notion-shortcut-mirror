@@ -32,10 +32,6 @@ class ShortcutRichTextView @JvmOverloads constructor(
     }
 
     override fun getContents(): NotionDatabasePropertyRichText {
-//        return NotionDatabasePropertyRichText(
-//            property.getName(),
-//            binding.content.text.toString()
-//        )
         return property
     }
 

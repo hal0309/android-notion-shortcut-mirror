@@ -32,22 +32,7 @@ class NotionDatabasePropertyDate(
 
     fun getDateFrom(): DateTimeUtil.DateTime? = dateFrom
 
-//    fun getDateFrom(): String?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> contents[FROM_INDEX]
-//        }
-//    }
-
     fun getDateTo(): DateTimeUtil.DateTime? = dateTo
-
-//    fun getDateTo(): String?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> contents[TO_INDEX]
-//        }
-//    }
-
 
     companion object {
         private const val FROM_INDEX = 0 // primary

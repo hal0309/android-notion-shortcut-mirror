@@ -43,11 +43,6 @@ class ShortcutRelationView @JvmOverloads constructor(
     }
 
     override fun getContents(): NotionDatabasePropertyRelation {
-//        return NotionDatabasePropertyRelation(
-//            property.getName(),
-//            getSelected().map { it.id?: "" }, // todo: null safe
-//            getSelected().map { it.name}, // todo: null safe
-//        )
         return property as NotionDatabasePropertyRelation
     }
 

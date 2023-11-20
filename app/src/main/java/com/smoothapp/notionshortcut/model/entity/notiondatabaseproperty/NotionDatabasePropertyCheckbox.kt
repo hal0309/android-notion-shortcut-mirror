@@ -26,12 +26,6 @@ class NotionDatabasePropertyCheckbox(
 
     fun getCheckbox(): Boolean = checkbox
 
-//    fun getCheckbox(): String?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> contents[0]
-//        }
-//    }
 }
 
 

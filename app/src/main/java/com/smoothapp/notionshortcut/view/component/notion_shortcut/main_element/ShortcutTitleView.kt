@@ -32,10 +32,6 @@ class ShortcutTitleView @JvmOverloads constructor(
     }
 
     override fun getContents(): NotionDatabasePropertyTitle {
-//        return NotionDatabasePropertyTitle(
-//            property.getName(),
-//            binding.content.text.toString()
-//        )
         return property
     }
 

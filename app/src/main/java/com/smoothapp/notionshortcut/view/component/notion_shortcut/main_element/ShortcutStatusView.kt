@@ -15,8 +15,7 @@ import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDa
 import com.smoothapp.notionshortcut.view.adapter.NotionSelectListAdapter
 
 class ShortcutStatusView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabasePropertyStatus,
-    /*private var selected: NotionPostTemplate.Select? = null, */val listener: Listener? = null
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabasePropertyStatus, val listener: Listener? = null
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
     private lateinit var binding: ViewShortcutBaseSelectBinding
