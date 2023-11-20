@@ -44,24 +44,7 @@ class NotionDatabasePropertyMultiSelect(
 
     fun getMultiSelectName(): List<String> = multiSelectName
 
-
-//    fun getMultiSelectName(): List<String>?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> {
-//                val contentsName = contents.filterIndexed { index, _ ->  index % SET_SIZE == NAME_INDEX}
-//                contentsName as List<String>
-//            }
-//        }
-//    }
     fun getMultiSelectColor(): List<NotionColorEnum?> = multiSelectColor
-
-//    fun getMultiSelectColor(): List<String?>?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> contents.filterIndexed { index, _ ->  index % SET_SIZE == COLOR_INDEX}
-//        }
-//    }
 
     fun getMultiSelectId(): List<String?>?{
         return when(hasContents()){
