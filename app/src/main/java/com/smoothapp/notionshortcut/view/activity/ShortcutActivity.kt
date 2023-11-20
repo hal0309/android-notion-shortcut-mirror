@@ -238,12 +238,8 @@ class ShortcutActivity : AppCompatActivity() {
                 val fragment = NotionSelectFragment.newInstance().apply {
                     when (property.getType()) {
                         NotionApiPropertyEnum.SELECT -> setCanSelectMultiple(false)
-                        NotionApiPropertyEnum.MULTI_SELECT, NotionApiPropertyEnum.RELATION -> setCanSelectMultiple(
-                            true
-                        )
-
-                        else -> {/* todo: exception */
-                        }
+                        NotionApiPropertyEnum.MULTI_SELECT, NotionApiPropertyEnum.RELATION -> setCanSelectMultiple(true)
+                        else -> throw IllegalArgumentException("property must be [select/multiSelect/relation]")
                     }
                     setListener(
                         object : NotionSelectFragment.Listener {
@@ -266,7 +262,7 @@ class ShortcutActivity : AppCompatActivity() {
             }
         }
 
-    private fun createStatusListener(property: NotionDatabaseProperty) =
+    private fun createStatusListener(property: NotionDatabasePropertyStatus) =
         object : ShortcutStatusView.Listener {
             override fun onClick(shortcutStatusView: ShortcutStatusView) {
                 val fragment = NotionStatusFragment.newInstance().apply {
@@ -308,10 +304,9 @@ class ShortcutActivity : AppCompatActivity() {
                             override fun onDateChanged(
                                 fromDateTime: DateTimeUtil.DateTime?,
                                 toDateTime: DateTimeUtil.DateTime?
-                            ) {
+                            ){
                                 shortcutDateView.setDateTime(fromDateTime, toDateTime)
                             }
-
                         }
                     )
                 }

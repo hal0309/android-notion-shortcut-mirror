@@ -109,13 +109,13 @@ class NotionDateFragment(val fromDateTime: DateTimeUtil.DateTime, val toDateTime
                 }
             }
 
-            includeTimeCheckbox.setOnCheckedChangeListener { _, checked ->
-                isTimeEnabled = checked
-            }
-
-            includeToDateCheckbox.setOnCheckedChangeListener { _, checked ->
-                isToDateEnabled = checked
-            }
+//            includeTimeCheckbox.setOnCheckedChangeListener { _, checked ->
+//                isTimeEnabled = checked
+//            }
+//
+//            includeToDateCheckbox.setOnCheckedChangeListener { _, checked ->
+//                isToDateEnabled = checked
+//            }
 
             sendBtn.setOnClickListener {
                 parentFragmentManager.popBackStack()
