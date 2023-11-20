@@ -5,61 +5,58 @@ import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 
 class NotionDatabasePropertyStatus(
     name: String,
-    statusName: String?,
-    statusColor: NotionColorEnum?
+    private var statusName: String?,
+    private var statusColor: NotionColorEnum?
 ) : NotionDatabaseProperty(NotionApiPropertyEnum.STATUS, name, listOf()) {
 
     init {
+        updateParentContents()
+    }
+
+    private fun updateParentContents() {
         val contents: MutableList<String?> = MutableList(SET_SIZE){null}
         contents[NAME_INDEX] = statusName
         contents[COLOR_INDEX] = statusColor?.getName()
         setPropertyContents(contents)
     }
 
-    private fun hasContents(): Boolean{
-        return  contents.size == SET_SIZE && !contents[NAME_INDEX].isNullOrEmpty()
-    }
-    fun getStatusName(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[NAME_INDEX]
-        }
+    fun updateContents(statusName: String?, statusColor: NotionColorEnum?){
+        this.statusName = statusName
+        this.statusColor = statusColor
+        updateParentContents()
     }
 
-    fun getStatusColor(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[COLOR_INDEX]
-        }
-    }
+    fun getStatusName(): String? = statusName
 
-    fun getStatusId(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[ID_INDEX]
-        }
-    }
+    fun getStatusColor(): NotionColorEnum? = statusColor
 
-    fun getStatusGroupName(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[GROUP_NAME_INDEX]
-        }
-    }
-
-    fun getStatusGroupColor(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[GROUP_COLOR_INDEX]
-        }
-    }
-
-    fun getStatusGroupId(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[GROUP_ID_INDEX]
-        }
-    }
+//    fun getStatusId(): String?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents[ID_INDEX]
+//        }
+//    }
+//
+//    fun getStatusGroupName(): String?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents[GROUP_NAME_INDEX]
+//        }
+//    }
+//
+//    fun getStatusGroupColor(): String?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents[GROUP_COLOR_INDEX]
+//        }
+//    }
+//
+//    fun getStatusGroupId(): String?{
+//        return when(hasContents()){
+//            false -> null
+//            true -> contents[GROUP_ID_INDEX]
+//        }
+//    }
 
 
 

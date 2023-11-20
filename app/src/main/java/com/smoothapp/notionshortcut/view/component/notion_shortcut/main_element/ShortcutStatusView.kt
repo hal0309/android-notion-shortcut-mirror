@@ -15,8 +15,7 @@ import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDa
 import com.smoothapp.notionshortcut.view.adapter.NotionSelectListAdapter
 
 class ShortcutStatusView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabasePropertyStatus,
-    private var selected: NotionPostTemplate.Select? = null, val listener: Listener? = null
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabasePropertyStatus, val listener: Listener? = null
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
     private lateinit var binding: ViewShortcutBaseSelectBinding
@@ -44,23 +43,33 @@ class ShortcutStatusView @JvmOverloads constructor(
                 adapter = selectedListAdapter
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             }
+            applySelected()
         }
     }
 
     fun getSelected(): NotionPostTemplate.Select? {
-        return selected
+        return NotionPostTemplate.Select(
+            property.getStatusName()?: return null,
+            property.getStatusColor()?: return null
+        )
     }
 
     fun setSelected(selected: NotionPostTemplate.Select?) {
-        this.selected = selected
+        when(selected){
+            null -> property.updateContents(null, null)
+            else -> {
+                property.updateContents(selected.name, selected.color)
+            }
+        }
         applySelected()
     }
 
     private fun applySelected() {
+        val selected = getSelected()
         selectedListAdapter.submitList(
             when (selected) {
                 null -> listOf(NotionPostTemplate.Select(" + ", NotionColorEnum.DEFAULT))
-                else -> listOf(selected!!)
+                else -> listOf(selected)
             }
         )
     }
@@ -70,11 +79,7 @@ class ShortcutStatusView @JvmOverloads constructor(
     }
 
     override fun getContents(): NotionDatabasePropertyStatus {
-        return NotionDatabasePropertyStatus(
-            property.getName(),
-            selected?.name,
-            selected?.color
-        )
+        return property
     }
 
 }

@@ -5,17 +5,22 @@ import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 
 class NotionDatabasePropertyNumber(
     name: String,
-    number: String?
-) : NotionDatabaseProperty(NotionApiPropertyEnum.NUMBER, name, listOf(number)) {
-    fun hasContents(): Boolean{
-        return contents.isNotEmpty() && !contents[0].isNullOrEmpty()
+    private var number: String?
+) : NotionDatabaseProperty(NotionApiPropertyEnum.NUMBER, name, listOf()) {
+
+    init {
+        updateParentContents()
     }
-    fun getNumber(): String?{
-        return when(hasContents()){
-            false -> null
-            true -> contents[0]
-        }
+    private fun updateParentContents(){
+        setPropertyContents(listOf(number))
     }
+
+    fun updateContents(number: String?){
+        this.number = number
+        updateParentContents()
+    }
+
+    fun getNumber(): String? = number
 }
 
 
