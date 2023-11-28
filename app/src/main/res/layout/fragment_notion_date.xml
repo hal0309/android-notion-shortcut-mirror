@@ -7,7 +7,6 @@
     tools:context=".view.fragment.NotionSelectFragment"
     android:background="#55000000"
     android:clickable="true">
-
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -17,14 +16,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:layout_margin="10dp">
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 android:layout_width="0dp"
@@ -36,213 +31,217 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:text="hoge"/>
-
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@id/sendBtn"
+                app:layout_constraintBottom_toTopOf="@id/btnContainer"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/title">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/optionContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="9"
-                            android:gravity="center"
-                            android:text="include time" />
-
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/includeTimeCheckbox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="9"
-                            android:gravity="center"
-                            android:text="include to date" />
-
-                        <androidx.appcompat.widget.AppCompatCheckBox
-                            android:id="@+id/includeToDateCheckbox"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/fromContainer"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="from"/>
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_weight="3"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/fromDateContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal">
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_weight="1">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="0dp"
+                            android:src="@drawable/ic_calender"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/fromDateText"/>
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/fromDateText"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="3"
-                            android:textSize="16sp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="30dp"
                             android:gravity="center"
-                            android:text="日付"/>
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="7">
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/fromDateText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:text="2023年11月22日"/>
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="10dp"
-                                android:src="@drawable/ic_calender"/>
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                            android:text="2023年11月22日"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/fromTimeContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal">
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_weight="1">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/fromTimeIcon"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="0dp"
+                            android:alpha="0.2"
+                            android:src="@drawable/ic_clock"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/fromTimeText"/>
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/fromTimeText"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="3"
-                            android:textSize="16sp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="30dp"
                             android:gravity="center"
-                            android:text="時刻"/>
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="7">
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/fromTimeText"
+                            android:text="12:45"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            <com.google.android.material.switchmaterial.SwitchMaterial
+                                android:id="@+id/enableFromTimeSwitch"
                                 android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:text="23:42"/>
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="10dp"
-                                android:src="@drawable/ic_clock"/>
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+                    <ImageView
+                        android:id="@+id/arrowIcon"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:alpha="0.2"
+                        android:src="@drawable/ic_arrow_down"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/enableToSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/toContainer"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="to"/>
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_weight="3"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:alpha="0.2">
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/toDateContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal">
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_weight="1">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="0dp"
+                            android:src="@drawable/ic_calender"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/toDateText"/>
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/toDateText"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="3"
-                            android:textSize="16sp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="30dp"
                             android:gravity="center"
-                            android:text="日付"/>
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="7">
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/toDateText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:text="2023年11月22日"/>
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="10dp"
-                                android:src="@drawable/ic_calender"/>
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                            android:text="2023年11月22日"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/toTimeContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal">
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_weight="1">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/toTimeIcon"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="0dp"
+                            android:src="@drawable/ic_clock"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toTopOf="@id/toTimeText"/>
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/toTimeText"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="3"
-                            android:textSize="16sp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="30dp"
                             android:gravity="center"
-                            android:text="時刻"/>
-                        <androidx.appcompat.widget.LinearLayoutCompat
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="7">
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/toTimeText"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:text="23:42"/>
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="10dp"
-                                android:src="@drawable/ic_clock"/>
-                        </androidx.appcompat.widget.LinearLayoutCompat>
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                            android:text="12:45"
+                            android:textSize="16sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/enableToTimeSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </LinearLayout>
-            
-            <Button
-                android:id="@+id/sendBtn"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/btnContainer"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:text="OK"
-                app:layout_constraintStart_toStartOf="parent"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent">
+                <ImageView
+                    android:id="@+id/clearBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_delete"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+                <Button
+                    android:id="@+id/sendBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:text="OK"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
