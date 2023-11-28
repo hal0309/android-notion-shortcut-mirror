@@ -151,7 +151,7 @@ class ShortcutActivity : AppCompatActivity() {
                 }
 
                 NotionApiPropertyEnum.DATE -> {
-                    addDateBlock(property as NotionDatabasePropertyDate, createDateListener())
+                    addDateBlock(property as NotionDatabasePropertyDate, createDateListener(property))
                 }
             }
         }
@@ -235,7 +235,7 @@ class ShortcutActivity : AppCompatActivity() {
     private fun createSelectListener(property: NotionDatabaseProperty) =
         object : BaseShortcutSelectView.Listener {
             override fun onClick(baseShortcutSelectView: BaseShortcutSelectView) {
-                val fragment = NotionSelectFragment.newInstance().apply {
+                val fragment = NotionSelectFragment.newInstance(property.getName()).apply {
                     when (property.getType()) {
                         NotionApiPropertyEnum.SELECT -> setCanSelectMultiple(false)
                         NotionApiPropertyEnum.MULTI_SELECT, NotionApiPropertyEnum.RELATION -> setCanSelectMultiple(true)
@@ -265,7 +265,7 @@ class ShortcutActivity : AppCompatActivity() {
     private fun createStatusListener(property: NotionDatabasePropertyStatus) =
         object : ShortcutStatusView.Listener {
             override fun onClick(shortcutStatusView: ShortcutStatusView) {
-                val fragment = NotionStatusFragment.newInstance().apply {
+                val fragment = NotionStatusFragment.newInstance(property.getName()).apply {
                     setListener(
                         object : NotionStatusFragment.Listener {
                             override fun onSelectChanged(selected: NotionPostTemplate.Select?) {
@@ -295,10 +295,10 @@ class ShortcutActivity : AppCompatActivity() {
             }
         }
 
-    private fun createDateListener() =
+    private fun createDateListener(property: NotionDatabasePropertyDate) =
         object : ShortcutDateView.Listener {
             override fun onClick(shortcutDateView: ShortcutDateView) {
-                val fragment = NotionDateFragment.newInstance(shortcutDateView.getFromDateTime(), shortcutDateView.getToDateTime()).apply {
+                val fragment = NotionDateFragment.newInstance(property.getName(), shortcutDateView.getFromDateTime(), shortcutDateView.getToDateTime()).apply {
                     setListener(
                         object: NotionDateFragment.Listener {
                             override fun onDateChanged(

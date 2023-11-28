@@ -13,7 +13,7 @@ import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.adapter.NotionSelectListAdapter
 
-class NotionSelectFragment : Fragment() {
+class NotionSelectFragment(private val title: String) : Fragment() {
 
 
     private lateinit var binding: FragmentNotionSelectBinding
@@ -34,6 +34,7 @@ class NotionSelectFragment : Fragment() {
     ): View {
         binding = FragmentNotionSelectBinding.inflate(inflater, container, false)
         binding.apply {
+            title.text = this@NotionSelectFragment.title
             unselectedListAdapter = NotionSelectListAdapter(object : NotionSelectListAdapter.Listener{
                 override fun onClickItem(select: NotionPostTemplate.Select) {
                     unselectedList.remove(select)
@@ -119,6 +120,6 @@ class NotionSelectFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = NotionSelectFragment()
+        fun newInstance(title: String) = NotionSelectFragment(title)
     }
 }

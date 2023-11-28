@@ -14,7 +14,7 @@ import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.view.adapter.NotionSelectListAdapter
 
-class NotionStatusFragment : Fragment() {
+class NotionStatusFragment(private val title: String) : Fragment() {
 
 
     private lateinit var binding: FragmentNotionStatusBinding
@@ -40,6 +40,7 @@ class NotionStatusFragment : Fragment() {
     ): View {
         binding = FragmentNotionStatusBinding.inflate(inflater, container, false)
         binding.apply {
+            title.text = this@NotionStatusFragment.title
             toDoListAdapter = NotionSelectListAdapter(object : NotionSelectListAdapter.Listener {
                 override fun onClickItem(select: NotionPostTemplate.Select) {
                     selected = select
@@ -143,6 +144,6 @@ class NotionStatusFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = NotionStatusFragment()
+        fun newInstance(title: String) = NotionStatusFragment(title)
     }
 }
