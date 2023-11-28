@@ -26,6 +26,28 @@ class NotionDatabasePropertyDate(
         updateParentContents()
     }
 
+    fun updateFromDate(dateLong: Long){
+        dateFrom?.setDate(dateLong)
+        updateParentContents()
+    }
+
+    fun updateToDate(dateLong: Long){
+        dateTo?.setDate(dateLong)
+        updateParentContents()
+    }
+
+    fun updateFromTime(hour: Int, minute: Int){
+        dateFrom?.setHour(hour)
+        dateFrom?.setMinute(minute)
+        updateParentContents()
+    }
+
+    fun updateToTime(hour: Int, minute: Int){
+        dateTo?.setHour(hour)
+        dateTo?.setMinute(minute)
+        updateParentContents()
+    }
+
     fun getDateFrom(): DateTimeUtil.DateTime? = dateFrom
 
     fun getDateTo(): DateTimeUtil.DateTime? = dateTo

@@ -298,7 +298,7 @@ class ShortcutActivity : AppCompatActivity() {
     private fun createDateListener(property: NotionDatabasePropertyDate) =
         object : ShortcutDateView.Listener {
             override fun onClick(shortcutDateView: ShortcutDateView) {
-                val fragment = NotionDateFragment.newInstance(property.getName(), shortcutDateView.getFromDateTime(), shortcutDateView.getToDateTime()).apply {
+                val fragment = NotionDateFragment.newInstance(property).apply {
                     setListener(
                         object: NotionDateFragment.Listener {
                             override fun onDateChanged(
