@@ -7,7 +7,6 @@
     tools:context=".view.fragment.NotionSelectFragment"
     android:background="#55000000"
     android:clickable="true">
-
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -17,30 +16,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:layout_margin="10dp">
-
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 android:gravity="center"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:text="hoge"/>
-
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toTopOf="@id/sendBtn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -52,13 +47,13 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:text="Selecting: "/>
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/selectedRecyclerView"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/notion_light_default"/>
+                        android:layout_weight="1"/>
                 </LinearLayout>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
@@ -68,8 +63,7 @@
                     android:id="@+id/toDoRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="@color/notion_light_default"/>
+                    android:layout_weight="1"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -78,8 +72,7 @@
                     android:id="@+id/inProgressRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="@color/notion_light_gray"/>
+                    android:layout_weight="1"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -88,10 +81,8 @@
                     android:id="@+id/completeRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="@color/notion_light_default"/>
+                    android:layout_weight="1"/>
             </LinearLayout>
-            
             <Button
                 android:id="@+id/sendBtn"
                 android:layout_width="0dp"
@@ -100,10 +91,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </com.google.android.material.card.MaterialCardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

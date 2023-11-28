@@ -17,7 +17,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class NotionDateFragment(val fromDateTime: DateTimeUtil.DateTime, val toDateTime: DateTimeUtil.DateTime) : Fragment() {
+class NotionDateFragment(private val title: String, val fromDateTime: DateTimeUtil.DateTime, val toDateTime: DateTimeUtil.DateTime) : Fragment() {
 
 
     private lateinit var binding: FragmentNotionDateBinding
@@ -38,6 +38,7 @@ class NotionDateFragment(val fromDateTime: DateTimeUtil.DateTime, val toDateTime
     ): View {
         binding = FragmentNotionDateBinding.inflate(inflater, container, false)
         binding.apply {
+            title.text = this@NotionDateFragment.title
             setDisplayText()
 
             val commonPickerListener = createCommonPickerListener()
@@ -282,8 +283,9 @@ class NotionDateFragment(val fromDateTime: DateTimeUtil.DateTime, val toDateTime
 
     companion object {
         @JvmStatic
-        fun newInstance(fromDateTime: DateTimeUtil.DateTime?, toDateTime: DateTimeUtil.DateTime?)
+        fun newInstance(title: String, fromDateTime: DateTimeUtil.DateTime?, toDateTime: DateTimeUtil.DateTime?)
             = NotionDateFragment(
+                title,
                 fromDateTime?: DateTimeUtil.DateTime(),
                 toDateTime?: DateTimeUtil.DateTime()
             )
