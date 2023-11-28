@@ -57,7 +57,6 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
 //                            fromDateTime.setDate(defaultLocalDateLong)
                             property.updateFromDate(defaultLocalDateLong)
                             setDisplayText()
-
                             sendDateTime()
                         }
                     }
@@ -92,7 +91,7 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
                             val defaultLocalDateLong =
                                 DateTimeUtil.convertDateLongUTCToDefaultLocal(it)
 //                            toDateTime.setDate(defaultLocalDateLong)
-                            property.updateFromDate(defaultLocalDateLong)
+                            property.updateToDate(defaultLocalDateLong)
                             setDisplayText()
                             sendDateTime()
                         }
@@ -211,7 +210,7 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
         alpha = 1f
     }
 
-    fun setDisplayText() {
+    private fun setDisplayText() {
         binding.apply {
             fromDateText.text = DateTimeUtil.getDisplayDateString(
                 requireContext(),
@@ -257,25 +256,11 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
     }
 
     private fun sendDateTime() {
-        when (isTimeEnabled) {
-            true -> {
-                when (isToDateEnabled) {
-                    true -> listener?.onDateChanged(property.getDateFrom(), property.getDateTo())
-                    false -> listener?.onDateChanged(property.getDateFrom(), null)
-                }
-            }
-
-            false -> {
-                when (isToDateEnabled) {
-                    true -> listener?.onDateChanged(property.getDateFrom()?.getOnlyDate(), property.getDateTo()?.getOnlyDate())
-                    false -> listener?.onDateChanged(property.getDateTo()?.getOnlyDate(), null)
-                }
-            }
-        }
+        listener?.onDateChanged(property)
     }
 
     interface Listener {
-        fun onDateChanged(fromDateTime: DateTimeUtil.DateTime?, toDateTime: DateTimeUtil.DateTime?)
+        fun onDateChanged(property: NotionDatabasePropertyDate)
     }
 
     companion object {

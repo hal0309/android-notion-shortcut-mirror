@@ -12,14 +12,11 @@ import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDa
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyDate
 
 class ShortcutDateView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabasePropertyDate,
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, var property: NotionDatabasePropertyDate,
     val listener: Listener? = null
 ) : LinearLayout(context, attrs, defStyleAttr), ShortcutBlockInterface {
 
     private lateinit var binding: ViewShortcutDateBinding
-
-//    private var fromDateTime: DateTimeUtil.DateTime? = null
-//    private var toDateTime: DateTimeUtil.DateTime? = null
 
     init {
         init()
@@ -28,29 +25,21 @@ class ShortcutDateView @JvmOverloads constructor(
         inflate(context, R.layout.view_shortcut_date, this)
         binding = ViewShortcutDateBinding.bind(this)
 
-//        fromDateTime = DateTimeUtil.convertStringToDateTime(property.getDateFrom())
-//        toDateTime = DateTimeUtil.convertStringToDateTime(property.getDateTo())
-
         binding.apply {
             name.text = property.getName()
-            setDateTime(getFromDateTime(), getToDateTime())
+            setDateTime(property)
             dateContainer.setOnClickListener{
                 listener?.onClick(this@ShortcutDateView)
             }
         }
     }
 
-    fun setDateTime(fromDateTime: DateTimeUtil.DateTime?, toDateTime: DateTimeUtil.DateTime?){
-//        this.fromDateTime = fromDateTime
-//        this.toDateTime = toDateTime
-        property.updateContents(fromDateTime, toDateTime)
-//        binding.dateText.text = DateTimeUtil.getDisplayDateTimeToDateTimeString(fromDateTime, toDateTime)
-        Log.d("", "from: ${fromDateTime?.convertToString()}")
-        Log.d("", "to: ${toDateTime?.convertToString()}")
+    fun setDateTime(property: NotionDatabasePropertyDate){
+        this.property = property
+        Log.d("", "from: ${property.getDateFrom()?.convertToString()}")
+        Log.d("", "to: ${property.getDateTo()?.convertToString()}")
     }
 
-    fun getFromDateTime(): DateTimeUtil.DateTime? = property.getDateFrom()
-    fun getToDateTime(): DateTimeUtil.DateTime? = property.getDateTo()
 
 
 
