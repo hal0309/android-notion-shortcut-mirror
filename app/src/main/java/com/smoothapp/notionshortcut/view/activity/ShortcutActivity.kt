@@ -76,6 +76,7 @@ class ShortcutActivity : AppCompatActivity() {
                 val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
                 val formatD = sf.format(d)
                 val fromDateTIme = DateTimeUtil.convertStringToDateTime(formatD)
+                val toDateTIme = DateTimeUtil.convertStringToDateTime(formatD)
                 setTemplate(
                     NotionPostTemplate(
                         NotionPostTemplate.TemplateType.DATABASE,
@@ -88,7 +89,7 @@ class ShortcutActivity : AppCompatActivity() {
                             NotionDatabasePropertyMultiSelect("タグ", listOf("orange", "blue"), listOf(NotionColorEnum.ORANGE, NotionColorEnum.BLUE)),
                             NotionDatabasePropertyRelation("hoge", listOf("c12b6304652a443292ea47b73bee7b84"), listOf("リレーション確認1")),
                             NotionDatabasePropertyStatus("ステータス", "come soon", NotionColorEnum.DEFAULT),
-                            NotionDatabasePropertyDate("日付", fromDateTIme, fromDateTIme)
+                            NotionDatabasePropertyDate("日付", fromDateTIme, toDateTIme)
 
                         )
 //                        listOf(
@@ -298,14 +299,11 @@ class ShortcutActivity : AppCompatActivity() {
     private fun createDateListener(property: NotionDatabasePropertyDate) =
         object : ShortcutDateView.Listener {
             override fun onClick(shortcutDateView: ShortcutDateView) {
-                val fragment = NotionDateFragment.newInstance(property.getName(), shortcutDateView.getFromDateTime(), shortcutDateView.getToDateTime()).apply {
+                val fragment = NotionDateFragment.newInstance(property).apply {
                     setListener(
                         object: NotionDateFragment.Listener {
-                            override fun onDateChanged(
-                                fromDateTime: DateTimeUtil.DateTime?,
-                                toDateTime: DateTimeUtil.DateTime?
-                            ){
-                                shortcutDateView.setDateTime(fromDateTime, toDateTime)
+                            override fun onDateChanged(property: NotionDatabasePropertyDate) {
+                                shortcutDateView.setDateTime(property)
                             }
                         }
                     )

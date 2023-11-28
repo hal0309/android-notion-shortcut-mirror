@@ -11,13 +11,14 @@ import android.view.animation.AlphaAnimation
 import com.smoothapp.notionshortcut.controller.util.MaterialComponentUtil
 import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
 import com.smoothapp.notionshortcut.databinding.FragmentNotionDateBinding
+import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyDate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class NotionDateFragment(private val title: String, val fromDateTime: DateTimeUtil.DateTime, val toDateTime: DateTimeUtil.DateTime) : Fragment() {
+class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fragment() {
 
 
     private lateinit var binding: FragmentNotionDateBinding
@@ -38,7 +39,7 @@ class NotionDateFragment(private val title: String, val fromDateTime: DateTimeUt
     ): View {
         binding = FragmentNotionDateBinding.inflate(inflater, container, false)
         binding.apply {
-            title.text = this@NotionDateFragment.title
+            title.text = property.getName()
             setDisplayText()
 
             val commonPickerListener = createCommonPickerListener()
@@ -48,14 +49,14 @@ class NotionDateFragment(private val title: String, val fromDateTime: DateTimeUt
                     isPickerShowing = true
                     val picker = MaterialComponentUtil.createDatePicker(
                         listener = commonPickerListener,
-                        toLong = toDateTime.dateLong
+                        toLong = property.getDateTo()?.dateLong
                     ).apply {
                         addOnPositiveButtonClickListener {
                             val defaultLocalDateLong =
                                 DateTimeUtil.convertDateLongUTCToDefaultLocal(it)
-                            fromDateTime.setDate(defaultLocalDateLong)
+//                            fromDateTime.setDate(defaultLocalDateLong)
+                            property.updateFromDate(defaultLocalDateLong)
                             setDisplayText()
-
                             sendDateTime()
                         }
                     }
@@ -71,8 +72,7 @@ class NotionDateFragment(private val title: String, val fromDateTime: DateTimeUt
                     ).apply {
                         addOnPositiveButtonClickListener {
                             Log.d("", "$hour $minute")
-                            fromDateTime.setHour(hour)
-                            fromDateTime.setMinute(minute)
+                            property.updateFromTime(hour, minute)
                             setDisplayText()
                             sendDateTime()
                         }
@@ -85,12 +85,13 @@ class NotionDateFragment(private val title: String, val fromDateTime: DateTimeUt
                     isPickerShowing = true
                     val picker = MaterialComponentUtil.createDatePicker(
                         listener = commonPickerListener,
-                        fromLong = fromDateTime.dateLong
+                        fromLong = property.getDateFrom()?.dateLong
                     ).apply {
                         addOnPositiveButtonClickListener {
                             val defaultLocalDateLong =
                                 DateTimeUtil.convertDateLongUTCToDefaultLocal(it)
-                            toDateTime.setDate(defaultLocalDateLong)
+//                            toDateTime.setDate(defaultLocalDateLong)
+                            property.updateToDate(defaultLocalDateLong)
                             setDisplayText()
                             sendDateTime()
                         }
@@ -107,8 +108,7 @@ class NotionDateFragment(private val title: String, val fromDateTime: DateTimeUt
                     ).apply {
                         addOnPositiveButtonClickListener {
                             Log.d("", "$hour $minute")
-                            toDateTime.setHour(hour)
-                            toDateTime.setMinute(minute)
+                            property.updateToTime(hour, minute)
                             setDisplayText()
                             sendDateTime()
                         }
@@ -210,19 +210,19 @@ class NotionDateFragment(private val title: String, val fromDateTime: DateTimeUt
         alpha = 1f
     }
 
-    fun setDisplayText() {
+    private fun setDisplayText() {
         binding.apply {
             fromDateText.text = DateTimeUtil.getDisplayDateString(
                 requireContext(),
-                fromDateTime.dateLong
+                property.getDateFrom()?.dateLong
             )
-            fromTimeText.text = DateTimeUtil.getDisplayTimeString(fromDateTime.hourLong, fromDateTime.minuteLong)
+            fromTimeText.text = DateTimeUtil.getDisplayTimeString(property.getDateFrom()?.hourLong, property.getDateFrom()?.minuteLong)
 
             toDateText.text = DateTimeUtil.getDisplayDateString(
                 requireContext(),
-                toDateTime.dateLong
+                property.getDateTo()?.dateLong
             )
-            toTimeText.text = DateTimeUtil.getDisplayTimeString(toDateTime.hourLong, toDateTime.minuteLong)
+            toTimeText.text = DateTimeUtil.getDisplayTimeString(property.getDateTo()?.hourLong, property.getDateTo()?.minuteLong)
         }
     }
 
@@ -256,38 +256,15 @@ class NotionDateFragment(private val title: String, val fromDateTime: DateTimeUt
     }
 
     private fun sendDateTime() {
-        when (isTimeEnabled) {
-            true -> {
-                when (isToDateEnabled) {
-                    true -> listener?.onDateChanged(fromDateTime, toDateTime)
-                    false -> listener?.onDateChanged(fromDateTime, null)
-                }
-            }
-
-            false -> {
-                when (isToDateEnabled) {
-                    true -> listener?.onDateChanged(
-                        fromDateTime.getOnlyDate(),
-                        toDateTime.getOnlyDate()
-                    )
-
-                    false -> listener?.onDateChanged(fromDateTime.getOnlyDate(), null)
-                }
-            }
-        }
+        listener?.onDateChanged(property)
     }
 
     interface Listener {
-        fun onDateChanged(fromDateTime: DateTimeUtil.DateTime?, toDateTime: DateTimeUtil.DateTime?)
+        fun onDateChanged(property: NotionDatabasePropertyDate)
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(title: String, fromDateTime: DateTimeUtil.DateTime?, toDateTime: DateTimeUtil.DateTime?)
-            = NotionDateFragment(
-                title,
-                fromDateTime?: DateTimeUtil.DateTime(),
-                toDateTime?: DateTimeUtil.DateTime()
-            )
+        fun newInstance(property: NotionDatabasePropertyDate) = NotionDateFragment(property)
     }
 }
