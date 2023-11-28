@@ -44,15 +44,15 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:text="2023.11.9"/>
-                    <TextView
-                        android:id="@+id/fromTimeText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp"
-                        android:gravity="center"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:text="12:00"/>
+<!--                    <TextView-->
+<!--                        android:id="@+id/fromTimeText"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:textSize="16sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:text="12:00"/>-->
                 </androidx.appcompat.widget.LinearLayoutCompat>
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
@@ -71,15 +71,15 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:text="2023.11.11"/>
-                    <TextView
-                        android:id="@+id/toTimeText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="5dp"
-                        android:gravity="center"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:text="12:00"/>
+<!--                    <TextView-->
+<!--                        android:id="@+id/toTimeText"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:gravity="center"-->
+<!--                        android:textSize="16sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:text="12:00"/>-->
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </HorizontalScrollView>

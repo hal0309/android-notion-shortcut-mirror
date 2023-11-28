@@ -7,6 +7,7 @@ import android.text.format.DateUtils.FORMAT_SHOW_YEAR
 import android.util.Log
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
@@ -15,39 +16,61 @@ import kotlin.math.min
 
 object DateTimeUtil {
     class DateTime(
-        var dateLong: Long? = null,
-        var hourLong: Long? = null,
-        var minuteLong: Long? = null
+        dateLong: Long? = null,
+        hourLong: Long? = null,
+        minuteLong: Long? = null
     ) {
 
+        val calendar = Calendar.getInstance()
+        init {
+            if(dateLong != null) calendar.timeInMillis = dateLong
+            if(hourLong != null) calendar.set(Calendar.HOUR_OF_DAY, hourLong.toInt())
+            if(minuteLong != null) calendar.set(Calendar.MINUTE, minuteLong.toInt())
+        }
+
+        fun getDateLong() = calendar.timeInMillis
+        fun getHourLong() = calendar.get(Calendar.HOUR_OF_DAY).toLong()
+        fun getMinuteLong() = calendar.get(Calendar.MINUTE).toLong()
+
         fun setDate(dateLong: Long?){
-            this.dateLong = dateLong
+//            this.dateLong = dateLong
+            val hour = calendar.get(Calendar.HOUR_OF_DAY)
+            val minute = calendar.get(Calendar.MINUTE)
+            calendar.timeInMillis = dateLong!!
+            calendar.set(Calendar.HOUR_OF_DAY, hour)
+            calendar.set(Calendar.MINUTE, minute)
         }
 
         fun setHour(hour: Long?){
-            this.hourLong = hour
+//            this.hourLong = hour
+            calendar.set(Calendar.HOUR_OF_DAY, hour!!.toInt())
         }
         fun setHour(hour: Int){
-            this.hourLong = hour.toLong()
+//            this.hourLong = hour.toLong()
+            calendar.set(Calendar.HOUR_OF_DAY, hour)
         }
 
         fun setMinute(minute: Long?){
-            this.minuteLong = minuteLong
+//            this.minuteLong = minuteLong
+            calendar.set(Calendar.MINUTE, minute!!.toInt())
         }
         fun setMinute(minute: Int){
-            this.minuteLong = minute.toLong()
+//            this.minuteLong = minute.toLong()
+            calendar.set(Calendar.MINUTE, minute)
         }
 
-        fun getOnlyDate() = DateTime(dateLong)
-        fun getTimeMillis() : Long{
-            var timeMillis = 0L
-            if(dateLong != null) timeMillis += dateLong!!
-            if(hourLong != null && minuteLong != null){
-                timeMillis += hourLong!! * 60 * 60 * 1000
-                timeMillis += minuteLong!! * 60 * 1000
-            }
-            return timeMillis
-        }
+//        fun getOnlyDate() = DateTime(dateLong)
+//        fun getTimeMillis() : Long{
+//            var timeMillis = 0L
+//            if(dateLong != null) timeMillis += dateLong!!
+//            if(hourLong != null && minuteLong != null){
+//                timeMillis += hourLong!! * 60 * 60 * 1000
+//                timeMillis += minuteLong!! * 60 * 1000
+//            }
+//            return timeMillis
+//        }
+
+        fun getTimeMillis(): Long = calendar.timeInMillis
 
         fun convertToString(): String? {
             return convertDateTimeToString(this)
@@ -112,7 +135,7 @@ object DateTimeUtil {
         if(dateTime == null) return null
         val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
 //        val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
-        if (dateTime.dateLong == null) return null
+        if (dateTime.getDateLong() == null) return null
         val date = Date(dateTime.getTimeMillis())
 
         return sf.format(date)

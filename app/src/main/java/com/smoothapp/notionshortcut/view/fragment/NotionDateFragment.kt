@@ -49,7 +49,7 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
                     isPickerShowing = true
                     val picker = MaterialComponentUtil.createDatePicker(
                         listener = commonPickerListener,
-                        toLong = property.getDateTo()?.dateLong
+                        toLong = property.getDateTo()?.getDateLong()
                     ).apply {
                         addOnPositiveButtonClickListener {
                             val defaultLocalDateLong =
@@ -85,7 +85,7 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
                     isPickerShowing = true
                     val picker = MaterialComponentUtil.createDatePicker(
                         listener = commonPickerListener,
-                        fromLong = property.getDateFrom()?.dateLong
+                        fromLong = property.getDateFrom()?.getDateLong()
                     ).apply {
                         addOnPositiveButtonClickListener {
                             val defaultLocalDateLong =
@@ -125,7 +125,8 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
 //                isToDateEnabled = checked
 //            }
 
-
+            timeCheckChanged(property.getIsTimeEnabled(), true)
+            toCheckChanged(property.getIsToDateEnabled(), true)
             enableFromTimeSwitch.setOnClickListener {
                 timeCheckChanged(enableFromTimeSwitch.isChecked)
             }
@@ -154,8 +155,9 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
         toCheckChanged(false)
     }
 
-    private fun toCheckChanged(isChecked: Boolean){
+    private fun toCheckChanged(isChecked: Boolean, skip: Boolean = false){
         binding.apply {
+            property.updateIsToDateEnabled(isChecked)
             enableToSwitch.isChecked = isChecked
             enableToSwitch.isClickable = !isChecked
 
@@ -165,7 +167,7 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
 
             when(isChecked){
                 true -> {
-                    enableToSwitch.hide()
+                    enableToSwitch.hide(skip)
                 }
                 false -> {
                     enableToSwitch.show()
@@ -174,8 +176,9 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
         }
     }
 
-    private fun timeCheckChanged(isChecked: Boolean){
+    private fun timeCheckChanged(isChecked: Boolean, skip: Boolean = false){
         binding.apply {
+            property.updateIsTimeEnabled(isChecked)
             enableFromTimeSwitch.isChecked = isChecked
             enableFromTimeSwitch.isClickable = !isChecked
             enableToTimeSwitch.isChecked = isChecked
@@ -187,8 +190,8 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
 
             when(isChecked){
                 true -> {
-                    enableFromTimeSwitch.hide()
-                    enableToTimeSwitch.hide()
+                    enableFromTimeSwitch.hide(skip)
+                    enableToTimeSwitch.hide(skip)
                 }
                 false -> {
                     enableFromTimeSwitch.show()
@@ -198,10 +201,10 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
         }
     }
 
-    private fun View.hide() {
+    private fun View.hide(skip: Boolean = false) {
         ObjectAnimator.ofFloat(this, "alpha", 0f).apply {
-            startDelay = 200
-            duration = 200
+            startDelay = if(skip) 0 else 200
+            duration = if(skip) 0 else 200
             start()
         }
     }
@@ -214,15 +217,15 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
         binding.apply {
             fromDateText.text = DateTimeUtil.getDisplayDateString(
                 requireContext(),
-                property.getDateFrom()?.dateLong
+                property.getDateFrom()?.getDateLong()
             )
-            fromTimeText.text = DateTimeUtil.getDisplayTimeString(property.getDateFrom()?.hourLong, property.getDateFrom()?.minuteLong)
+            fromTimeText.text = DateTimeUtil.getDisplayTimeString(property.getDateFrom()?.getHourLong(), property.getDateFrom()?.getMinuteLong())
 
             toDateText.text = DateTimeUtil.getDisplayDateString(
                 requireContext(),
-                property.getDateTo()?.dateLong
+                property.getDateTo()?.getDateLong()
             )
-            toTimeText.text = DateTimeUtil.getDisplayTimeString(property.getDateTo()?.hourLong, property.getDateTo()?.minuteLong)
+            toTimeText.text = DateTimeUtil.getDisplayTimeString(property.getDateTo()?.getHourLong(), property.getDateTo()?.getMinuteLong())
         }
     }
 

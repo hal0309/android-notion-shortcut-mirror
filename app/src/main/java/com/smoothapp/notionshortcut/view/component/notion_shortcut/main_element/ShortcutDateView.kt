@@ -18,6 +18,9 @@ class ShortcutDateView @JvmOverloads constructor(
 
     private lateinit var binding: ViewShortcutDateBinding
 
+//    private var fromDateTime: DateTimeUtil.DateTime? = null
+//    private var toDateTime: DateTimeUtil.DateTime? = null
+
     init {
         init()
     }
@@ -36,6 +39,9 @@ class ShortcutDateView @JvmOverloads constructor(
 
     fun setDateTime(property: NotionDatabasePropertyDate){
         this.property = property
+        // todo: 表示形式の工夫
+        binding.fromDateText.text = property.getDateFrom()?.convertToString()
+        binding.toDateText.text = property.getDateTo()?.convertToString()
         Log.d("", "from: ${property.getDateFrom()?.convertToString()}")
         Log.d("", "to: ${property.getDateTo()?.convertToString()}")
     }
