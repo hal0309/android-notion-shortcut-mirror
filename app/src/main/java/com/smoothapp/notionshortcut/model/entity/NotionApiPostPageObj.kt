@@ -1,9 +1,6 @@
 package com.smoothapp.notionshortcut.model.entity
 
-import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
 object NotionApiPostPageObj {
 
@@ -129,7 +126,7 @@ object NotionApiPostPageObj {
     }
 
 
-    fun propertyDate(name: String, fromDate: DateTimeUtil.DateTime, toDate: DateTimeUtil.DateTime?): String{
+    fun propertyDate(name: String, fromDate: NotionDateTime, toDate: NotionDateTime?): String{
         var result = """
             "$name": {
                 "date": {

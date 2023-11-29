@@ -4,12 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.smoothapp.notionshortcut.R
-import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
+import com.smoothapp.notionshortcut.controller.util.NotionDateTimeUtil
 import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
 import com.smoothapp.notionshortcut.databinding.ActivityShortcutBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyStatusEnum
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
+import com.smoothapp.notionshortcut.model.entity.NotionDateTime
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyCheckbox
@@ -30,10 +31,8 @@ import com.smoothapp.notionshortcut.view.fragment.NotionSelectFragment
 import com.smoothapp.notionshortcut.view.fragment.NotionStatusFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.internal.format
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -75,8 +74,8 @@ class ShortcutActivity : AppCompatActivity() {
                 val d = Date()
                 val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
                 val formatD = sf.format(d)
-                val fromDateTIme = DateTimeUtil.DateTime(formatD)
-                val toDateTIme = DateTimeUtil.DateTime(formatD)
+                val fromNotionDateTIme = NotionDateTime(formatD)
+                val toNotionDateTIme = NotionDateTime(formatD)
                 setTemplate(
                     NotionPostTemplate(
                         NotionPostTemplate.TemplateType.DATABASE,
@@ -89,7 +88,7 @@ class ShortcutActivity : AppCompatActivity() {
                             NotionDatabasePropertyMultiSelect("タグ", listOf("orange", "blue"), listOf(NotionColorEnum.ORANGE, NotionColorEnum.BLUE)),
                             NotionDatabasePropertyRelation("hoge", listOf("c12b6304652a443292ea47b73bee7b84"), listOf("リレーション確認1")),
                             NotionDatabasePropertyStatus("ステータス", "come soon", NotionColorEnum.DEFAULT),
-                            NotionDatabasePropertyDate("日付", fromDateTIme, toDateTIme)
+                            NotionDatabasePropertyDate("日付", fromNotionDateTIme, toNotionDateTIme)
 
                         )
 //                        listOf(

@@ -5,10 +5,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.widget.LinearLayout
 import com.smoothapp.notionshortcut.R
-import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
 import com.smoothapp.notionshortcut.databinding.ViewShortcutDateBinding
-import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
-import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyDate
 
 class ShortcutDateView @JvmOverloads constructor(

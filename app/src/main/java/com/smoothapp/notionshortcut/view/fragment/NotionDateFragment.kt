@@ -7,16 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
 import com.smoothapp.notionshortcut.controller.util.MaterialComponentUtil
-import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
+import com.smoothapp.notionshortcut.controller.util.NotionDateTimeUtil
 import com.smoothapp.notionshortcut.databinding.FragmentNotionDateBinding
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyDate
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fragment() {
 
@@ -53,7 +47,7 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
                     ).apply {
                         addOnPositiveButtonClickListener {
                             val defaultLocalDateLong =
-                                DateTimeUtil.convertDateLongUTCToDefaultLocal(it)
+                                NotionDateTimeUtil.convertDateLongUTCToDefaultLocal(it)
 //                            fromDateTime.setDate(defaultLocalDateLong)
                             property.updateFromDate(defaultLocalDateLong)
                             setDisplayText()
@@ -89,7 +83,7 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
                     ).apply {
                         addOnPositiveButtonClickListener {
                             val defaultLocalDateLong =
-                                DateTimeUtil.convertDateLongUTCToDefaultLocal(it)
+                                NotionDateTimeUtil.convertDateLongUTCToDefaultLocal(it)
 //                            toDateTime.setDate(defaultLocalDateLong)
                             property.updateToDate(defaultLocalDateLong)
                             setDisplayText()
@@ -215,17 +209,17 @@ class NotionDateFragment(private val property: NotionDatabasePropertyDate) : Fra
 
     private fun setDisplayText() {
         binding.apply {
-            fromDateText.text = DateTimeUtil.getDisplayDateString(
+            fromDateText.text = NotionDateTimeUtil.getDisplayDateString(
                 requireContext(),
                 property.getDateFrom()?.getDateLong()
             )
-            fromTimeText.text = DateTimeUtil.getDisplayTimeString(property.getDateFrom()?.getHourLong(), property.getDateFrom()?.getMinuteLong())
+            fromTimeText.text = NotionDateTimeUtil.getDisplayTimeString(property.getDateFrom()?.getHourLong(), property.getDateFrom()?.getMinuteLong())
 
-            toDateText.text = DateTimeUtil.getDisplayDateString(
+            toDateText.text = NotionDateTimeUtil.getDisplayDateString(
                 requireContext(),
                 property.getDateTo()?.getDateLong()
             )
-            toTimeText.text = DateTimeUtil.getDisplayTimeString(property.getDateTo()?.getHourLong(), property.getDateTo()?.getMinuteLong())
+            toTimeText.text = NotionDateTimeUtil.getDisplayTimeString(property.getDateTo()?.getHourLong(), property.getDateTo()?.getMinuteLong())
         }
     }
 
