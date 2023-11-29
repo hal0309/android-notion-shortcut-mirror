@@ -75,8 +75,8 @@ class ShortcutActivity : AppCompatActivity() {
                 val d = Date()
                 val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
                 val formatD = sf.format(d)
-                val fromDateTIme = DateTimeUtil.convertStringToDateTime(formatD)
-                val toDateTIme = DateTimeUtil.convertStringToDateTime(formatD)
+                val fromDateTIme = DateTimeUtil.DateTime(formatD)
+                val toDateTIme = DateTimeUtil.DateTime(formatD)
                 setTemplate(
                     NotionPostTemplate(
                         NotionPostTemplate.TemplateType.DATABASE,

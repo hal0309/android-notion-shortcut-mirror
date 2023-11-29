@@ -5,6 +5,7 @@ import android.text.format.DateUtils
 import android.text.format.DateUtils.FORMAT_SHOW_DATE
 import android.text.format.DateUtils.FORMAT_SHOW_YEAR
 import android.util.Log
+import com.smoothapp.notionshortcut.controller.exception.WrongDateFormatException
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -15,17 +16,20 @@ import kotlin.math.min
 
 
 object DateTimeUtil {
-    class DateTime(
-        dateLong: Long? = null,
-        hourLong: Long? = null,
-        minuteLong: Long? = null
-    ) {
+    class DateTime() {
 
-        val calendar = Calendar.getInstance()
-        init {
-            if(dateLong != null) calendar.timeInMillis = dateLong
-            if(hourLong != null) calendar.set(Calendar.HOUR_OF_DAY, hourLong.toInt())
-            if(minuteLong != null) calendar.set(Calendar.MINUTE, minuteLong.toInt())
+        private val calendar: Calendar = Calendar.getInstance()
+
+        constructor(string: String): this(){
+            val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
+            val date: Date?
+            try {
+                date = sdf.parse(string)
+            } catch (e: ParseException) {
+                Log.e("parse", e.message.toString())
+                throw WrongDateFormatException("string to datetime")
+            }
+            calendar.time = date?: throw WrongDateFormatException("string to datetime")
         }
 
         fun getDateLong() = calendar.timeInMillis
@@ -33,7 +37,6 @@ object DateTimeUtil {
         fun getMinuteLong() = calendar.get(Calendar.MINUTE).toLong()
 
         fun setDate(dateLong: Long?){
-//            this.dateLong = dateLong
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
             calendar.timeInMillis = dateLong!!
@@ -41,34 +44,13 @@ object DateTimeUtil {
             calendar.set(Calendar.MINUTE, minute)
         }
 
-        fun setHour(hour: Long?){
-//            this.hourLong = hour
-            calendar.set(Calendar.HOUR_OF_DAY, hour!!.toInt())
-        }
         fun setHour(hour: Int){
-//            this.hourLong = hour.toLong()
             calendar.set(Calendar.HOUR_OF_DAY, hour)
         }
 
-        fun setMinute(minute: Long?){
-//            this.minuteLong = minuteLong
-            calendar.set(Calendar.MINUTE, minute!!.toInt())
-        }
         fun setMinute(minute: Int){
-//            this.minuteLong = minute.toLong()
             calendar.set(Calendar.MINUTE, minute)
         }
-
-//        fun getOnlyDate() = DateTime(dateLong)
-//        fun getTimeMillis() : Long{
-//            var timeMillis = 0L
-//            if(dateLong != null) timeMillis += dateLong!!
-//            if(hourLong != null && minuteLong != null){
-//                timeMillis += hourLong!! * 60 * 60 * 1000
-//                timeMillis += minuteLong!! * 60 * 1000
-//            }
-//            return timeMillis
-//        }
 
         fun getTimeMillis(): Long = calendar.timeInMillis
 
@@ -77,67 +59,10 @@ object DateTimeUtil {
         }
     }
 
-    fun convertStringToDateTime(string: String?): DateTime? {
-        if(string == null) return null
-        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
-        var date: Date? = null
-        try {
-            date = sdf.parse(string)
-        } catch (e: ParseException) {
-            Log.e("parse", e.message.toString())
-        }
-        return when(date){
-            null -> null
-            else -> {
-                val dateLong = getOnlyDate(date) ?: return null
-                val hourLong = getOnlyHour(date)
-                val minuteLong = getOnlyMinute(date)
 
-
-
-                Log.d("", "dayLong ${getOnlyDate(date)}")
-                Log.d("", "hourLong ${getOnlyHour(date)}")
-                Log.d("", "minuteLong ${getOnlyMinute(date)}")
-                DateTime(dateLong, hourLong, minuteLong)
-            }
-        }
-    }
-
-    fun getOnlyDate(date: Date): Long?{
-        val sdf = SimpleDateFormat("yyyy-MM-ddXXX", Locale.getDefault())
-        val dateString =sdf.format(date)
-        Log.d("", "date: $dateString")
-        var dayLong: Long? = null
-        try {
-            dayLong = sdf.parse(dateString).time
-        } catch (e: ParseException){
-            Log.e("parse", e.message.toString())
-        }
-        return dayLong
-    }
-
-    fun getOnlyHour(date: Date): Long{
-        val sdf = SimpleDateFormat("HH", Locale.getDefault())
-        val hourString =sdf.format(date)
-        Log.d("", "hour: $hourString")
-        return hourString.toLong()
-    }
-
-    fun getOnlyMinute(date: Date): Long{
-        val sdf = SimpleDateFormat("mm", Locale.getDefault())
-        val minuteString =sdf.format(date)
-        Log.d("", "minute: $minuteString")
-        return minuteString.toLong()
-    }
-
-
-    fun convertDateTimeToString(dateTime: DateTime?): String? {
-        if(dateTime == null) return null
+    private fun convertDateTimeToString(dateTime: DateTime): String? {
         val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX", Locale.getDefault())
-//        val sf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
-        if (dateTime.getDateLong() == null) return null
         val date = Date(dateTime.getTimeMillis())
-
         return sf.format(date)
     }
 
@@ -150,7 +75,7 @@ object DateTimeUtil {
         sdf.timeZone = TimeZone.getDefault()
         val dateAsDefaultLocal = sdf.parse(timeAsUTCString)
 
-        return dateAsDefaultLocal.time
+        return dateAsDefaultLocal?.time?: throw WrongDateFormatException("UTC to default")
     }
 
     fun getDisplayDateString(context: Context, dateLong: Long?): String {
@@ -174,14 +99,12 @@ object DateTimeUtil {
     }
 
     fun getDisplayDateTimeToDateTimeString(fromDateTime: DateTime?, toDateTime: DateTime?): String{
-        val fromString = convertDateTimeToString(fromDateTime) ?: return "set"
-        val toString = convertDateTimeToString(toDateTime)
+        val fromString: String = fromDateTime?.convertToString() ?: return "set"
+        val toString: String? = toDateTime?.convertToString()
         var result = fromString
         if(toString != null){
-            result += "→"
-            result += toString
+            result += "→$toString"
         }
-
         return result
     }
 
