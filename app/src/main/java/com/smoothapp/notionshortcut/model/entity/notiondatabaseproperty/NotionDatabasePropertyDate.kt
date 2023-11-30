@@ -1,12 +1,13 @@
 package com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty
 
-import com.smoothapp.notionshortcut.controller.util.DateTimeUtil
+import com.smoothapp.notionshortcut.controller.util.NotionDateTimeUtil
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
+import com.smoothapp.notionshortcut.model.entity.NotionDateTime
 
 class NotionDatabasePropertyDate(
     name: String,
-    private var dateFrom: DateTimeUtil.DateTime?,
-    private var dateTo: DateTimeUtil.DateTime?,
+    private var dateFrom: NotionDateTime?,
+    private var dateTo: NotionDateTime?,
     private var optionalIsTimeEnabled: Boolean = false,
     private var optionalIsToDateEnabled: Boolean = false
 ) : NotionDatabaseProperty(NotionApiPropertyEnum.DATE, name, listOf()) {
@@ -24,7 +25,7 @@ class NotionDatabasePropertyDate(
         setPropertyContents(contents)
     }
 
-    fun updateContents(dateFrom: DateTimeUtil.DateTime?, dateTo: DateTimeUtil.DateTime?){
+    fun updateContents(dateFrom: NotionDateTime?, dateTo: NotionDateTime?){
         this.dateFrom = dateFrom
         this.dateTo = dateTo
         updateParentContents()
@@ -63,9 +64,9 @@ class NotionDatabasePropertyDate(
         updateParentContents()
     }
 
-    fun getDateFrom(): DateTimeUtil.DateTime? = dateFrom
+    fun getDateFrom(): NotionDateTime? = dateFrom
 
-    fun getDateTo(): DateTimeUtil.DateTime? = dateTo
+    fun getDateTo(): NotionDateTime? = dateTo
 
     fun getIsTimeEnabled(): Boolean = optionalIsTimeEnabled
 
