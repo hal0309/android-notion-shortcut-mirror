@@ -36,12 +36,8 @@ class NotionDatabasePropertyMultiSelect(
 
     fun getMultiSelectColor(): List<NotionColorEnum?> = multiSelectColor
 
-//    fun getMultiSelectId(): List<String?>?{
-//        return when(hasContents()){
-//            false -> null
-//            true -> contents.filterIndexed { index, _ ->  index % SET_SIZE == ID_INDEX}
-//        }
-//    }
+    // todo: IDの参照を必要に応じて実装
+//    fun getMultiSelectId(): List<String>  = multiSelectId
 
     companion object {
         private const val NAME_INDEX = 0 // primary

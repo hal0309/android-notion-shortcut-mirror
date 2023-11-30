@@ -41,9 +41,7 @@ object NotionApiGetPageUtil {
                         mutableListOf()
                     }
                 }
-
                 mList.removeAll(childList)
-
                 for(child in childList){
                     val tree = PageOrDatabaseTree(child).apply {
                         children.addAll(createPageOrDatabaseTree(mList, child))
@@ -51,7 +49,6 @@ object NotionApiGetPageUtil {
                     treeList.add(tree)
 //                    Log.d("", tree.me.toString())
                 }
-
                 treeList
             }
         }
