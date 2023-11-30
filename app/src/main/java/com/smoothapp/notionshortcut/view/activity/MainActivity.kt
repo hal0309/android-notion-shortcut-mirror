@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         window.statusBarColor = this.getColor(R.color.transparent)
 
+        //todo: 削除 テスト用
         startActivity(Intent(this, ShortcutActivity::class.java))
 
         binding.apply {
@@ -41,7 +42,6 @@ class MainActivity : AppCompatActivity() {
                     Log.d("response", list.toString())
                     Log.d("response", NotionApiGetPageUtil.createPageOrDatabaseTree(list.results).toString())
                     Log.d("response", NotionApiGetPageUtil.createPageOrDatabaseTree(list.results).toString())
-
                 }
             }
 

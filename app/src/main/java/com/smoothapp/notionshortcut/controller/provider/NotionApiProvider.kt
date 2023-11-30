@@ -1,6 +1,7 @@
 package com.smoothapp.notionshortcut.controller.provider
 
 import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
+import com.smoothapp.notionshortcut.controller.util.SecretTestUtil
 import com.smoothapp.notionshortcut.model.entity.NotionApiPostPageObj
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -11,8 +12,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 class NotionApiProvider {
 
-    fun getApiKey(): String{
-        return "secret_0DKk5uviATUaMmhPuJoHhQ0Lis6OisvsmdXJ7uQ9rz"
+    private fun getApiKey(): String{
+        return SecretTestUtil.API_KEY
     }
 
     suspend fun postPage(requestBodyString: String): String {
@@ -42,7 +43,6 @@ class NotionApiProvider {
 
         return getResponseBody(request)
     }
-
 
     private suspend fun getResponseBody(request: Request) = withContext(Dispatchers.IO){
         val client = OkHttpClient()

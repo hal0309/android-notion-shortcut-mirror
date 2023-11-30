@@ -1,4 +1,4 @@
-package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select
+package com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.select
 
 import android.content.Context
 import android.util.AttributeSet

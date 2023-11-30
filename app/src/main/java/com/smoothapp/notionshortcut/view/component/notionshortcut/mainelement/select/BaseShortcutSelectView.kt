@@ -1,4 +1,4 @@
-package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select
+package com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.select
 
 import android.content.Context
 import android.util.AttributeSet
@@ -11,7 +11,7 @@ import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.view.adapter.NotionSelectListAdapter
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutBlockInterface
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.ShortcutBlockInterface
 
 abstract class BaseShortcutSelectView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0, val property: NotionDatabaseProperty,

@@ -43,10 +43,6 @@ class NotionSelectListAdapter(val listener: Listener? = null) :
 
 }
 
-
-/**
- * User の差分確認する
- */
 val SELECT_DIFF_UTIL_CALLBACK = object : DiffUtil.ItemCallback<NotionPostTemplate.Select>() {
     override fun areContentsTheSame(
         oldItem: NotionPostTemplate.Select,

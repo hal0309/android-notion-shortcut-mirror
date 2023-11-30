@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.smoothapp.notionshortcut.R
-import com.smoothapp.notionshortcut.controller.util.NotionDateTimeUtil
 import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
 import com.smoothapp.notionshortcut.databinding.ActivityShortcutBinding
 import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
@@ -22,10 +21,10 @@ import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDa
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertySelect
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyStatus
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyTitle
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.ShortcutRootView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutDateView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutStatusView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.BaseShortcutSelectView
+import com.smoothapp.notionshortcut.view.component.notionshortcut.ShortcutRootView
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.ShortcutDateView
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.ShortcutStatusView
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.select.BaseShortcutSelectView
 import com.smoothapp.notionshortcut.view.fragment.NotionDateFragment
 import com.smoothapp.notionshortcut.view.fragment.NotionSelectFragment
 import com.smoothapp.notionshortcut.view.fragment.NotionStatusFragment
