@@ -1,6 +1,6 @@
 # 【WIP】 Notion Shortcut for Android
 
-> ** Warning **  
+> [!CAUTION]  
 > 本リポジトリは個人的用途の為一時的に公開したものです。  
 > 関係者以外の閲覧、使用はご遠慮ください。  
 > 
