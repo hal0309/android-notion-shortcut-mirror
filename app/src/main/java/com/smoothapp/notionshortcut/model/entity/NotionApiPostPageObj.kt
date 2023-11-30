@@ -1,7 +1,6 @@
 package com.smoothapp.notionshortcut.model.entity
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
 
 object NotionApiPostPageObj {
 
@@ -46,7 +45,7 @@ object NotionApiPostPageObj {
     """.trimIndent()
 
 
-    fun propertyCheckbox(name: String, checked: String) = """
+    fun propertyCheckbox(name: String, checked: Boolean) = """
         "$name": {
             "checkbox": $checked
         }
@@ -54,28 +53,40 @@ object NotionApiPostPageObj {
 
 
 
-    fun propertySelect(name: String, selectName: String) = """
-        "$name": {
-            "select": {
-                "name": "$selectName"
-            }
+    fun propertySelect(name: String, selectName: String, color: NotionColorEnum?): String{
+        var result = """
+            "$name": {
+                "select": {
+                    "name": "$selectName"
+        """
+        if(color != null){
+            result += """ ,"color": "${color.getName()}"  """
         }
-    """.trimIndent()
+        result += "}}"
 
-    fun propertyMultiSelect(name: String, selectNameList: List<String>): String{
+        return result.trimIndent()
+    }
+
+    fun propertyMultiSelect(name: String, selectNameList: List<String>, colorList: List<NotionColorEnum?>?): String{
         var result = """
             "$name": {
                 "multi_select": [
         """
 
-        for(selectName in selectNameList){
+        for(i in selectNameList.indices){
+            val selectName = selectNameList[i]
             result += """
                 {
                     "name": "$selectName"
-                }
-            """.trimIndent()
+            """
 
-            result += ","
+            if(colorList != null){
+                val color = colorList[i]
+                if(color != null) {
+                    result += """ ,"color": "${color.getName()}" """
+                }
+            }
+            result += "},"
         }
 
         result = result.dropLast(1) + "]}"
@@ -83,6 +94,7 @@ object NotionApiPostPageObj {
         return result
     }
 
+    //todo: 要素追加時の引数(group, color)
     fun propertyStatus(name: String, statusName: String) = """
         "$name": {
             "status": {
@@ -114,17 +126,17 @@ object NotionApiPostPageObj {
     }
 
 
-    fun propertyDate(name: String, startEndList: List<String>): String{
+    fun propertyDate(name: String, fromDate: NotionDateTime, toDate: NotionDateTime?): String{
         var result = """
             "$name": {
                 "date": {
-                    "start": "${startEndList[0]}"
+                    "start": "${fromDate.convertToString()}"
         """
 
-        if(startEndList.size == 2){
+        if(toDate != null){
             result += """
                     ,
-                    "end": "${startEndList[1]}"
+                    "end": "${toDate.convertToString()}"
             """
         }
 

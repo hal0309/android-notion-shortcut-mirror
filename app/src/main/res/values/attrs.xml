@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="notionColorDefault" format="reference"/>
+    <attr name="notionColorGray" format="reference"/>
+    <attr name="notionColorBrown" format="reference"/>
+    <attr name="notionColorOrange" format="reference"/>
+    <attr name="notionColorYellow" format="reference"/>
+    <attr name="notionColorGreen" format="reference"/>
+    <attr name="notionColorBlue" format="reference"/>
+    <attr name="notionColorPurple" format="reference"/>
+    <attr name="notionColorPink" format="reference"/>
+    <attr name="notionColorRed" format="reference"/>
+</resources>

@@ -12,6 +12,17 @@
 
 <!--        <item name="cardBackgroundColor">@color/gray0</item>-->
 
+        <item name="notionColorDefault">@color/notion_light_default</item>
+        <item name="notionColorGray">@color/notion_light_gray</item>
+        <item name="notionColorBrown">@color/notion_light_brown</item>
+        <item name="notionColorOrange">@color/notion_light_orange</item>
+        <item name="notionColorYellow">@color/notion_light_yellow</item>
+        <item name="notionColorGreen">@color/notion_light_green</item>
+        <item name="notionColorBlue">@color/notion_light_blue</item>
+        <item name="notionColorPurple">@color/notion_light_purple</item>
+        <item name="notionColorPink">@color/notion_light_pink</item>
+        <item name="notionColorRed">@color/notion_light_red</item>
+
 
 
     </style>

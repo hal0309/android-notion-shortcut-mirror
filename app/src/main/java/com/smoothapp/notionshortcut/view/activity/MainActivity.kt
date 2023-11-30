@@ -1,5 +1,6 @@
 package com.smoothapp.notionshortcut.view.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -21,6 +22,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         window.statusBarColor = this.getColor(R.color.transparent)
 
+        //todo: 削除 テスト用
+        startActivity(Intent(this, ShortcutActivity::class.java))
+
         binding.apply {
 
             root.setOnClickListener {
@@ -38,7 +42,6 @@ class MainActivity : AppCompatActivity() {
                     Log.d("response", list.toString())
                     Log.d("response", NotionApiGetPageUtil.createPageOrDatabaseTree(list.results).toString())
                     Log.d("response", NotionApiGetPageUtil.createPageOrDatabaseTree(list.results).toString())
-
                 }
             }
 

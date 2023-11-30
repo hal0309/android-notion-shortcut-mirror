@@ -11,3 +11,11 @@ enum class NotionApiPropertyEnum {
     RELATION,
     DATE
 }
+
+enum class NotionApiPropertyStatusEnum(private val propertyName: String) {
+    TO_DO("To-do"),
+    IN_PROGRESS("In progress"),
+    COMPLETE("Complete");
+
+    fun getName() = propertyName
+}
