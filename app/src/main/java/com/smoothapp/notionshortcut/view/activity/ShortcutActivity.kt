@@ -170,15 +170,7 @@ class ShortcutActivity : AppCompatActivity() {
                     NotionPostTemplate.Select("blue", NotionColorEnum.BLUE),
                     NotionPostTemplate.Select("purple", NotionColorEnum.PURPLE),
                     NotionPostTemplate.Select("pink", NotionColorEnum.PINK),
-                    NotionPostTemplate.Select("red", NotionColorEnum.RED),
-//                    NotionPostTemplate.Select("リモート", NotionColorEnum.BLUE),
-//                    NotionPostTemplate.Select("出社", NotionColorEnum.DEFAULT),
-//                    NotionPostTemplate.Select("副業", NotionColorEnum.PURPLE),
-//                    NotionPostTemplate.Select("休日", NotionColorEnum.RED),
-//                    NotionPostTemplate.Select("Amazon", NotionColorEnum.RED),
-//                    NotionPostTemplate.Select("自分用", NotionColorEnum.GREEN),
-//                    NotionPostTemplate.Select("高", NotionColorEnum.RED),
-//                    NotionPostTemplate.Select("日常", NotionColorEnum.GREEN),
+                    NotionPostTemplate.Select("red", NotionColorEnum.RED)
                 )
 
                 NotionApiPropertyEnum.RELATION -> listOf(
