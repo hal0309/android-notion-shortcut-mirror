@@ -1,4 +1,4 @@
-package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element
+package com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,9 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.databinding.ViewShortcutBaseSelectBinding
-import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
 import com.smoothapp.notionshortcut.model.constant.NotionColorEnum
-import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyStatus
 import com.smoothapp.notionshortcut.view.adapter.NotionSelectListAdapter

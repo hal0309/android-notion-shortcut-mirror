@@ -1,4 +1,4 @@
-package com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element
+package com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,8 +6,6 @@ import android.widget.LinearLayout
 import androidx.core.widget.doOnTextChanged
 import com.smoothapp.notionshortcut.R
 import com.smoothapp.notionshortcut.databinding.ViewShortcutNumberBinding
-import com.smoothapp.notionshortcut.model.constant.NotionApiPropertyEnum
-import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabaseProperty
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyNumber
 
 class ShortcutNumberView @JvmOverloads constructor(

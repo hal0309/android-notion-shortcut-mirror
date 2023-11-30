@@ -1,13 +1,11 @@
-package com.smoothapp.notionshortcut.view.component.notion_shortcut
+package com.smoothapp.notionshortcut.view.component.notionshortcut
 
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.widget.LinearLayout
 import com.smoothapp.notionshortcut.R
-import com.smoothapp.notionshortcut.controller.util.NotionApiPostPageUtil
 import com.smoothapp.notionshortcut.databinding.ViewShortcutRootBinding
-import com.smoothapp.notionshortcut.model.entity.NotionPostTemplate
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyCheckbox
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyDate
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyMultiSelect
@@ -17,19 +15,17 @@ import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDa
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertySelect
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyStatus
 import com.smoothapp.notionshortcut.model.entity.notiondatabaseproperty.NotionDatabasePropertyTitle
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutBlockInterface
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutCheckboxView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutDateView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutNumberView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutRichTextView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutStatusView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.ShortcutSelectView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.ShortcutTitleView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.BaseShortcutSelectView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.ShortcutMultiSelectView
-import com.smoothapp.notionshortcut.view.component.notion_shortcut.main_element.select.ShortcutRelationView
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.ShortcutBlockInterface
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.ShortcutCheckboxView
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.ShortcutDateView
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.ShortcutNumberView
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.ShortcutRichTextView
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.ShortcutStatusView
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.select.ShortcutSelectView
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.ShortcutTitleView
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.select.BaseShortcutSelectView
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.select.ShortcutMultiSelectView
+import com.smoothapp.notionshortcut.view.component.notionshortcut.mainelement.select.ShortcutRelationView
 
 class ShortcutRootView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
