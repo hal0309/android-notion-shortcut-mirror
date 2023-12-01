@@ -12,7 +12,7 @@
 
 ## 概要
 Notionへの投稿を簡単に行うためのAndroidアプリです。(開発途中)
-> [!IMPORTANT] 
+> [!NOTE] 
 > 一部ファイルは公開していないためローカルでは動きません。  
 > 試したい場合は直接ご連絡頂ければ対応します。
 
@@ -25,16 +25,16 @@ Notionへの投稿を簡単に行うためのAndroidアプリです。(開発途
 ### Kotlinでの記述があるディレクトリ
 
 ---
-`/app/src/main/java/com/smoothapp/notionshortcut`  
+[`/app/src/main/java/com/smoothapp/notionshortcut`](/app/src/main/java/com/smoothapp/notionshortcut)  
 本ディレクトにKotlinで記述されたソースコードが格納され、最も実装力を確認できると思います。
 
-`/controller`
+[`/controller`](/app/src/main/java/com/smoothapp/notionshortcut/controller) 
 実際にAPIとの通信を担うクラスや、utilityクラスが格納されています。
 
-`/model`
+[`/model`](/app/src/main/java/com/smoothapp/notionshortcut/model) 
 主にデータを扱うクラスが格納されています。
 
-`/view`
+[`/view`](/app/src/main/java/com/smoothapp/notionshortcut/view) 
 主に画面表示を担うクラスが格納されています。
 
 
@@ -42,29 +42,31 @@ Notionへの投稿を簡単に行うためのAndroidアプリです。(開発途
 ### その他リソース格納されているディレクトリ
 
 ---
-`/app/src/main/res`  
+[`/app/src/main/res`](/app/src/main/res)  
 アプリで使用する各種リソースをxmlで定義しています。
 
-`/layout`
+[`/layout`](/app/src/main/res/layout)
 画面構成のレイアウトファイルが格納されています。
 
-`/values`
+[`/values`](/app/src/main/res/values)
 色や言語の定義ファイルが格納されています。
 
-## 見てほしいところ
+## アピールポイント
 
 ### オブジェクト指向
 
 ---
-`/app/src/main/java/com/smoothapp/notionshortcut/model/notiondatabaseproperty`   
-このディレクトリ内のデータクラスは全て`NotionDatabaseProperty`を継承している設計となっており、親クラスとの相互変換が可能です。
-親クラスのデータはデータベースとの互換を意識し全てのデータを文字列として扱います。
+[`/app/src/main/java/com/smoothapp/notionshortcut/model/entity/notiondatabaseproperty`](/app/src/main/java/com/smoothapp/notionshortcut/model/entity/notiondatabaseproperty)   
+
+このディレクトリ内のデータクラス(ex. [`NotionDatabasePropertyMultiSelect`](/app/src/main/java/com/smoothapp/notionshortcut/model/entity/notiondatabaseproperty/NotionDatabasePropertyMultiSelect.kt))
+は全て親クラス([`NotionDatabaseProperty`](/app/src/main/java/com/smoothapp/notionshortcut/model/entity/notiondatabaseproperty/NotionDatabaseProperty.kt))を継承している設計となっており、親子の相互変換が可能です。  
+親クラスのデータはデータベースとの互換を意識し全てのデータを文字列配列に格納しているのに対し、子クラスでは利用に適したデータ型にキャストしています。
 
 ### カスタムview
 
 ---
-`/app/src/main/java/com/smoothapp/notionshortcut/view/component/notionshortcut`  
-`/app/src/main/res/layout/view_*.xml`
+[`/app/src/main/java/com/smoothapp/notionshortcut/view/component/notionshortcut`](/app/src/main/java/com/smoothapp/notionshortcut/view/component/notionshortcut/mainelement)  
+[`/app/src/main/res/layout/view_*.xml`](/app/src/main/res/layout)
 
 viewの処理をactivityやfragmentに全て集約するのでは無く、カスタムviewを作成し、view自体にに処理を行わせることにより、
 可読性や再利用性が高い設計となっています。
@@ -72,25 +74,24 @@ viewの処理をactivityやfragmentに全て集約するのでは無く、カス
 ### ソフトコーディング
 
 ---
+[`/app/src/main/java/com/smoothapp/notionshortcut/model/constant`](/app/src/main/java/com/smoothapp/notionshortcut/model/constant)  
+
 色やタイプ等の文字列定数をEnumにより管理したり、配列のインデックスを定数で管理することにより、
 安全性が高い設計となっています。
 
-## 見ないで欲しいところ
 
-### Activityクラス
-
----
-現状主に`ShortcutActivity.kt`を中心として動作していますが、かなりテスト用のコードで埋めつくされています。  
-現状は末端のクラスの方が実装がまとまっています。
-
-### コメント
+### 文章量
 
 ---
-作業中なので、todoコメントが多数残っています。加えてKDoc(javadocの版)も全然書いていません。  
-(まだリファクタリングが多いので終盤に書きます。)
+[`/app/src/main/java/com/smoothapp/notionshortcut/view/activity`](/app/src/main/java/com/smoothapp/notionshortcut/view/activity)  
+[`/app/src/main/java/com/smoothapp/notionshortcut/view/fragment`](/app/src/main/java/com/smoothapp/notionshortcut/view/fragment)  
 
-### その他
+これといったアピールではありませんが、比較的長いソースコードが格納されています。
+特に[`ShortcutActivity`](/app/src/main/java/com/smoothapp/notionshortcut/view/activity/ShortcutActivity.kt)や[`NotionDateFragment`](/app/src/main/java/com/smoothapp/notionshortcut/view/fragment/NotionDateFragment.kt)が記述が多いです。  
 
----
-* DBがまだ無いです。(Room Databaseを使用予定)
-* 文字列のハードコーディングが多いです。(strings.xmlにまとめます)
+## 追記
+以下のような問題がありますが、今後拡充していきます。
+
+* ドキュメントが未整理(まだリファクタリングが多いので後半にKDocでまとめます。)
+* DBがまだ無い (Room Databaseを使用予定)
+* 文字列のハードコーディングが多い (strings.xmlにまとめます)
